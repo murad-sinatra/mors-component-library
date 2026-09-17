@@ -17,6 +17,10 @@ export * from './components/FileField';
 export * from './components/Toggles';
 export * from './components/Slider';
 export * from './components/DatePicker';
+export * from './components/TimePicker';
+export * from './components/Combobox';
+export * from './components/OtpField';
+export * from './components/TokenField';
 
 export * from './components/Alert';
 export * from './components/Avatar';
@@ -31,21 +35,34 @@ export * from './components/Loaders';
 export * from './components/Drawer';
 export * from './components/Menu';
 export * from './components/Modal';
+export * from './components/ConfirmDialog';
 export * from './components/Popover';
 export * from './components/Portal';
 export * from './components/Toast';
 export * from './components/Tooltip';
+export * from './components/Sheet';
+export * from './components/ActionSheet';
+export * from './components/CommandPalette';
+export * from './components/ContextMenu';
 
 export * from './components/Accordion';
 export * from './components/Breadcrumbs';
 export * from './components/Navbar';
 export * from './components/Pagination';
 export * from './components/Tabs';
+export * from './components/Sidebar';
+export * from './components/TabBar';
+export * from './components/AppShell';
+export * from './components/Toolbar';
+export * from './components/Steps';
+export * from './components/SkipLink';
 
 export * from './components/Calendar';
 export * from './components/EventCalendar';
 export * from './components/FilterBar';
 export * from './components/Table';
+export * from './components/Tree';
+export * from './components/Kbd';
 
 export * from './hooks/useAnchoredPosition';
 export * from './hooks/useControllableState';

@@ -22,7 +22,7 @@ import { useFloatingSurface } from './internal/useFloatingSurface';
 import { Portal } from './Portal';
 import type { TriggerInjectedProps } from './Popover';
 
-const MenuContext = createContext<{ close: () => void } | null>(null);
+export const MenuContext = createContext<{ close: (returnFocus?: boolean) => void } | null>(null);
 
 const ITEM_SELECTOR = '[role="menuitem"]:not([aria-disabled="true"]):not(:disabled)';
 

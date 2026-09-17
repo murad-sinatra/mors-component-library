@@ -7,9 +7,12 @@ import {
   Button,
   Icon,
   IconButton,
+  Kbd,
   Navbar,
   NavbarLink,
   Pagination,
+  Step,
+  Steps,
   Tab,
   TabList,
   TabPanel,
@@ -272,6 +275,51 @@ export function NavigationSection() {
           <span className="demo-example-note">
             Narrow the window below 768px to see the links collapse into the disclosure panel.
           </span>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="steps"
+        name="Steps · Step"
+        purpose="Linear process indicator for onboarding, checkout and wizards. Current, complete and upcoming states are exposed to assistive tech via aria-current."
+        usage={`<Steps current={1}>
+  <Step title="Account" description="Email and password" />
+  <Step title="Profile" description="Name and photo" />
+  <Step title="Done" />
+</Steps>`}
+        api={[
+          ['current', 'number', '—', '0-based index of the active step.'],
+          ['orientation', "'horizontal' | 'vertical'", "'horizontal'", 'Stacks on small screens either way.'],
+        ]}
+      >
+        <Example title="Horizontal" layout="stack">
+          <Steps current={1}>
+            <Step title="Account" description="Email and password" />
+            <Step title="Profile" description="Name and photo" />
+            <Step title="Review" description="Confirm and pay" />
+          </Steps>
+        </Example>
+        <Example title="Vertical" layout="stack">
+          <Steps current={0} orientation="vertical">
+            <Step title="Invite sent" description="They have 7 days to accept." />
+            <Step title="Joined workspace" />
+            <Step title="Assigned a role" />
+          </Steps>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="skip-link"
+        name="SkipLink"
+        purpose="Visually hidden until focused. Place it as the first focusable node in the document so keyboard users can jump past chrome. The one at the top of this demo is the same component."
+        usage={`<SkipLink href="#main">Skip to content</SkipLink>`}
+        api={[['href', 'string', '—', 'Target id, including the hash.'], ['children', 'ReactNode', "'Skip to content'", 'Link label.']]}
+      >
+        <Example title="Keyboard only" layout="stack">
+          <p className="demo-example-note">
+            Press Tab from the top of the page — the skip link is the first control. Shortcuts in copy look like{' '}
+            <Kbd keys={['⌘', 'K']} />.
+          </p>
         </Example>
       </ComponentDoc>
     </Section>

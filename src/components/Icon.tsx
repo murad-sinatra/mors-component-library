@@ -14,6 +14,8 @@ export type IconName =
   | 'calendar'
   | 'check'
   | 'check-circle'
+  | 'clock'
+  | 'command'
   | 'chevron-down'
   | 'chevron-left'
   | 'chevron-right'
@@ -23,6 +25,8 @@ export type IconName =
   | 'edit'
   | 'external'
   | 'filter'
+  | 'folder'
+  | 'home'
   | 'info'
   | 'inbox'
   | 'menu'
@@ -58,6 +62,17 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M8.5 12.5l2.5 2.5 4.5-5" />
     </>
   ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3.5 2" />
+    </>
+  ),
+  command: (
+    <>
+      <path d="M9 9H6.5A2.5 2.5 0 1 1 9 6.5V9zm0 0h6m0 0V6.5A2.5 2.5 0 1 1 17.5 9H15m0 0v6m0 0h2.5A2.5 2.5 0 1 1 15 17.5V15m0 0H9m0 0v2.5A2.5 2.5 0 1 1 6.5 15H9m0 0V9" />
+    </>
+  ),
   'chevron-down': <path d="M6 9.5l6 6 6-6" />,
   'chevron-left': <path d="M14.5 6l-6 6 6 6" />,
   'chevron-right': <path d="M9.5 6l6 6-6 6" />,
@@ -77,6 +92,13 @@ const PATHS: Record<IconName, ReactNode> = {
   ),
   external: <path d="M14 4.5h5.5V10M19 5l-8 8M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" />,
   filter: <path d="M4 6.5h16M7 12h10m-7 5.5h4" />,
+  folder: <path d="M3.5 8A2 2 0 0 1 5.5 6h3.2l1.6 2H18.5A2 2 0 0 1 20.5 10v7A2 2 0 0 1 18.5 19h-13A2 2 0 0 1 3.5 17z" />,
+  home: (
+    <>
+      <path d="M4.5 11.5L12 4.5l7.5 7.5" />
+      <path d="M6.5 10.5V19.5h4v-5h3v5h4V10.5" />
+    </>
+  ),
   info: (
     <>
       <circle cx="12" cy="12" r="8.5" />

@@ -893,3 +893,122 @@ button.mors-swatch:disabled {
   transform-origin: left center;
   animation: mors-indeterminate 1.4s var(--mors-ease-standard) infinite;
 }
+
+/* ---------- Tree ---------------------------------------------------------- */
+
+.mors-tree {
+  margin: 0;
+  padding: var(--mors-space-2);
+  list-style: none;
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface);
+  font-family: var(--mors-font-sans);
+}
+
+.mors-tree:focus-visible {
+  outline: var(--mors-focus-width) solid
+    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
+  outline-offset: var(--mors-focus-offset);
+}
+
+.mors-tree-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mors-tree-item {
+  list-style: none;
+}
+
+.mors-tree-row {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+  min-block-size: 32px;
+  border-radius: var(--mors-radius-sm);
+  color: var(--mors-color-text);
+  cursor: pointer;
+}
+
+.mors-tree-row:hover {
+  background: var(--mors-color-surface-hover);
+}
+
+.mors-tree-item--selected > .mors-tree-row {
+  background: var(--mors-color-surface-hover);
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-tree-item:focus {
+  outline: none;
+}
+
+.mors-tree-item:focus > .mors-tree-row {
+  outline: var(--mors-focus-width) solid
+    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
+  outline-offset: calc(var(--mors-focus-offset) * -1);
+}
+
+.mors-tree-chevron {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mors-color-text-tertiary);
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: transform var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-tree-item--open > .mors-tree-row .mors-tree-chevron {
+  transform: rotate(90deg);
+}
+
+.mors-tree-chevron--leaf {
+  visibility: hidden;
+}
+
+.mors-tree-icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--mors-color-text-secondary);
+}
+
+.mors-tree-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  font-size: var(--mors-text-sm);
+  letter-spacing: var(--mors-tracking-tight);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Kbd ----------------------------------------------------------- */
+
+.mors-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.4em;
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--mors-color-border);
+  border-radius: var(--mors-radius-xs);
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-secondary);
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-xs);
+  font-weight: var(--mors-weight-medium);
+  line-height: 1.4;
+}
+
+.mors-kbd-combo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+}

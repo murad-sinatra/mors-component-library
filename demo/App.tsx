@@ -8,6 +8,7 @@ import {
   MenuItem,
   Navbar,
   NavbarLink,
+  SkipLink,
   ToastProvider,
   Tooltip,
 } from '../src';
@@ -69,9 +70,7 @@ export function App() {
   return (
     <ToastProvider position="bottom-right">
       <div className="demo-app mors-scope">
-        <a className="demo-skip-link" href="#demo-main">
-          Skip to content
-        </a>
+        <SkipLink href="#demo-main">Skip to content</SkipLink>
 
         <Navbar
           brand={

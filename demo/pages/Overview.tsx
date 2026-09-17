@@ -83,7 +83,7 @@ export function Overview({ onNavigate }: { onNavigate: (route: 'components' | 'd
           A calm, Apple‑inspired component library for React.
         </h1>
         <p className="demo-hero-lede">
-          Forty-plus typed components, one token stylesheet, and a design language built on
+          Fifty-plus typed components, one token stylesheet, and a design language built on
           restrained typography, Apple blue, capsule buttons, and motion you feel more than you see.
         </p>
         <div className="demo-hero-actions">

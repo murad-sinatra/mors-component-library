@@ -6,6 +6,7 @@ import { FormsSection } from '../sections/FormsSection';
 import { ContentSection } from '../sections/ContentSection';
 import { FeedbackSection } from '../sections/FeedbackSection';
 import { OverlaysSection } from '../sections/OverlaysSection';
+import { LayoutSection } from '../sections/LayoutSection';
 import { NavigationSection } from '../sections/NavigationSection';
 import { DataSection } from '../sections/DataSection';
 
@@ -56,6 +57,10 @@ const INDEX = [
       ['switch', 'Switch'],
       ['slider', 'Slider'],
       ['date-picker', 'DatePicker'],
+      ['time-picker', 'TimePicker'],
+      ['combobox', 'Combobox'],
+      ['otp-field', 'OtpField'],
+      ['token-field', 'TokenField'],
     ],
   },
   {
@@ -65,6 +70,8 @@ const INDEX = [
       ['divider', 'Divider'],
       ['empty-state', 'EmptyState'],
       ['list', 'List'],
+      ['tree', 'Tree'],
+      ['kbd', 'Kbd'],
     ],
   },
   {
@@ -83,6 +90,20 @@ const INDEX = [
       ['popover', 'Popover'],
       ['menu', 'Menu'],
       ['tooltip', 'Tooltip'],
+      ['sheet', 'Sheet'],
+      ['action-sheet', 'ActionSheet'],
+      ['confirm-dialog', 'ConfirmDialog'],
+      ['command-palette', 'CommandPalette'],
+      ['context-menu', 'ContextMenu'],
+    ],
+  },
+  {
+    group: 'Layout',
+    items: [
+      ['app-shell', 'AppShell'],
+      ['sidebar', 'Sidebar'],
+      ['tab-bar', 'TabBar'],
+      ['toolbar', 'Toolbar'],
     ],
   },
   {
@@ -93,6 +114,8 @@ const INDEX = [
       ['breadcrumbs', 'Breadcrumbs'],
       ['pagination', 'Pagination'],
       ['navbar', 'Navbar'],
+      ['steps', 'Steps'],
+      ['skip-link', 'SkipLink'],
     ],
   },
   {
@@ -183,6 +206,7 @@ export function Components() {
           <ContentSection />
           <FeedbackSection />
           <OverlaysSection />
+          <LayoutSection />
           <NavigationSection />
           <DataSection />
         </div>

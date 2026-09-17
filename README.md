@@ -7,7 +7,7 @@ Not affiliated with or endorsed by Apple Inc.
 ## What’s in the box
 
 - **React 19 + TypeScript**, Vite 8, zero runtime dependencies besides React
-- **40+ components** covering actions, forms, overlays, navigation, and data
+- **55+ components** covering actions, forms, overlays, layout, navigation, and data
 - **One stylesheet** (`mors-component-library/styles.css`) — no CSS-in-JS, no global reset
 - **`--mors-*` design tokens** so you can rebrand without forking a component
 - **Palettes** via `data-mors-palette` (`default`, `farm`, `cyberpunk`, `retro`, `modern`) — each is a CSS file of the same custom properties
@@ -19,11 +19,12 @@ Not affiliated with or endorsed by Apple Inc.
 | Group | Components |
 | --- | --- |
 | Actions | `Button`, `IconButton`, `ButtonGroup`, `Link`, `Icon` |
-| Forms | `TextField`, `Textarea`, `Select`, `SearchField`, `NumberField`, `FileField`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Slider`, `DatePicker` |
-| Content | `Card`, `List`, `Divider`, `EmptyState`, `Badge`, `Swatch`, `SwatchGroup`, `Avatar`, `AvatarGroup` |
+| Forms | `TextField`, `Textarea`, `Select`, `Combobox`, `SearchField`, `NumberField`, `FileField`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Slider`, `DatePicker`, `TimePicker`, `OtpField`, `TokenField` |
+| Content | `Card`, `List`, `Tree`, `Divider`, `EmptyState`, `Badge`, `Swatch`, `SwatchGroup`, `Avatar`, `AvatarGroup`, `Kbd` |
 | Feedback | `Alert`, `Spinner`, `Skeleton`, `Progress`, `Toast` |
-| Overlays | `Modal`, `Drawer`, `Popover`, `Menu`, `Tooltip` |
-| Navigation | `Navbar`, `Tabs`, `Accordion`, `Breadcrumbs`, `Pagination` |
+| Overlays | `Modal`, `ConfirmDialog`, `Drawer`, `Sheet`, `ActionSheet`, `Popover`, `Menu`, `ContextMenu`, `Tooltip`, `CommandPalette` |
+| Layout | `AppShell`, `Sidebar`, `TabBar`, `Toolbar` |
+| Navigation | `Navbar`, `Tabs`, `Accordion`, `Breadcrumbs`, `Pagination`, `Steps`, `SkipLink` |
 | Data | `Table`, `FilterBar`, `Chip`, `Calendar`, `EventCalendar` |
 
 Live examples, prop tables, and the design system live in the demo (`npm run dev`).

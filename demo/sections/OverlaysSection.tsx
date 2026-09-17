@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import {
+  ActionSheet,
+  ActionSheetItem,
   Alert,
   Button,
   Checkbox,
+  CommandGroup,
+  CommandItem,
+  CommandPalette,
+  ConfirmDialog,
+  ContextMenu,
   Drawer,
   Icon,
   IconButton,
+  Kbd,
   Menu,
   MenuItem,
   MenuLabel,
@@ -13,6 +21,7 @@ import {
   Modal,
   Popover,
   Select,
+  Sheet,
   TextField,
   Tooltip,
   useToast,
@@ -53,6 +62,11 @@ export function OverlaysSection() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerSide, setDrawerSide] = useState<DrawerSide>('right');
   const [drawerPacked, setDrawerPacked] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetSnap, setSheetSnap] = useState<'peek' | 'half' | 'full'>('half');
+  const [actionOpen, setActionOpen] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const openDrawer = (side: DrawerSide, packed = false) => {
     setDrawerSide(side);
@@ -426,6 +440,220 @@ export function OverlaysSection() {
           >
             <Button variant="secondary">Longer text</Button>
           </Tooltip>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="sheet"
+        name="Sheet"
+        tags={['focus trap', 'drag']}
+        purpose="A bottom sheet with a grabber, drag-to-dismiss and snap points (peek, half, full). Distinct from Drawer: the height is interactive, not a fixed slide-in panel."
+        usage={`<Sheet
+  open={open}
+  onClose={() => setOpen(false)}
+  snap={snap}
+  onSnapChange={setSnap}
+  title="Filters"
+>
+  …
+</Sheet>`}
+        api={[
+          ['open / onClose', 'boolean / () => void', '—', 'Fully controlled.'],
+          ['snap / onSnapChange', "'peek' | 'half' | 'full'", "'half'", 'Current snap point.'],
+          ['snaps', "readonly SheetSnap[]", "['peek', 'half', 'full']", 'Allowed heights.'],
+        ]}
+      >
+        <Example title="Interactive">
+          <Button onClick={() => setSheetOpen(true)}>Open sheet</Button>
+        </Example>
+        <Sheet
+          open={sheetOpen}
+          onClose={() => setSheetOpen(false)}
+          snap={sheetSnap}
+          onSnapChange={setSheetSnap}
+          title="Trip details"
+          description="Drag the grabber, or drop below peek to dismiss."
+          footer={
+            <Button onClick={() => setSheetOpen(false)} block>
+              Done
+            </Button>
+          }
+        >
+          <p>Snap is currently {sheetSnap}. This is the Maps / Music pattern — not a modal, not a drawer.</p>
+        </Sheet>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="action-sheet"
+        name="ActionSheet · ActionSheetItem"
+        purpose="iOS-style choice list from the bottom of the screen. Destructive actions belong last. Cancel is a separate control under the group."
+        usage={`<ActionSheet open={open} onClose={() => setOpen(false)} title="Photo">
+  <ActionSheetItem onSelect={share}>Share</ActionSheetItem>
+  <ActionSheetItem tone="danger" onSelect={remove}>Delete</ActionSheetItem>
+</ActionSheet>`}
+        api={[
+          ['title', 'ReactNode', '—', 'Optional caption above the actions.'],
+          ['cancelLabel', 'ReactNode', "'Cancel'", 'Separate control under the group.'],
+          ['ActionSheetItem tone', "'default' | 'danger'", "'default'", 'Destructive last.'],
+        ]}
+      >
+        <Example title="Interactive">
+          <Button onClick={() => setActionOpen(true)}>Open action sheet</Button>
+        </Example>
+        <ActionSheet open={actionOpen} onClose={() => setActionOpen(false)} title="This photo">
+          <ActionSheetItem onSelect={() => toast({ title: 'Shared', tone: 'success' })}>Share</ActionSheetItem>
+          <ActionSheetItem onSelect={() => toast({ title: 'Copied' })}>Copy</ActionSheetItem>
+          <ActionSheetItem
+            tone="danger"
+            onSelect={() => toast({ title: 'Deleted', tone: 'danger' })}
+          >
+            Delete
+          </ActionSheetItem>
+        </ActionSheet>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="confirm-dialog"
+        name="ConfirmDialog"
+        purpose="A ready-made alertdialog on top of Modal: title, description, cancel and confirm. Use tone=danger for irreversible actions — scrim clicks will not dismiss it."
+        usage={`<ConfirmDialog
+  open={open}
+  onClose={() => setOpen(false)}
+  onConfirm={destroy}
+  tone="danger"
+  title="Delete project?"
+  confirmLabel="Delete"
+/>`}
+        api={[
+          ['onConfirm', '() => void', '—', 'You close the dialog after the work is done.'],
+          ['tone', "'default' | 'danger'", "'default'", 'Danger uses the destructive button and blocks scrim dismissal.'],
+          ['confirmLabel / cancelLabel', 'ReactNode', "'Confirm' / 'Cancel'", 'Action copy.'],
+        ]}
+      >
+        <Example title="Interactive">
+          <Button variant="destructive" onClick={() => setConfirmOpen(true)}>
+            Delete project…
+          </Button>
+        </Example>
+        <ConfirmDialog
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          onConfirm={() => {
+            setConfirmOpen(false);
+            toast({ title: 'Project deleted', tone: 'danger' });
+          }}
+          tone="danger"
+          title="Delete this project?"
+          description="This cannot be undone. Files stay in trash for 30 days."
+          confirmLabel="Delete project"
+        />
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="command-palette"
+        name="CommandPalette"
+        tags={['keyboard']}
+        purpose="Jump-to overlay. Filter by typing; arrows move, Enter runs the highlighted command, Escape closes. Wire your own shortcut to toggle open — the palette does not steal global keys."
+        usage={`<CommandPalette open={open} onClose={() => setOpen(false)}>
+  <CommandGroup heading="Pages">
+    <CommandItem icon={<Icon name="home" />} shortcut={<Kbd keys={['G', 'H']} />} onSelect={goHome}>
+      Home
+    </CommandItem>
+  </CommandGroup>
+</CommandPalette>`}
+        api={[
+          ['open / onClose', 'boolean / () => void', '—', 'Fully controlled.'],
+          ['placeholder', 'string', "'Jump to…'", 'Search field prompt.'],
+          ['CommandItem keywords', 'readonly string[]', '—', 'Extra strings that match the filter.'],
+        ]}
+      >
+        <Example title="Interactive">
+          <Button startIcon={<Icon name="search" />} onClick={() => setCommandOpen(true)}>
+            Jump to… <Kbd keys={['⌘', 'K']} />
+          </Button>
+        </Example>
+        <CommandPalette open={commandOpen} onClose={() => setCommandOpen(false)}>
+          <CommandGroup heading="Pages">
+            <CommandItem
+              icon={<Icon name="home" />}
+              shortcut={<Kbd keys={['G', 'H']} />}
+              onSelect={() => toast({ title: 'Home' })}
+            >
+              Home
+            </CommandItem>
+            <CommandItem
+              icon={<Icon name="inbox" />}
+              keywords={['mail', 'messages']}
+              onSelect={() => toast({ title: 'Inbox' })}
+            >
+              Inbox
+            </CommandItem>
+          </CommandGroup>
+          <CommandGroup heading="Actions">
+            <CommandItem icon={<Icon name="sun" />} onSelect={() => toast({ title: 'Theme toggled' })}>
+              Toggle appearance
+            </CommandItem>
+            <CommandItem icon={<Icon name="trash" />} onSelect={() => toast({ title: 'Cleared' })}>
+              Clear local data
+            </CommandItem>
+          </CommandGroup>
+        </CommandPalette>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="context-menu"
+        name="ContextMenu"
+        purpose="Right-click (and long-press on touch) menu. Items are the same MenuItem, MenuSeparator and MenuLabel components used by Menu."
+        usage={`<ContextMenu
+  menu={
+    <>
+      <MenuItem icon={<Icon name="copy" />} onSelect={copy}>Copy</MenuItem>
+      <MenuSeparator />
+      <MenuItem tone="danger" onSelect={remove}>Delete</MenuItem>
+    </>
+  }
+>
+  <Card>Right-click me</Card>
+</ContextMenu>`}
+        api={[
+          ['menu', 'ReactNode', '—', 'MenuItem / MenuSeparator / MenuLabel.'],
+          ['disabled', 'boolean', 'false', 'Ignore contextmenu and long-press.'],
+        ]}
+      >
+        <Example title="Right-click or long-press" layout="stack">
+          <ContextMenu
+            menu={
+              <>
+                <MenuLabel>File</MenuLabel>
+                <MenuItem icon={<Icon name="copy" />} shortcut="⌘C" onSelect={() => toast({ title: 'Copied' })}>
+                  Copy
+                </MenuItem>
+                <MenuItem icon={<Icon name="edit" />} onSelect={() => toast({ title: 'Renamed' })}>
+                  Rename
+                </MenuItem>
+                <MenuSeparator />
+                <MenuItem
+                  icon={<Icon name="trash" />}
+                  tone="danger"
+                  onSelect={() => toast({ title: 'Deleted', tone: 'danger' })}
+                >
+                  Delete
+                </MenuItem>
+              </>
+            }
+          >
+            <div
+              style={{
+                padding: 'var(--mors-space-8)',
+                border: '1px dashed var(--mors-color-border)',
+                borderRadius: 'var(--mors-radius-lg)',
+                textAlign: 'center',
+                color: 'var(--mors-color-text-secondary)',
+              }}
+            >
+              Right-click this panel, or press and hold on a phone.
+            </div>
+          </ContextMenu>
         </Example>
       </ComponentDoc>
     </Section>

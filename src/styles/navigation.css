@@ -161,7 +161,7 @@
   justify-content: space-between;
   gap: var(--mors-space-5);
   inline-size: 100%;
-  padding: var(--mors-space-5) var(--mors-space-6);
+  padding: var(--mors-space-5) var(--mors-space-6) var(--mors-space-6);
   border: 0;
   background: none;
   color: var(--mors-color-text);
@@ -209,12 +209,27 @@
   transform: rotate(180deg);
 }
 
+.mors-accordion-item--open .mors-accordion-trigger {
+  padding-block-end: var(--mors-space-7);
+}
+
 .mors-accordion-panel {
-  animation: mors-fade-in var(--mors-duration-base) var(--mors-ease-standard);
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-accordion-item--open .mors-accordion-panel {
+  grid-template-rows: 1fr;
+}
+
+.mors-accordion-panel-inner {
+  min-block-size: 0;
+  overflow: hidden;
 }
 
 .mors-accordion-content {
-  padding: 0 var(--mors-space-6) var(--mors-space-6);
+  padding: var(--mors-space-2) var(--mors-space-6) var(--mors-space-6);
   color: var(--mors-color-text-secondary);
   font-size: var(--mors-text-base);
   line-height: var(--mors-leading-relaxed);
@@ -383,8 +398,12 @@
   min-block-size: 48px;
   min-inline-size: 0;
   margin-inline: auto;
-  padding-inline: max(var(--mors-space-4), env(safe-area-inset-left))
-    max(var(--mors-space-4), env(safe-area-inset-right));
+  padding-block: var(--mors-focus-gutter);
+  padding-inline: max(
+      var(--mors-space-6),
+      calc(env(safe-area-inset-left) + var(--mors-focus-gutter))
+    )
+    max(var(--mors-space-6), calc(env(safe-area-inset-right) + var(--mors-focus-gutter)));
 }
 
 .mors-navbar-brand {

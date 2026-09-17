@@ -2,10 +2,12 @@ import { useState } from 'react';
 import {
   Button,
   Checkbox,
+  Combobox,
   DatePicker,
   FileField,
   Icon,
   NumberField,
+  OtpField,
   Radio,
   RadioGroup,
   SearchField,
@@ -14,6 +16,8 @@ import {
   Switch,
   TextField,
   Textarea,
+  TimePicker,
+  TokenField,
 } from '../../src';
 import { ComponentDoc, Example, Section, type PropRow } from '../components/Doc';
 
@@ -50,6 +54,9 @@ export function FormsSection() {
   const [terms, setTerms] = useState(false);
   const [volume, setVolume] = useState(35);
   const [date, setDate] = useState<Date | null>(null);
+  const [time, setTime] = useState('09:30');
+  const [otp, setOtp] = useState('');
+  const [tokens, setTokens] = useState<readonly string[]>(['design', 'react']);
   const emailError = email.length > 0 && !email.includes('@') ? 'Enter a valid email address.' : undefined;
 
   return (
@@ -399,6 +406,93 @@ export function FormsSection() {
           <Button size="sm" variant="ghost" onClick={() => setDate(new Date())}>
             Set to today
           </Button>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="time-picker"
+        name="TimePicker"
+        purpose="Time of day as HH:mm. The trigger shows a locale-formatted string; the popover is scrollable columns of hours and minutes, with an AM/PM column in 12-hour mode."
+        usage={`<TimePicker
+  label="Start time"
+  value={time}
+  onChange={setTime}
+  clearable
+/>`}
+        api={[
+          ['value / onChange', 'string / (value: string) => void', "''", '24-hour `HH:mm`.'],
+          ['hourCycle', "'h12' | 'h23'", "'h12'", '12-hour with AM/PM, or 24-hour.'],
+          ['minuteStep', 'number', '5', 'Minute column increment.'],
+          ['clearable', 'boolean', 'false', 'Adds a clear action inside the popover.'],
+        ]}
+      >
+        <Example title="Interactive" layout="grid">
+          <TimePicker label="Start time" value={time} onChange={setTime} clearable />
+          <TimePicker label="24-hour" hourCycle="h23" defaultValue="14:00" />
+          <TimePicker label="Disabled" disabled defaultValue="09:00" />
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="combobox"
+        name="Combobox"
+        purpose="Searchable select. Typing filters the list; arrow keys move the highlight; Enter commits. Use Select when the list is short enough to scan."
+        usage={`<Combobox
+  label="Country"
+  options={COUNTRIES}
+  placeholder="Search countries"
+/>`}
+        api={[
+          ['options', 'readonly SelectOption[]', '—', 'Same shape as Select.'],
+          ['value / onChange', 'string / (value) => void', "''", 'Selected option value.'],
+          ['emptyMessage', 'string', "'No matches'", 'Shown when the filter has no hits.'],
+        ]}
+      >
+        <Example title="Filter the list" layout="grid">
+          <Combobox label="Country" options={COUNTRIES} placeholder="Search countries" />
+          <Combobox label="Plan" options={PLANS} defaultValue="team" />
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="otp-field"
+        name="OtpField"
+        purpose="One-time-code / PIN entry. Each cell is a digit; paste fills them all, Backspace walks backwards, and onComplete fires when every cell is full."
+        usage={`<OtpField
+  label="Verification code"
+  value={otp}
+  onChange={setOtp}
+  onComplete={(code) => submit(code)}
+/>`}
+        api={[
+          ['length', 'number', '6', 'Number of digits.'],
+          ['value / onChange', 'string / (value) => void', "''", 'Concatenated digits.'],
+          ['onComplete', '(value: string) => void', '—', 'Fires when every cell is filled.'],
+        ]}
+      >
+        <Example title="Six digits" layout="stack">
+          <OtpField label="Verification code" value={otp} onChange={setOtp} />
+          <span className="demo-example-note">{otp || 'Paste a 6-digit code, or type one digit at a time.'}</span>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="token-field"
+        name="TokenField"
+        purpose="Freeform tags. Enter, comma or blur commits the current text as a token; Backspace on an empty input removes the last one."
+        usage={`<TokenField
+  label="Topics"
+  tokens={tokens}
+  onTokensChange={setTokens}
+/>`}
+        api={[
+          ['tokens / onTokensChange', 'readonly string[] / (tokens) => void', '[]', 'Controlled tags.'],
+          ['unique', 'boolean', 'true', 'Ignore duplicates.'],
+          ['max', 'number', '—', 'Cap the number of tokens.'],
+        ]}
+      >
+        <Example title="Interactive" layout="stack">
+          <TokenField label="Topics" tokens={tokens} onTokensChange={setTokens} />
         </Example>
       </ComponentDoc>
     </Section>

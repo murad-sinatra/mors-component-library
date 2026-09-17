@@ -124,9 +124,12 @@ export function AccordionItem({
         id={panelId}
         aria-labelledby={triggerId}
         className="mors-accordion-panel"
-        hidden={!open}
+        aria-hidden={!open || undefined}
+        inert={!open || undefined}
       >
-        <div className="mors-accordion-content">{children}</div>
+        <div className="mors-accordion-panel-inner">
+          <div className="mors-accordion-content">{children}</div>
+        </div>
       </section>
     </div>
   );

@@ -1,4 +1,3 @@
-/** Falsy members exist so `condition && 'class'` expressions type-check. */
 export type ClassValue = string | number | bigint | boolean | null | undefined;
 
 export function cx(...values: ClassValue[]): string {

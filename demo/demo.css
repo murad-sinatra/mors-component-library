@@ -258,6 +258,26 @@ svg {
   font-size: var(--mors-text-sm);
 }
 
+.demo-frame {
+  height: 420px;
+  border: 1px solid var(--mors-color-border);
+  border-radius: var(--mors-radius-md);
+  overflow: hidden;
+  background: var(--mors-color-canvas);
+}
+
+.demo-tab-bar-frame {
+  max-width: 420px;
+  padding: var(--mors-space-4);
+  border: 1px solid var(--mors-color-border);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface);
+}
+
+.demo-shell-main {
+  padding: var(--mors-space-6);
+}
+
 .demo-example-body {
   display: flex;
   flex-wrap: wrap;

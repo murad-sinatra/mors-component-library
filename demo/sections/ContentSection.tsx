@@ -10,8 +10,11 @@ import {
   EmptyState,
   Icon,
   IconButton,
+  Kbd,
   List,
   ListItem,
+  Tree,
+  TreeItem,
 } from '../../src';
 import { ComponentDoc, Example, Section, type PropRow } from '../components/Doc';
 
@@ -218,6 +221,53 @@ export function ContentSection() {
             <ListItem title="Name" trailing={<span className="demo-example-note">Ada Lovelace</span>} />
             <ListItem title="Plan" trailing={<Badge size="sm" tone="accent">Pro</Badge>} href="#/overview" />
           </List>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="tree"
+        name="Tree · TreeItem"
+        tags={['keyboard']}
+        purpose="Nested files, settings and outlines. Arrow keys walk visible rows, Right expands, Left collapses, Enter selects."
+        usage={`<Tree label="Project" defaultExpanded={['src']} defaultSelected="index">
+  <TreeItem id="src" label="src" icon={<Icon name="folder" />}>
+    <TreeItem id="index" label="index.ts" />
+  </TreeItem>
+</Tree>`}
+        api={[
+          ['selected / onSelect', 'string / (id) => void', '—', 'The selected row id.'],
+          ['expanded / defaultExpanded', 'readonly string[]', '[]', 'Open branch ids.'],
+          ['TreeItem id / label / icon', 'string / ReactNode / ReactNode', '—', 'Row identity and chrome.'],
+        ]}
+      >
+        <Example title="Files" layout="stack">
+          <Tree label="Project files" defaultExpanded={['src', 'components']} defaultSelected="button">
+            <TreeItem id="src" label="src" icon={<Icon name="folder" />}>
+              <TreeItem id="components" label="components" icon={<Icon name="folder" />}>
+                <TreeItem id="button" label="Button.tsx" />
+                <TreeItem id="modal" label="Modal.tsx" />
+              </TreeItem>
+              <TreeItem id="index" label="index.ts" />
+            </TreeItem>
+            <TreeItem id="package" label="package.json" />
+          </Tree>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="kbd"
+        name="Kbd"
+        purpose="A keyboard key, or a combo when keys is provided. Use it in CommandPalette shortcuts, tooltips and helper copy."
+        usage={`<Kbd>⌘</Kbd>
+<Kbd keys={['⌘', 'K']} />`}
+        api={[
+          ['keys', 'readonly ReactNode[]', '—', 'Renders a combo; otherwise children is a single key.'],
+        ]}
+      >
+        <Example title="Keys">
+          <Kbd>⌘</Kbd>
+          <Kbd keys={['⌘', 'K']} />
+          <Kbd keys={['Shift', 'Enter']} />
         </Example>
       </ComponentDoc>
     </Section>

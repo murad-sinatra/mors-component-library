@@ -54,7 +54,14 @@
 .mors-swatch:focus-visible,
 .mors-close:focus-visible,
 .mors-navbar-link:focus-visible,
-.mors-table-sort:focus-visible {
+.mors-table-sort:focus-visible,
+.mors-sidebar-item:focus-visible,
+.mors-tab-bar-item:focus-visible,
+.mors-skip-link:focus-visible,
+.mors-action-sheet-item:focus-visible,
+.mors-action-sheet-cancel:focus-visible,
+.mors-command-item:focus-visible,
+.mors-time-option:focus-visible {
   outline: var(--mors-focus-width) solid
     color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
   outline-offset: var(--mors-focus-offset);
