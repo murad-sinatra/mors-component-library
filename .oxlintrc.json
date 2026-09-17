@@ -39,14 +39,6 @@
       }
     },
     {
-      "files": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test/**"],
-      "rules": {
-        "jsx-a11y/label-has-associated-control": "off",
-        "jsx-a11y/anchor-is-valid": "off",
-        "unicorn/consistent-function-scoping": "off"
-      }
-    },
-    {
       "files": ["demo/**"],
       "rules": {
         "react/no-unstable-nested-components": "off",

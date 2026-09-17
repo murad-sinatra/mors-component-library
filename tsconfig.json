@@ -23,7 +23,7 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
 
-    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
+    "types": ["vite/client"]
   },
   "include": ["src", "demo", "vite.config.ts", "vite.lib.config.ts", "vite.css.config.ts"]
 }

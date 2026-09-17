@@ -99,7 +99,7 @@ See the **Design system** page in the demo for the full token list.
 ```bash
 npm run dev          # demo site
 npm run build        # library JS + CSS + types, plus the demo
-npm run check        # lint, typecheck, tests
+npm run check        # lint, typecheck
 ```
 
 ## License

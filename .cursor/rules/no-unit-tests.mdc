@@ -1,0 +1,17 @@
+---
+description: This library does not use unit tests — never add them
+alwaysApply: true
+---
+
+# No unit tests
+
+This project does not have a unit test suite and must not grow one.
+
+Do not:
+
+- Create `*.test.ts`, `*.test.tsx`, `*.spec.ts`, `*.spec.tsx`, or `__tests__/` files
+- Add Vitest, Jest, Testing Library, jsdom, Playwright, Cypress, or similar test runners
+- Add `test` / `test:watch` scripts, test setup files, or test `types` in tsconfig
+- Restore deleted tests, even when changing a component that used to have them
+
+Verify behavior in the demo (`npm run dev`) or by typecheck/lint (`npm run check`). If a change is risky, explain the risk in the PR or commit — do not compensate with a unit test.
