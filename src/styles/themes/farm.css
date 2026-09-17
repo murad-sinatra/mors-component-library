@@ -1,0 +1,230 @@
+/* ==========================================================================
+   Farm Theme
+   A second complete token set — same custom properties as Default Theme,
+   different values. Warm linen surfaces, harvest-pumpkin accent, leaf-green
+   success, serif display type, and slightly squarer radii. Inspired by
+   farmhouses, harvest, and soil rather than a specific product UI.
+
+     <html data-mors-palette="farm">
+     <html data-mors-palette="farm" data-mors-theme="dark">
+
+   Copy this file to add a third theme; keep the property names, change the
+   values. Light/dark is independent: set data-mors-theme alongside the palette.
+   ========================================================================== */
+
+[data-mors-palette='farm'] {
+  color-scheme: light;
+
+  /* ---------- Typography ------------------------------------------------
+     Display is a bookish serif (Iowan / Palatino / Georgia). UI sans is a
+     rounder humanist stack so buttons and fields don’t look like Default. */
+  --mors-font-sans:
+    'Avenir Next', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 'Segoe UI',
+    sans-serif;
+  --mors-font-display:
+    'Iowan Old Style', Palatino, 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  --mors-font-mono: 'Courier New', Courier, ui-monospace, SFMono-Regular, monospace;
+
+  --mors-text-2xs: 0.6875rem; /* 11px */
+  --mors-text-xs: 0.75rem; /* 12px */
+  --mors-text-sm: 0.875rem; /* 14px */
+  --mors-text-base: 1rem; /* 16px */
+  --mors-text-md: 1.125rem; /* 18px */
+  --mors-text-lg: 1.3125rem; /* 21px */
+  --mors-text-xl: 1.625rem; /* 26px */
+  --mors-text-2xl: 2rem; /* 32px */
+  --mors-text-3xl: 2.625rem; /* 42px */
+  --mors-text-4xl: 3.375rem; /* 54px */
+  --mors-text-5xl: 4.25rem; /* 68px */
+
+  --mors-leading-tight: 1.12;
+  --mors-leading-snug: 1.3;
+  --mors-leading-normal: 1.5;
+  --mors-leading-relaxed: 1.7;
+
+  --mors-tracking-tighter: -0.008em;
+  --mors-tracking-tight: 0em;
+  --mors-tracking-normal: 0.01em;
+  --mors-tracking-wide: 0.04em;
+  --mors-tracking-caps: 0.08em;
+
+  --mors-weight-regular: 400;
+  --mors-weight-medium: 500;
+  --mors-weight-semibold: 600;
+  --mors-weight-bold: 700;
+
+  /* ---------- Neutral ramp — warm linen / soil -------------------------- */
+  --mors-neutral-0: #fffefb;
+  --mors-neutral-25: #fcfaf4;
+  --mors-neutral-50: #f4eee1;
+  --mors-neutral-100: #ebe3d0;
+  --mors-neutral-200: #dccdb0;
+  --mors-neutral-300: #c4b48e;
+  --mors-neutral-400: #9c8558;
+  --mors-neutral-500: #7d6a45;
+  --mors-neutral-600: #645436;
+  --mors-neutral-700: #4a3e28;
+  --mors-neutral-800: #342b1c;
+  --mors-neutral-900: #241c12;
+  --mors-neutral-950: #17110b;
+  --mors-neutral-1000: #0c0906;
+
+  /* ---------- Accent + status hues — pumpkin, leaf, wheat, scarlet, denim -- */
+  --mors-blue-100: #e4eef4;
+  --mors-blue-300: #7aa3bd;
+  --mors-blue-500: #3d6b8a;
+  --mors-blue-600: #325a74;
+  --mors-blue-700: #28485e;
+
+  --mors-green-100: #e4f0d4;
+  --mors-green-500: #3f6f3a;
+  --mors-green-600: #2f562c;
+
+  --mors-amber-100: #f8e8c4;
+  --mors-amber-500: #c4922a;
+  --mors-amber-600: #9c731c;
+
+  --mors-red-100: #f8ddd8;
+  --mors-red-500: #c23030;
+  --mors-red-600: #9e2424;
+
+  --mors-purple-100: #eee6f2;
+  --mors-purple-500: #6b4e7a;
+
+  /* ---------- Semantic surfaces ----------------------------------------- */
+  --mors-color-canvas: var(--mors-neutral-25);
+  --mors-color-surface: var(--mors-neutral-0);
+  --mors-color-surface-raised: #ffffff;
+  --mors-color-surface-sunken: var(--mors-neutral-50);
+  --mors-color-surface-hover: var(--mors-neutral-50);
+  --mors-color-surface-active: var(--mors-neutral-100);
+  --mors-color-surface-inverse: var(--mors-neutral-900);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-900) 12%, transparent);
+  --mors-color-border-strong: color-mix(in srgb, var(--mors-neutral-900) 22%, transparent);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-900) 8%, transparent);
+
+  --mors-color-text: var(--mors-neutral-900);
+  --mors-color-text-secondary: var(--mors-neutral-600);
+  --mors-color-text-tertiary: var(--mors-neutral-500);
+  --mors-color-text-inverse: var(--mors-neutral-0);
+  --mors-color-text-on-accent: #fffdf6;
+
+  --mors-color-accent: #d47a3c;
+  --mors-color-accent-hover: #c06c32;
+  --mors-color-accent-active: #a85c2a;
+  --mors-color-accent-soft: #fae8d4;
+  --mors-color-accent-text: #b55f24;
+
+  --mors-color-success: var(--mors-green-500);
+  --mors-color-success-soft: var(--mors-green-100);
+  --mors-color-success-text: var(--mors-green-600);
+  --mors-color-warning: var(--mors-amber-500);
+  --mors-color-warning-soft: var(--mors-amber-100);
+  --mors-color-warning-text: var(--mors-amber-600);
+  --mors-color-danger: var(--mors-red-500);
+  --mors-color-danger-soft: var(--mors-red-100);
+  --mors-color-danger-text: var(--mors-red-600);
+  --mors-color-info: var(--mors-blue-500);
+  --mors-color-info-soft: var(--mors-blue-100);
+  --mors-color-info-text: var(--mors-blue-600);
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 46%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-900) 9%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-900) 4%, transparent);
+
+  /* ---------- Radii — a little squarer than Default, still softened ------ */
+  --mors-radius-xs: 3px;
+  --mors-radius-sm: 6px;
+  --mors-radius-md: 8px;
+  --mors-radius-lg: 10px;
+  --mors-radius-xl: 12px;
+  --mors-radius-2xl: 16px;
+  --mors-radius-pill: 8px;
+  --mors-radius-circle: 50%;
+
+  /* ---------- Elevation — warm soil shadow, not cool black -------------- */
+  --mors-shadow-xs: 0 1px 2px color-mix(in srgb, var(--mors-neutral-900) 10%, transparent);
+  --mors-shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--mors-neutral-900) 8%, transparent),
+    0 4px 12px color-mix(in srgb, var(--mors-neutral-800) 10%, transparent);
+  --mors-shadow-md:
+    0 2px 6px color-mix(in srgb, var(--mors-neutral-900) 8%, transparent),
+    0 10px 28px color-mix(in srgb, var(--mors-neutral-800) 14%, transparent);
+  --mors-shadow-lg:
+    0 6px 12px color-mix(in srgb, var(--mors-neutral-900) 10%, transparent),
+    0 20px 48px color-mix(in srgb, var(--mors-neutral-800) 16%, transparent);
+  --mors-shadow-xl:
+    0 10px 20px color-mix(in srgb, var(--mors-neutral-900) 12%, transparent),
+    0 32px 64px color-mix(in srgb, var(--mors-neutral-800) 20%, transparent);
+
+  /* ---------- Focus ------------------------------------------------------ */
+  --mors-focus-color: var(--mors-color-accent);
+  --mors-focus-width: 3px;
+  --mors-focus-offset: 2px;
+  --mors-focus-ring: 0 0 0 var(--mors-focus-width)
+    color-mix(in srgb, var(--mors-focus-color) 40%, transparent);
+  --mors-focus-gutter: calc(var(--mors-focus-width) + var(--mors-focus-offset));
+}
+
+/* Dark farm: barn interior after sundown. Higher specificity than Default’s
+   [data-mors-theme="dark"] so the two attributes can share <html> or nest. */
+[data-mors-palette='farm'][data-mors-theme='dark'],
+[data-mors-theme='dark'] [data-mors-palette='farm'],
+[data-mors-palette='farm'] [data-mors-theme='dark'] {
+  color-scheme: dark;
+
+  --mors-color-canvas: #120e0a;
+  --mors-color-surface: #1c1610;
+  --mors-color-surface-raised: #272017;
+  --mors-color-surface-sunken: #16120c;
+  --mors-color-surface-hover: #2a2219;
+  --mors-color-surface-active: #32281e;
+  --mors-color-surface-inverse: var(--mors-neutral-50);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-0) 14%, transparent);
+  --mors-color-border-strong: color-mix(in srgb, var(--mors-neutral-0) 26%, transparent);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-0) 8%, transparent);
+
+  --mors-color-text: #f4ead6;
+  --mors-color-text-secondary: #c4b392;
+  --mors-color-text-tertiary: #9c8b6c;
+  --mors-color-text-inverse: var(--mors-neutral-900);
+  --mors-color-text-on-accent: #1c120c;
+
+  --mors-color-accent: #f0a56a;
+  --mors-color-accent-hover: #f5b888;
+  --mors-color-accent-active: #f8c9a4;
+  --mors-color-accent-soft: color-mix(in srgb, #f0a56a 22%, transparent);
+  --mors-color-accent-text: #f8c9a4;
+
+  --mors-color-success: #7dba62;
+  --mors-color-success-soft: color-mix(in srgb, #7dba62 20%, transparent);
+  --mors-color-success-text: #a3d48c;
+  --mors-color-warning: #e0b34a;
+  --mors-color-warning-soft: color-mix(in srgb, #e0b34a 20%, transparent);
+  --mors-color-warning-text: #f0cc78;
+  --mors-color-danger: #f07178;
+  --mors-color-danger-soft: color-mix(in srgb, #f07178 20%, transparent);
+  --mors-color-danger-text: #f59aa0;
+  --mors-color-info: #7aa3bd;
+  --mors-color-info-soft: color-mix(in srgb, #7aa3bd 20%, transparent);
+  --mors-color-info-text: #a8c5d6;
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 64%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-0) 10%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-0) 5%, transparent);
+
+  --mors-shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 44%, transparent),
+    0 4px 12px color-mix(in srgb, var(--mors-neutral-1000) 36%, transparent);
+  --mors-shadow-md:
+    0 2px 6px color-mix(in srgb, var(--mors-neutral-1000) 44%, transparent),
+    0 10px 28px color-mix(in srgb, var(--mors-neutral-1000) 42%, transparent);
+  --mors-shadow-lg:
+    0 6px 12px color-mix(in srgb, var(--mors-neutral-1000) 46%, transparent),
+    0 20px 48px color-mix(in srgb, var(--mors-neutral-1000) 50%, transparent);
+  --mors-shadow-xl:
+    0 10px 20px color-mix(in srgb, var(--mors-neutral-1000) 48%, transparent),
+    0 32px 64px color-mix(in srgb, var(--mors-neutral-1000) 56%, transparent);
+}

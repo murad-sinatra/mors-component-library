@@ -106,14 +106,17 @@ const BREAKPOINT_COLUMNS: TableColumn<BreakpointRow>[] = [
   { id: 'behaviour', header: 'What changes', cell: (row) => row.behaviour },
 ];
 
-const TOKEN_OVERRIDE = `/* Rebrand globally */
-:root {
+const TOKEN_OVERRIDE = `/* Pick a shipped palette */
+<html data-mors-palette="farm" data-mors-theme="dark">
+
+/* Or rebrand by copying a theme file and changing values */
+[data-mors-palette='default'] {
   --mors-color-accent: #6b46e5;
   --mors-radius-md: 6px;
   --mors-font-sans: 'Inter', system-ui, sans-serif;
 }
 
-/* …or only for one subtree */
+/* …or only for one subtree, palette aside */
 .marketing-panel {
   --mors-color-accent: #0f9d58;
   --mors-shadow-md: none;
@@ -138,44 +141,69 @@ export function DesignSystem() {
       <PageHeader
         eyebrow="Design system"
         title="The design language, token by token"
-        description="Everything visual in the library resolves to a CSS custom property in the --mors- namespace. Override any of them at :root or on a single subtree — no build step, no theme provider."
+        description="Everything visual in the library resolves to a CSS custom property in the --mors- namespace. Palettes swap those properties; light and dark remap the semantic colours. No build step, no theme provider."
       />
 
       <Section
         id="foundations"
         title="Foundations"
-        description="The library ships two files: tokens.css defines the language and styles nothing; the component sheets consume it."
+        description="The library ships tokens.css (shared scales) plus one file per palette under src/styles/themes. Component sheets only consume custom properties."
       >
         <div className="demo-grid">
           <Card>
-            <CardHeader title="Typeface" subtitle="System-first, no web font" />
+            <CardHeader title="Typeface" subtitle="A token, not a download" />
             <CardBody>
-              The sans stack starts at <InlineCode>ui-sans-serif</InlineCode> and{' '}
-              <InlineCode>system-ui</InlineCode>, so text renders in the platform UI face — San
-              Francisco on Apple devices, Segoe UI on Windows, Roboto on Android. Nothing to
+              <InlineCode>--mors-font-sans</InlineCode> and{' '}
+              <InlineCode>--mors-font-display</InlineCode> are set per palette. Default Theme uses
+              the system/SF stack; Farm Theme switches display type to a serif. Nothing to
               download, nothing to lay out twice.
             </CardBody>
           </Card>
           <Card>
             <CardHeader title="Letter spacing" subtitle="Tightens as type grows" />
             <CardBody>
-              Display sizes use <InlineCode>--mors-tracking-tighter</InlineCode> (−0.022em) and body
-              copy sits at −0.014em. That negative tracking on large text is what makes headlines
-              read as considered rather than default.
+              Display sizes use <InlineCode>--mors-tracking-tighter</InlineCode> and body copy sits
+              at <InlineCode>--mors-tracking-tight</InlineCode>. Farm Theme opens both so headlines
+              read as bookish rather than product-UI.
             </CardBody>
           </Card>
           <Card>
-            <CardHeader title="Two appearances" subtitle="One attribute" />
+            <CardHeader title="Palettes and appearance" subtitle="Two attributes" />
             <CardBody>
-              Set <InlineCode>data-mors-theme=&quot;dark&quot;</InlineCode> on any element to switch
-              its subtree. The toggle in the header of this page does exactly that on{' '}
-              <InlineCode>&lt;html&gt;</InlineCode>.
+              Set <InlineCode>data-mors-palette</InlineCode> to switch the token file (
+              <InlineCode>default</InlineCode> or <InlineCode>farm</InlineCode>). Independently,{' '}
+              <InlineCode>data-mors-theme=&quot;dark&quot;</InlineCode> remaps semantic colour. The
+              header controls on this page write both onto <InlineCode>&lt;html&gt;</InlineCode>.
             </CardBody>
           </Card>
         </div>
       </Section>
 
-      <Section id="typography" title="Typography" description="Eleven steps, from 11px meta text to a 64px hero.">
+      <Section
+        id="palettes"
+        title="Palettes"
+        description="Each palette is a CSS file that assigns the same --mors-* properties. Components never change; only the variables do. The header menu on this demo writes data-mors-palette onto html."
+      >
+        <CodeBlock
+          code={`/* src/styles/themes/default.css — current look, also applied to :root */
+:root,
+[data-mors-palette='default'] {
+  --mors-font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+  --mors-color-accent: #0071e3;
+  --mors-radius-pill: 999px;
+}
+
+/* src/styles/themes/farm.css — opt in with one attribute */
+[data-mors-palette='farm'] {
+  --mors-font-display: Georgia, Palatino, serif;
+  --mors-color-accent: #d47a3c;
+  --mors-radius-pill: 8px;
+}`}
+          label="Palette files"
+        />
+      </Section>
+
+      <Section id="typography" title="Typography" description="Eleven steps. The sizes below are Default Theme; Farm Theme redefines the same tokens in farm.css.">
         {TYPE_SCALE.map(([token, size, use]) => (
           <div className="demo-type-row" key={token}>
             <span className="demo-type-meta">
@@ -183,6 +211,7 @@ export function DesignSystem() {
             </span>
             <span
               style={{
+                fontFamily: 'var(--mors-font-display)',
                 fontSize: `var(${token})`,
                 fontWeight: 'var(--mors-weight-semibold)',
                 letterSpacing:
@@ -205,7 +234,7 @@ export function DesignSystem() {
       <Section
         id="colour"
         title="Colour"
-        description="A fourteen-step neutral ramp plus six semantic hues. Components only ever reference the semantic tokens, which is why dark mode is a token swap rather than a rewrite."
+        description="A fourteen-step neutral ramp plus six semantic hues. Components only ever reference the semantic tokens, which is why palettes and dark mode are token swaps rather than rewrites."
       >
         <div className="demo-stack">
           <div>
@@ -260,7 +289,7 @@ export function DesignSystem() {
       <Section
         id="radii"
         title="Radii"
-        description="Rounded but not soft: 8–12px for controls, 16–20px for cards, 28px for dialogs, and a pill for capsules and chips."
+        description="Rounded but not soft in Default Theme (8–12px controls, 16–20px cards). Farm Theme tightens the same tokens so corners sit closer to square, without going sharp."
       >
         <div className="demo-swatches">
           {RADII.map(([token, value]) => (
@@ -367,7 +396,7 @@ export function DesignSystem() {
       <Section
         id="overriding"
         title="Overriding tokens"
-        description="Because every value is a custom property, rebranding is CSS — no wrapper components, no theme object, no rebuild."
+        description="Because every value is a custom property, a new palette is a CSS file — no wrapper components, no theme object, no rebuild. Default Theme is src/styles/themes/default.css; Farm Theme is farm.css."
       >
         <CodeBlock code={TOKEN_OVERRIDE} label="Token override example" />
         <div className="demo-row" style={{ marginTop: 'var(--mors-space-6)' }}>

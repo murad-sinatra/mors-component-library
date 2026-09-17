@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mors-palette="default">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -9,6 +9,20 @@
     />
     <meta name="color-scheme" content="light dark" />
     <title>mors-component-library — React components &amp; design system</title>
+    <script>
+      try {
+        var palette = localStorage.getItem('mors-demo-palette');
+        if (palette === 'default' || palette === 'farm') {
+          document.documentElement.setAttribute('data-mors-palette', palette);
+        }
+        var theme = localStorage.getItem('mors-demo-theme');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.setAttribute('data-mors-theme', theme);
+        }
+      } catch (error) {
+        /* private mode / blocked storage */
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

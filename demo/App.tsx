@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import {
   Badge,
+  Button,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
   Navbar,
   NavbarLink,
   ToastProvider,
   Tooltip,
 } from '../src';
+import { PALETTES, usePalette } from './usePalette';
 import { useTheme } from './useTheme';
 import { Overview } from './pages/Overview';
 import { Components } from './pages/Components';
@@ -41,6 +45,7 @@ function useHashRoute(): [RouteId, (route: RouteId) => void] {
 
 export function App() {
   const { theme, toggleTheme } = useTheme();
+  const { palette, paletteOption, setPalette } = usePalette();
   const [route, navigate] = useHashRoute();
 
   useEffect(() => {
@@ -81,14 +86,39 @@ export function App() {
             </span>
           }
           actions={
-            <Tooltip content={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}>
-              <IconButton
-                label={theme === 'dark' ? 'Switch to light appearance' : 'Switch to dark appearance'}
-                icon={<Icon name={theme === 'dark' ? 'sun' : 'moon'} />}
-                variant="ghost"
-                onClick={toggleTheme}
-              />
-            </Tooltip>
+            <>
+              <Menu
+                ariaLabel="Theme"
+                trigger={
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    endIcon={<Icon name="chevron-down" />}
+                    aria-label={`Theme: ${paletteOption.label}`}
+                  >
+                    {paletteOption.shortLabel}
+                  </Button>
+                }
+              >
+                {PALETTES.map((option) => (
+                  <MenuItem
+                    key={option.id}
+                    icon={option.id === palette ? <Icon name="check" /> : undefined}
+                    onSelect={() => setPalette(option.id)}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Menu>
+              <Tooltip content={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}>
+                <IconButton
+                  label={theme === 'dark' ? 'Switch to light appearance' : 'Switch to dark appearance'}
+                  icon={<Icon name={theme === 'dark' ? 'sun' : 'moon'} />}
+                  variant="ghost"
+                  onClick={toggleTheme}
+                />
+              </Tooltip>
+            </>
           }
         >
           {ROUTES.map((entry) => (

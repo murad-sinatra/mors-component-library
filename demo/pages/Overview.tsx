@@ -37,8 +37,8 @@ export function Panel() {
   );
 }`;
 
-const THEME = `<!-- Dark appearance: set the attribute anywhere in the tree -->
-<html data-mors-theme="dark">
+const THEME = `<!-- Palette (token file) and appearance are independent -->
+<html data-mors-palette="farm" data-mors-theme="dark">
 
 <!-- Or override tokens for one subtree -->
 <div style="--mors-color-accent: #8b5cf6; --mors-radius-md: 6px">
@@ -238,7 +238,7 @@ export function Overview({ onNavigate }: { onNavigate: (route: 'components' | 'd
       <Section
         id="theming"
         title="Theming"
-        description="Dark appearance is an attribute, and any token can be overridden for a subtree."
+        description="A palette is a CSS file of custom properties. Dark appearance is a second attribute on top of that."
       >
         <CodeBlock code={THEME} label="Theming example" />
       </Section>
