@@ -6,15 +6,20 @@
    safe way to consume the design language on its own.
 
    Visual tokens (type, colour, radius, shadow, focus) live in theme files:
-     src/styles/themes/default.css   — Default Theme, also applied to :root
-     src/styles/themes/farm.css      — Farm Theme via data-mors-palette="farm"
+     src/styles/themes/default.css    — Default Theme, also applied to :root
+     src/styles/themes/farm.css       — Farm Theme
+     src/styles/themes/cyberpunk.css  — Cyberpunk Theme
+     src/styles/themes/retro.css      — Retro Theme
+     src/styles/themes/modern.css     — Modern Theme
 
-   This file keeps the scales that every theme shares unless it overrides them.
-   Light/dark is a separate axis: data-mors-theme="dark" on any subtree.
+   Opt in with data-mors-palette on any subtree. Light/dark is a separate axis.
    ========================================================================== */
 
 @import './themes/default.css';
 @import './themes/farm.css';
+@import './themes/cyberpunk.css';
+@import './themes/retro.css';
+@import './themes/modern.css';
 /* Theme files are the visual source of truth; shared scales follow. */
 
 :root {

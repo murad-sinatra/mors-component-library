@@ -1,0 +1,218 @@
+/* ==========================================================================
+   Modern Theme
+   Cool grey canvas, indigo accent, airy type, generous radii and soft
+   elevation — a contemporary product UI, distinct from Default’s Apple blue.
+
+     <html data-mors-palette="modern">
+     <html data-mors-palette="modern" data-mors-theme="dark">
+   ========================================================================== */
+
+[data-mors-palette='modern'] {
+  color-scheme: light;
+
+  /* ---------- Typography ------------------------------------------------ */
+  --mors-font-sans: 'Segoe UI', 'Helvetica Neue', system-ui, sans-serif;
+  --mors-font-display: 'Segoe UI', 'Helvetica Neue', system-ui, sans-serif;
+  --mors-font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  --mors-text-2xs: 0.6875rem;
+  --mors-text-xs: 0.75rem;
+  --mors-text-sm: 0.8125rem;
+  --mors-text-base: 0.9375rem;
+  --mors-text-md: 1.0625rem;
+  --mors-text-lg: 1.25rem;
+  --mors-text-xl: 1.5rem;
+  --mors-text-2xl: 2rem;
+  --mors-text-3xl: 2.625rem;
+  --mors-text-4xl: 3.375rem;
+  --mors-text-5xl: 4.25rem;
+
+  --mors-leading-tight: 1.1;
+  --mors-leading-snug: 1.28;
+  --mors-leading-normal: 1.5;
+  --mors-leading-relaxed: 1.7;
+
+  --mors-tracking-tighter: -0.03em;
+  --mors-tracking-tight: -0.018em;
+  --mors-tracking-normal: -0.006em;
+  --mors-tracking-wide: 0.02em;
+  --mors-tracking-caps: 0.08em;
+
+  --mors-weight-regular: 400;
+  --mors-weight-medium: 500;
+  --mors-weight-semibold: 600;
+  --mors-weight-bold: 700;
+
+  /* ---------- Neutral ramp — cool stone --------------------------------- */
+  --mors-neutral-0: #ffffff;
+  --mors-neutral-25: #f6f7f9;
+  --mors-neutral-50: #eef0f4;
+  --mors-neutral-100: #e2e5eb;
+  --mors-neutral-200: #cdd2dc;
+  --mors-neutral-300: #b0b7c4;
+  --mors-neutral-400: #8b93a4;
+  --mors-neutral-500: #6b7384;
+  --mors-neutral-600: #545b6a;
+  --mors-neutral-700: #3d4350;
+  --mors-neutral-800: #282c36;
+  --mors-neutral-900: #16181f;
+  --mors-neutral-950: #0e1015;
+  --mors-neutral-1000: #07080b;
+
+  /* ---------- Accent + status hues — indigo, emerald, amber, rose, sky -- */
+  --mors-blue-100: #e0f2fe;
+  --mors-blue-300: #7dd3fc;
+  --mors-blue-500: #0284c7;
+  --mors-blue-600: #0369a1;
+  --mors-blue-700: #075985;
+
+  --mors-green-100: #d1fae5;
+  --mors-green-500: #059669;
+  --mors-green-600: #047857;
+
+  --mors-amber-100: #fef3c7;
+  --mors-amber-500: #d97706;
+  --mors-amber-600: #b45309;
+
+  --mors-red-100: #ffe4e6;
+  --mors-red-500: #e11d48;
+  --mors-red-600: #be123c;
+
+  --mors-purple-100: #e0e7ff;
+  --mors-purple-500: #4f46e5;
+
+  /* ---------- Semantic surfaces ----------------------------------------- */
+  --mors-color-canvas: var(--mors-neutral-25);
+  --mors-color-surface: var(--mors-neutral-0);
+  --mors-color-surface-raised: #ffffff;
+  --mors-color-surface-sunken: var(--mors-neutral-50);
+  --mors-color-surface-hover: var(--mors-neutral-50);
+  --mors-color-surface-active: var(--mors-neutral-100);
+  --mors-color-surface-inverse: var(--mors-neutral-900);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-900) 10%, transparent);
+  --mors-color-border-strong: color-mix(in srgb, var(--mors-neutral-900) 18%, transparent);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-900) 6%, transparent);
+
+  --mors-color-text: var(--mors-neutral-900);
+  --mors-color-text-secondary: var(--mors-neutral-600);
+  --mors-color-text-tertiary: var(--mors-neutral-500);
+  --mors-color-text-inverse: var(--mors-neutral-0);
+  --mors-color-text-on-accent: #ffffff;
+
+  --mors-color-accent: var(--mors-purple-500);
+  --mors-color-accent-hover: #4338ca;
+  --mors-color-accent-active: #3730a3;
+  --mors-color-accent-soft: var(--mors-purple-100);
+  --mors-color-accent-text: #4338ca;
+
+  --mors-color-success: var(--mors-green-500);
+  --mors-color-success-soft: var(--mors-green-100);
+  --mors-color-success-text: var(--mors-green-600);
+  --mors-color-warning: var(--mors-amber-500);
+  --mors-color-warning-soft: var(--mors-amber-100);
+  --mors-color-warning-text: var(--mors-amber-600);
+  --mors-color-danger: var(--mors-red-500);
+  --mors-color-danger-soft: var(--mors-red-100);
+  --mors-color-danger-text: var(--mors-red-600);
+  --mors-color-info: var(--mors-blue-500);
+  --mors-color-info-soft: var(--mors-blue-100);
+  --mors-color-info-text: var(--mors-blue-600);
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-900) 7%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-900) 3%, transparent);
+
+  /* ---------- Radii — generous, fully capsule buttons ------------------- */
+  --mors-radius-xs: 8px;
+  --mors-radius-sm: 12px;
+  --mors-radius-md: 16px;
+  --mors-radius-lg: 20px;
+  --mors-radius-xl: 28px;
+  --mors-radius-2xl: 36px;
+  --mors-radius-pill: 999px;
+  --mors-radius-circle: 50%;
+
+  /* ---------- Elevation — soft and wide --------------------------------- */
+  --mors-shadow-xs: 0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 4%, transparent);
+  --mors-shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 4%, transparent),
+    0 4px 12px color-mix(in srgb, var(--mors-neutral-1000) 5%, transparent);
+  --mors-shadow-md:
+    0 4px 8px color-mix(in srgb, var(--mors-neutral-1000) 4%, transparent),
+    0 12px 32px color-mix(in srgb, var(--mors-neutral-1000) 7%, transparent);
+  --mors-shadow-lg:
+    0 8px 16px color-mix(in srgb, var(--mors-neutral-1000) 5%, transparent),
+    0 24px 56px color-mix(in srgb, var(--mors-neutral-1000) 10%, transparent);
+  --mors-shadow-xl:
+    0 12px 24px color-mix(in srgb, var(--mors-neutral-1000) 6%, transparent),
+    0 40px 80px color-mix(in srgb, var(--mors-neutral-1000) 12%, transparent);
+
+  /* ---------- Focus ------------------------------------------------------ */
+  --mors-focus-color: var(--mors-color-accent);
+  --mors-focus-width: 3px;
+  --mors-focus-offset: 3px;
+  --mors-focus-ring: 0 0 0 var(--mors-focus-width)
+    color-mix(in srgb, var(--mors-focus-color) 35%, transparent);
+  --mors-focus-gutter: calc(var(--mors-focus-width) + var(--mors-focus-offset));
+}
+
+[data-mors-palette='modern'][data-mors-theme='dark'],
+[data-mors-theme='dark'] [data-mors-palette='modern'],
+[data-mors-palette='modern'] [data-mors-theme='dark'] {
+  color-scheme: dark;
+
+  --mors-color-canvas: #0f1115;
+  --mors-color-surface: #171a20;
+  --mors-color-surface-raised: #1e222a;
+  --mors-color-surface-sunken: #12141a;
+  --mors-color-surface-hover: #252a34;
+  --mors-color-surface-active: #2e3440;
+  --mors-color-surface-inverse: var(--mors-neutral-50);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-0) 10%, transparent);
+  --mors-color-border-strong: color-mix(in srgb, var(--mors-neutral-0) 18%, transparent);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-0) 6%, transparent);
+
+  --mors-color-text: #f3f4f6;
+  --mors-color-text-secondary: #a8b0c0;
+  --mors-color-text-tertiary: #7b8494;
+  --mors-color-text-inverse: var(--mors-neutral-900);
+  --mors-color-text-on-accent: #ffffff;
+
+  --mors-color-accent: #818cf8;
+  --mors-color-accent-hover: #a5b4fc;
+  --mors-color-accent-active: #c7d2fe;
+  --mors-color-accent-soft: color-mix(in srgb, #818cf8 18%, transparent);
+  --mors-color-accent-text: #a5b4fc;
+
+  --mors-color-success: #34d399;
+  --mors-color-success-soft: color-mix(in srgb, #34d399 18%, transparent);
+  --mors-color-success-text: #6ee7b7;
+  --mors-color-warning: #fbbf24;
+  --mors-color-warning-soft: color-mix(in srgb, #fbbf24 18%, transparent);
+  --mors-color-warning-text: #fcd34d;
+  --mors-color-danger: #fb7185;
+  --mors-color-danger-soft: color-mix(in srgb, #fb7185 18%, transparent);
+  --mors-color-danger-text: #fda4af;
+  --mors-color-info: #38bdf8;
+  --mors-color-info-soft: color-mix(in srgb, #38bdf8 18%, transparent);
+  --mors-color-info-text: #7dd3fc;
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 64%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-0) 8%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-0) 4%, transparent);
+
+  --mors-shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 36%, transparent),
+    0 4px 12px color-mix(in srgb, var(--mors-neutral-1000) 32%, transparent);
+  --mors-shadow-md:
+    0 4px 8px color-mix(in srgb, var(--mors-neutral-1000) 36%, transparent),
+    0 12px 32px color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent);
+  --mors-shadow-lg:
+    0 8px 16px color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent),
+    0 24px 56px color-mix(in srgb, var(--mors-neutral-1000) 48%, transparent);
+  --mors-shadow-xl:
+    0 12px 24px color-mix(in srgb, var(--mors-neutral-1000) 44%, transparent),
+    0 40px 80px color-mix(in srgb, var(--mors-neutral-1000) 52%, transparent);
+}

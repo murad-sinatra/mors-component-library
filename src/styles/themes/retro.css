@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Retro Theme
+   Beige desktop, teal accent, typewriter display, hard offset shadows, and
+   boxy corners — late-80s / early-90s microcomputer, not a parody.
+
+     <html data-mors-palette="retro">
+     <html data-mors-palette="retro" data-mors-theme="dark">
+   ========================================================================== */
+
+[data-mors-palette='retro'] {
+  color-scheme: light;
+
+  /* ---------- Typography ------------------------------------------------ */
+  --mors-font-sans: Verdana, Geneva, Tahoma, sans-serif;
+  --mors-font-display: 'American Typewriter', 'Courier New', Courier, serif;
+  --mors-font-mono: 'Courier New', Courier, monospace;
+
+  --mors-text-2xs: 0.6875rem;
+  --mors-text-xs: 0.75rem;
+  --mors-text-sm: 0.8125rem;
+  --mors-text-base: 0.9375rem;
+  --mors-text-md: 1.0625rem;
+  --mors-text-lg: 1.25rem;
+  --mors-text-xl: 1.5rem;
+  --mors-text-2xl: 1.875rem;
+  --mors-text-3xl: 2.375rem;
+  --mors-text-4xl: 3rem;
+  --mors-text-5xl: 3.75rem;
+
+  --mors-leading-tight: 1.15;
+  --mors-leading-snug: 1.3;
+  --mors-leading-normal: 1.5;
+  --mors-leading-relaxed: 1.65;
+
+  --mors-tracking-tighter: 0em;
+  --mors-tracking-tight: 0.01em;
+  --mors-tracking-normal: 0.02em;
+  --mors-tracking-wide: 0.06em;
+  --mors-tracking-caps: 0.1em;
+
+  --mors-weight-regular: 400;
+  --mors-weight-medium: 600;
+  --mors-weight-semibold: 700;
+  --mors-weight-bold: 800;
+
+  /* ---------- Neutral ramp — warm beige CRT ----------------------------- */
+  --mors-neutral-0: #fff8e8;
+  --mors-neutral-25: #f4ead2;
+  --mors-neutral-50: #eadcb8;
+  --mors-neutral-100: #dcc89a;
+  --mors-neutral-200: #c8ae78;
+  --mors-neutral-300: #b0945c;
+  --mors-neutral-400: #8c7348;
+  --mors-neutral-500: #6e5a38;
+  --mors-neutral-600: #56462c;
+  --mors-neutral-700: #3e3220;
+  --mors-neutral-800: #2a2216;
+  --mors-neutral-900: #1c1610;
+  --mors-neutral-950: #12100c;
+  --mors-neutral-1000: #080604;
+
+  /* ---------- Accent + status hues — teal, olive, amber, brick, navy ---- */
+  --mors-blue-100: #d4e4f0;
+  --mors-blue-300: #6a98bc;
+  --mors-blue-500: #2c5f8a;
+  --mors-blue-600: #234c70;
+  --mors-blue-700: #1a3a56;
+
+  --mors-green-100: #d8ead0;
+  --mors-green-500: #3d7a3a;
+  --mors-green-600: #2e5c2c;
+
+  --mors-amber-100: #f8e4b0;
+  --mors-amber-500: #c4841c;
+  --mors-amber-600: #9c6814;
+
+  --mors-red-100: #f4d4c8;
+  --mors-red-500: #b43c28;
+  --mors-red-600: #8e2e1e;
+
+  --mors-purple-100: #e4d8ec;
+  --mors-purple-500: #6a4a8a;
+
+  /* ---------- Semantic surfaces ----------------------------------------- */
+  --mors-color-canvas: var(--mors-neutral-25);
+  --mors-color-surface: var(--mors-neutral-0);
+  --mors-color-surface-raised: #fffaf0;
+  --mors-color-surface-sunken: var(--mors-neutral-50);
+  --mors-color-surface-hover: var(--mors-neutral-50);
+  --mors-color-surface-active: var(--mors-neutral-100);
+  --mors-color-surface-inverse: var(--mors-neutral-900);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-900) 28%, transparent);
+  --mors-color-border-strong: var(--mors-neutral-800);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-900) 16%, transparent);
+
+  --mors-color-text: var(--mors-neutral-900);
+  --mors-color-text-secondary: var(--mors-neutral-600);
+  --mors-color-text-tertiary: var(--mors-neutral-500);
+  --mors-color-text-inverse: var(--mors-neutral-0);
+  --mors-color-text-on-accent: #f4faf8;
+
+  --mors-color-accent: #0f766e;
+  --mors-color-accent-hover: #0c5f59;
+  --mors-color-accent-active: #0a4d48;
+  --mors-color-accent-soft: #d4efe8;
+  --mors-color-accent-text: #0c5f59;
+
+  --mors-color-success: var(--mors-green-500);
+  --mors-color-success-soft: var(--mors-green-100);
+  --mors-color-success-text: var(--mors-green-600);
+  --mors-color-warning: var(--mors-amber-500);
+  --mors-color-warning-soft: var(--mors-amber-100);
+  --mors-color-warning-text: var(--mors-amber-600);
+  --mors-color-danger: var(--mors-red-500);
+  --mors-color-danger-soft: var(--mors-red-100);
+  --mors-color-danger-text: var(--mors-red-600);
+  --mors-color-info: var(--mors-blue-500);
+  --mors-color-info-soft: var(--mors-blue-100);
+  --mors-color-info-text: var(--mors-blue-600);
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 48%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-900) 10%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-900) 5%, transparent);
+
+  /* ---------- Radii — boxy, like an old window chrome ------------------- */
+  --mors-radius-xs: 1px;
+  --mors-radius-sm: 2px;
+  --mors-radius-md: 3px;
+  --mors-radius-lg: 4px;
+  --mors-radius-xl: 6px;
+  --mors-radius-2xl: 8px;
+  --mors-radius-pill: 3px;
+  --mors-radius-circle: 50%;
+
+  /* ---------- Elevation — hard offset drop, no blur --------------------- */
+  --mors-shadow-xs: 1px 1px 0 var(--mors-neutral-800);
+  --mors-shadow-sm: 2px 2px 0 var(--mors-neutral-800);
+  --mors-shadow-md: 3px 3px 0 var(--mors-neutral-800);
+  --mors-shadow-lg: 5px 5px 0 var(--mors-neutral-800);
+  --mors-shadow-xl: 8px 8px 0 var(--mors-neutral-800);
+
+  /* ---------- Focus ------------------------------------------------------ */
+  --mors-focus-color: var(--mors-color-accent);
+  --mors-focus-width: 2px;
+  --mors-focus-offset: 1px;
+  --mors-focus-ring: 0 0 0 var(--mors-focus-width) var(--mors-focus-color);
+  --mors-focus-gutter: calc(var(--mors-focus-width) + var(--mors-focus-offset));
+}
+
+[data-mors-palette='retro'][data-mors-theme='dark'],
+[data-mors-theme='dark'] [data-mors-palette='retro'],
+[data-mors-palette='retro'] [data-mors-theme='dark'] {
+  color-scheme: dark;
+
+  --mors-color-canvas: #14120c;
+  --mors-color-surface: #1e1b14;
+  --mors-color-surface-raised: #2a261c;
+  --mors-color-surface-sunken: #18150f;
+  --mors-color-surface-hover: #322e24;
+  --mors-color-surface-active: #3c372c;
+  --mors-color-surface-inverse: var(--mors-neutral-50);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-0) 22%, transparent);
+  --mors-color-border-strong: var(--mors-neutral-200);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-0) 12%, transparent);
+
+  --mors-color-text: #efe6c8;
+  --mors-color-text-secondary: #c4b48c;
+  --mors-color-text-tertiary: #9c8c68;
+  --mors-color-text-inverse: var(--mors-neutral-900);
+  --mors-color-text-on-accent: #0c1816;
+
+  --mors-color-accent: #3dba9c;
+  --mors-color-accent-hover: #58cbb0;
+  --mors-color-accent-active: #7adac2;
+  --mors-color-accent-soft: color-mix(in srgb, #3dba9c 20%, transparent);
+  --mors-color-accent-text: #7adac2;
+
+  --mors-color-success: #6ec45a;
+  --mors-color-success-soft: color-mix(in srgb, #6ec45a 20%, transparent);
+  --mors-color-success-text: #92d882;
+  --mors-color-warning: #e0a63a;
+  --mors-color-warning-soft: color-mix(in srgb, #e0a63a 20%, transparent);
+  --mors-color-warning-text: #f0c46a;
+  --mors-color-danger: #e07058;
+  --mors-color-danger-soft: color-mix(in srgb, #e07058 20%, transparent);
+  --mors-color-danger-text: #f09888;
+  --mors-color-info: #6a98bc;
+  --mors-color-info-soft: color-mix(in srgb, #6a98bc 20%, transparent);
+  --mors-color-info-text: #98c0dc;
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 68%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-0) 10%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-0) 5%, transparent);
+
+  --mors-shadow-xs: 1px 1px 0 #000;
+  --mors-shadow-sm: 2px 2px 0 #000;
+  --mors-shadow-md: 3px 3px 0 #000;
+  --mors-shadow-lg: 5px 5px 0 #000;
+  --mors-shadow-xl: 8px 8px 0 #000;
+}

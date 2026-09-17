@@ -10,7 +10,7 @@ Not affiliated with or endorsed by Apple Inc.
 - **40+ components** covering actions, forms, overlays, navigation, and data
 - **One stylesheet** (`mors-component-library/styles.css`) — no CSS-in-JS, no global reset
 - **`--mors-*` design tokens** so you can rebrand without forking a component
-- **Palettes** via `data-mors-palette` (`default`, `farm`) — each is a CSS file of the same custom properties
+- **Palettes** via `data-mors-palette` (`default`, `farm`, `cyberpunk`, `retro`, `modern`) — each is a CSS file of the same custom properties
 - **Light and dark** via `data-mors-theme="dark"` on any subtree
 - **Mobile and desktop**: navbar disclosure, edge-to-edge modals, hide-on-mobile table columns
 
@@ -61,7 +61,7 @@ The stylesheet is designed to travel:
 | --- | --- |
 | The whole library | `dist/mors-component-library.css` (or the `./styles.css` export) |
 | Tokens only | `src/styles/tokens.css` — custom properties, no element styles |
-| A palette | `src/styles/themes/default.css` or `farm.css` — copy one to add another |
+| A palette | `src/styles/themes/*.css` — copy one to add another |
 | A single component | Copy the component `.tsx` plus the matching block in `src/styles/` |
 
 Every class is prefixed `mors-`. There is no global reset, so dropping the file into an existing app will not restyle your headings, buttons, or forms.
@@ -85,11 +85,13 @@ Dark appearance:
 <html data-mors-theme="dark">
 ```
 
-Shipped palettes (Default Theme is the `:root` fallback; Farm Theme is opt-in):
+Shipped palettes (Default Theme is the `:root` fallback; the rest are opt-in):
 
 ```html
 <html data-mors-palette="farm">
-<html data-mors-palette="farm" data-mors-theme="dark">
+<html data-mors-palette="cyberpunk" data-mors-theme="dark">
+<html data-mors-palette="retro">
+<html data-mors-palette="modern">
 ```
 
 ## Design language

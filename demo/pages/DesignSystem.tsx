@@ -171,7 +171,9 @@ export function DesignSystem() {
             <CardHeader title="Palettes and appearance" subtitle="Two attributes" />
             <CardBody>
               Set <InlineCode>data-mors-palette</InlineCode> to switch the token file (
-              <InlineCode>default</InlineCode> or <InlineCode>farm</InlineCode>). Independently,{' '}
+              <InlineCode>default</InlineCode>, <InlineCode>farm</InlineCode>,{' '}
+              <InlineCode>cyberpunk</InlineCode>, <InlineCode>retro</InlineCode>,{' '}
+              <InlineCode>modern</InlineCode>). Independently,{' '}
               <InlineCode>data-mors-theme=&quot;dark&quot;</InlineCode> remaps semantic colour. The
               header controls on this page write both onto <InlineCode>&lt;html&gt;</InlineCode>.
             </CardBody>
@@ -193,7 +195,7 @@ export function DesignSystem() {
   --mors-radius-pill: 999px;
 }
 
-/* src/styles/themes/farm.css — opt in with one attribute */
+/* src/styles/themes/farm.css, cyberpunk.css, retro.css, modern.css */
 [data-mors-palette='farm'] {
   --mors-font-display: Georgia, Palatino, serif;
   --mors-color-accent: #d47a3c;
@@ -396,7 +398,7 @@ export function DesignSystem() {
       <Section
         id="overriding"
         title="Overriding tokens"
-        description="Because every value is a custom property, a new palette is a CSS file — no wrapper components, no theme object, no rebuild. Default Theme is src/styles/themes/default.css; Farm Theme is farm.css."
+        description="Because every value is a custom property, a new palette is a CSS file — no wrapper components, no theme object, no rebuild. Shipped files live in src/styles/themes."
       >
         <CodeBlock code={TOKEN_OVERRIDE} label="Token override example" />
         <div className="demo-row" style={{ marginTop: 'var(--mors-space-6)' }}>

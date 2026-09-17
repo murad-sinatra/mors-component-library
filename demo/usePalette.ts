@@ -1,23 +1,30 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export type PaletteId = 'default' | 'farm';
-
 export interface PaletteOption {
-  id: PaletteId;
+  id: string;
   label: string;
   shortLabel: string;
 }
 
-export const PALETTES: readonly PaletteOption[] = [
+export const PALETTES = [
   { id: 'default', label: 'Default Theme', shortLabel: 'Default' },
   { id: 'farm', label: 'Farm Theme', shortLabel: 'Farm' },
+  { id: 'cyberpunk', label: 'Cyberpunk Theme', shortLabel: 'Cyberpunk' },
+  { id: 'retro', label: 'Retro Theme', shortLabel: 'Retro' },
+  { id: 'modern', label: 'Modern Theme', shortLabel: 'Modern' },
 ] as const;
+
+export type PaletteId = (typeof PALETTES)[number]['id'];
 
 const STORAGE_KEY = 'mors-demo-palette';
 
+function isPaletteId(value: string | null): value is PaletteId {
+  return PALETTES.some((entry) => entry.id === value);
+}
+
 function preferredPalette(): PaletteId {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === 'default' || stored === 'farm') return stored;
+  if (isPaletteId(stored)) return stored;
   return 'default';
 }
 

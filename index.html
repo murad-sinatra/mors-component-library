@@ -12,7 +12,13 @@
     <script>
       try {
         var palette = localStorage.getItem('mors-demo-palette');
-        if (palette === 'default' || palette === 'farm') {
+        if (
+          palette === 'default' ||
+          palette === 'farm' ||
+          palette === 'cyberpunk' ||
+          palette === 'retro' ||
+          palette === 'modern'
+        ) {
           document.documentElement.setAttribute('data-mors-palette', palette);
         }
         var theme = localStorage.getItem('mors-demo-theme');
