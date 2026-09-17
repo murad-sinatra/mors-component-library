@@ -77,6 +77,7 @@ const INDEX = [
       ['table', 'Table'],
       ['filter-bar', 'FilterBar / Chip'],
       ['calendar', 'Calendar'],
+      ['event-calendar', 'EventCalendar'],
     ],
   },
 ] as const;

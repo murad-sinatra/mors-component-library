@@ -6,6 +6,7 @@ import {
   Calendar,
   Chip,
   EmptyState,
+  EventCalendar,
   FilterBar,
   Icon,
   IconButton,
@@ -14,6 +15,7 @@ import {
   SearchField,
   Table,
   useToast,
+  type CalendarEvent,
   type TableColumn,
 } from '../../src';
 import { ComponentDoc, Example, Section, type PropRow } from '../components/Doc';
@@ -55,6 +57,19 @@ export function DataSection() {
   const [query, setQuery] = useState('');
   const [plans, setPlans] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [plannerEvents, setPlannerEvents] = useState<CalendarEvent[]>(() => {
+    const now = new Date();
+    const day = (offset: number, hours = 9) => {
+      const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + offset, hours);
+      return date;
+    };
+    return [
+      { id: 'ev-1', title: 'Design review', date: day(0), time: '09:30', tone: 'accent' },
+      { id: 'ev-2', title: 'Ship 0.1', date: day(0), time: '16:00', tone: 'success' },
+      { id: 'ev-3', title: 'Offsite', date: day(2), tone: 'info', description: 'Studio all day' },
+      { id: 'ev-4', title: 'Payroll', date: day(5), time: '11:00', tone: 'warning' },
+    ];
+  });
 
   const filtered = useMemo(
     () =>
@@ -331,6 +346,34 @@ export function DataSection() {
           <span className="demo-example-note">
             {selectedDate ? selectedDate.toDateString() : 'Nothing selected — try the arrow keys.'}
           </span>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="event-calendar"
+        name="EventCalendar"
+        purpose="A month planner, not a date input. Click a day to inspect it, add events from the side panel, click an event to rename it, or remove it. Events are data — pass events and onEventsChange to control it from your app."
+        usage={`<EventCalendar
+  events={events}
+  onEventsChange={setEvents}
+  onEventAdd={(event) => save(event)}
+/>`}
+        api={[
+          ['events / defaultEvents / onEventsChange', 'CalendarEvent[]', '[]', 'Controlled or uncontrolled list.'],
+          ['onEventAdd / onEventUpdate / onEventRemove', 'handlers', '—', 'Fired in addition to onEventsChange.'],
+          ['selectedDate / onSelectedDateChange', 'Date', 'today', 'The day shown in the detail pane.'],
+          ['month / onMonthChange', 'Date', 'current month', 'Visible month.'],
+          ['readOnly', 'boolean', 'false', 'Hides the composer and edit/delete actions.'],
+          ['weekStartsOn / locale', '0 | 1 / string', '1 / browser', 'Same localisation as Calendar.'],
+        ]}
+      >
+        <Example title="Add, edit, remove" layout="stack">
+          <EventCalendar
+            events={plannerEvents}
+            onEventsChange={setPlannerEvents}
+            onEventAdd={(event) => toast({ title: `Added “${event.title}”`, tone: 'success' })}
+            onEventRemove={() => toast({ title: 'Event removed' })}
+          />
         </Example>
       </ComponentDoc>
     </Section>

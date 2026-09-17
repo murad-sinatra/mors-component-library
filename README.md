@@ -23,7 +23,7 @@ Not affiliated with or endorsed by Apple Inc.
 | Feedback | `Alert`, `Spinner`, `Skeleton`, `Progress`, `Toast` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Menu`, `Tooltip` |
 | Navigation | `Navbar`, `Tabs`, `Accordion`, `Breadcrumbs`, `Pagination` |
-| Data | `Table`, `FilterBar`, `Chip`, `Calendar` |
+| Data | `Table`, `FilterBar`, `Chip`, `Calendar`, `EventCalendar` |
 
 Live examples, prop tables, and the design system live in the demo (`npm run dev`).
 

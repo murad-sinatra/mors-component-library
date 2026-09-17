@@ -33,10 +33,12 @@ export function Button({
   children,
   disabled,
   type = 'button',
+  ref,
   ...rest
 }: ButtonProps) {
   return (
     <button
+      ref={ref}
       type={type}
       className={cx(
         'mors-button',

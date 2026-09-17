@@ -82,7 +82,10 @@ export function useAnchoredPosition({
     if (!anchor || !floating) return;
 
     const anchorRect = anchor.getBoundingClientRect();
-    const size = { width: floating.offsetWidth, height: floating.offsetHeight };
+    const size = {
+      width: floating.offsetWidth || 1,
+      height: floating.offsetHeight || 1,
+    };
     const viewport = { width: window.innerWidth, height: window.innerHeight };
 
     let resolved = placement;

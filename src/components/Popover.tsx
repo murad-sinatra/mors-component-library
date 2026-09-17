@@ -67,9 +67,9 @@ export function Popover({
   const panelId = `mors${useId()}-popover`;
 
   const [isOpen, setOpen] = useControllableState(open, defaultOpen, onOpenChange);
-  const { mounted, state } = usePresence(isOpen, 180);
+  const { mounted, state } = usePresence(isOpen, 160);
   const position = useAnchoredPosition({
-    open: isOpen,
+    open: isOpen && mounted,
     anchorRef: triggerRef,
     floatingRef: panelRef,
     placement,

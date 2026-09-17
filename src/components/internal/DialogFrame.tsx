@@ -54,7 +54,7 @@ export function DialogFrame({
   closeOnEscape = true,
   showCloseButton = true,
   closeLabel = 'Close',
-  transitionDuration = 260,
+  transitionDuration = 160,
   container,
 }: DialogFrameProps) {
   const surfaceRef = useRef<HTMLDivElement>(null);

@@ -16,7 +16,7 @@
   background: var(--mors-color-scrim);
   backdrop-filter: saturate(120%) blur(3px);
   opacity: 0;
-  transition: opacity var(--mors-duration-base) var(--mors-ease-standard);
+  transition: opacity 160ms var(--mors-ease-out);
 }
 
 .mors-scrim[data-state='open'] {
@@ -45,10 +45,10 @@
   color: var(--mors-color-text);
   box-shadow: var(--mors-shadow-xl);
   opacity: 0;
-  transform: translate3d(0, 12px, 0) scale(0.97);
+  transform: translate3d(0, 6px, 0) scale(0.985);
   transition:
-    opacity var(--mors-duration-base) var(--mors-ease-out),
-    transform var(--mors-duration-base) var(--mors-ease-out);
+    opacity 160ms var(--mors-ease-out),
+    transform 160ms var(--mors-ease-out);
 }
 
 .mors-modal[data-state='open'] {

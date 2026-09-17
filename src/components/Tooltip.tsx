@@ -59,7 +59,7 @@ export function Tooltip({
   const { mounted, state } = usePresence(open, 150);
 
   const position = useAnchoredPosition({
-    open,
+    open: open && mounted,
     anchorRef: triggerRef,
     floatingRef: tooltipRef,
     placement,

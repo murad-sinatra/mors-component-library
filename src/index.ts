@@ -47,6 +47,7 @@ export * from './components/Tabs';
 
 /* Data display */
 export * from './components/Calendar';
+export * from './components/EventCalendar';
 export * from './components/FilterBar';
 export * from './components/Table';
 

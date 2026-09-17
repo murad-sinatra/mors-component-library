@@ -395,6 +395,363 @@
   color: var(--mors-color-text-tertiary);
 }
 
+.mors-date-popover {
+  max-inline-size: min(22.5rem, calc(100vw - 2rem));
+}
+
 .mors-date-calendar {
   padding: var(--mors-space-4);
+}
+
+/* ---------- EventCalendar ------------------------------------------------ */
+
+.mors-event-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-5);
+  padding: var(--mors-space-5);
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-xl);
+  background: var(--mors-color-surface);
+  font-family: var(--mors-font-sans);
+  container-type: inline-size;
+}
+
+.mors-event-calendar-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+}
+
+.mors-event-calendar-title {
+  flex: 1;
+  margin: 0;
+  font-size: var(--mors-text-md);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+  text-align: center;
+}
+
+.mors-event-calendar-today {
+  margin-inline-start: var(--mors-space-2);
+}
+
+.mors-event-calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 18rem);
+  gap: var(--mors-space-5);
+}
+
+.mors-event-calendar-weekdays,
+.mors-event-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.mors-event-calendar-weekday {
+  padding: var(--mors-space-2);
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-2xs);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-caps);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mors-event-calendar-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-block-size: 5.5rem;
+  padding: var(--mors-space-2);
+  border: 1px solid var(--mors-color-border-subtle);
+  margin: 0 0 -1px -1px;
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-event-calendar-grid > .mors-event-calendar-cell:nth-child(7n) {
+  border-inline-end-width: 1px;
+}
+
+.mors-event-calendar-cell:hover {
+  background: var(--mors-color-surface-hover);
+}
+
+.mors-event-calendar-cell--outside {
+  color: var(--mors-color-text-tertiary);
+  background: var(--mors-color-surface-sunken);
+}
+
+.mors-event-calendar-cell--today .mors-event-calendar-date {
+  background: var(--mors-color-accent);
+  color: var(--mors-color-text-on-accent);
+}
+
+.mors-event-calendar-cell--selected {
+  background: var(--mors-color-accent-soft);
+  box-shadow: inset 0 0 0 2px var(--mors-color-accent);
+  z-index: 1;
+}
+
+.mors-event-calendar-date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  border-radius: var(--mors-radius-circle);
+  font-size: var(--mors-text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-event-calendar-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.mors-event-calendar-chip,
+.mors-event-calendar-more {
+  overflow: hidden;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mors-event-calendar-chip--accent,
+.mors-event-calendar-dot--accent {
+  background: var(--mors-color-accent-soft);
+  color: var(--mors-color-accent-text);
+}
+
+.mors-event-calendar-chip--success,
+.mors-event-calendar-dot--success {
+  background: var(--mors-color-success-soft);
+  color: var(--mors-color-success-text);
+}
+
+.mors-event-calendar-chip--warning,
+.mors-event-calendar-dot--warning {
+  background: var(--mors-color-warning-soft);
+  color: var(--mors-color-warning-text);
+}
+
+.mors-event-calendar-chip--danger,
+.mors-event-calendar-dot--danger {
+  background: var(--mors-color-danger-soft);
+  color: var(--mors-color-danger-text);
+}
+
+.mors-event-calendar-chip--info,
+.mors-event-calendar-dot--info {
+  background: var(--mors-color-info-soft);
+  color: var(--mors-color-info-text);
+}
+
+.mors-event-calendar-chip--neutral,
+.mors-event-calendar-dot--neutral {
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-secondary);
+}
+
+.mors-event-calendar-dot.mors-event-calendar-dot--accent,
+.mors-event-calendar-tone.mors-event-calendar-dot--accent {
+  background: var(--mors-color-accent);
+}
+
+.mors-event-calendar-dot.mors-event-calendar-dot--success,
+.mors-event-calendar-tone.mors-event-calendar-dot--success {
+  background: var(--mors-color-success);
+}
+
+.mors-event-calendar-dot.mors-event-calendar-dot--warning,
+.mors-event-calendar-tone.mors-event-calendar-dot--warning {
+  background: var(--mors-color-warning);
+}
+
+.mors-event-calendar-dot.mors-event-calendar-dot--danger,
+.mors-event-calendar-tone.mors-event-calendar-dot--danger {
+  background: var(--mors-color-danger);
+}
+
+.mors-event-calendar-dot.mors-event-calendar-dot--info,
+.mors-event-calendar-tone.mors-event-calendar-dot--info {
+  background: var(--mors-color-info);
+}
+
+.mors-event-calendar-dot.mors-event-calendar-dot--neutral,
+.mors-event-calendar-tone.mors-event-calendar-dot--neutral {
+  background: var(--mors-color-text-tertiary);
+}
+
+.mors-event-calendar-more {
+  color: var(--mors-color-text-tertiary);
+}
+
+.mors-event-calendar-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-4);
+  min-inline-size: 0;
+  padding: var(--mors-space-5);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface-sunken);
+}
+
+.mors-event-calendar-panel-title {
+  margin: 0;
+  font-size: var(--mors-text-base);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-event-calendar-panel-count {
+  margin: var(--mors-space-1) 0 0;
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-event-calendar-list {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--mors-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-block-size: 6rem;
+}
+
+.mors-event-calendar-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mors-space-3);
+  padding: var(--mors-space-3);
+  border-radius: var(--mors-radius-md);
+  background: var(--mors-color-surface);
+}
+
+.mors-event-calendar-dot {
+  flex: none;
+  inline-size: 8px;
+  block-size: 8px;
+  margin-block-start: 6px;
+  border-radius: var(--mors-radius-circle);
+}
+
+.mors-event-calendar-item-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  min-inline-size: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.mors-event-calendar-time {
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.mors-event-calendar-item-title {
+  font-size: var(--mors-text-sm);
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-event-calendar-item-note {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-xs);
+}
+
+.mors-event-calendar-edit {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--mors-space-2);
+  min-inline-size: 0;
+}
+
+.mors-event-calendar-composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-3);
+  padding-block-start: var(--mors-space-3);
+  border-block-start: 1px solid var(--mors-color-border-subtle);
+}
+
+.mors-event-calendar-tones {
+  display: flex;
+  gap: var(--mors-space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.mors-event-calendar-tone {
+  inline-size: 16px;
+  block-size: 16px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--mors-radius-circle);
+  cursor: pointer;
+}
+
+.mors-event-calendar-tone--selected {
+  box-shadow: 0 0 0 2px var(--mors-color-text);
+}
+
+@container (max-width: 44rem) {
+  .mors-event-calendar-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mors-event-calendar-cell {
+    min-block-size: 4.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .mors-event-calendar {
+    padding: var(--mors-space-4);
+  }
+
+  .mors-event-calendar-chip,
+  .mors-event-calendar-more {
+    display: none;
+  }
+
+  .mors-event-calendar-cell {
+    min-block-size: 2.5rem;
+    align-items: center;
+    padding: var(--mors-space-1);
+  }
+
+  .mors-event-calendar-chips::before {
+    content: '';
+    display: none;
+  }
+
+  .mors-event-calendar-cell:has(.mors-event-calendar-chip) .mors-event-calendar-date {
+    box-shadow: 0 0 0 2px var(--mors-color-accent-soft);
+  }
 }

@@ -82,6 +82,7 @@ export function DatePicker({
         placement="bottom"
         align="start"
         padding="none"
+        className="mors-date-popover"
         ariaLabel={typeof label === 'string' ? label : 'Choose date'}
         trigger={
           <Button
