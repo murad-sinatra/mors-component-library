@@ -223,7 +223,9 @@ button.mors-swatch:disabled {
 }
 
 .mors-swatch--selected {
-  box-shadow: 0 0 0 2px var(--mors-color-text);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--mors-swatch-fill) 32%, transparent),
+    0 0 10px color-mix(in srgb, var(--mors-swatch-fill) 55%, transparent);
 }
 
 .mors-swatch-group {

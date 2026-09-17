@@ -21,6 +21,12 @@
   text-rendering: optimizeLegibility;
 }
 
+.mors-scope::selection,
+.mors-scope ::selection {
+  background: color-mix(in srgb, var(--mors-color-accent) 28%, transparent);
+  color: var(--mors-color-text);
+}
+
 .mors-visually-hidden {
   position: absolute;
   width: 1px;

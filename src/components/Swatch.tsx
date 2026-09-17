@@ -25,7 +25,6 @@ const TONE_LABEL: Record<Tone, string> = {
 export interface SwatchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   tone?: Tone;
   size?: Size;
-  /** Draws the selected ring. Implied by SwatchGroup when this tone is active. */
   selected?: boolean;
   /** Accessible name. Defaults to the tone. Required for meaning when the swatch is a control. */
   label?: string;

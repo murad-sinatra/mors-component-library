@@ -13,6 +13,17 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+::selection {
+  background: color-mix(in srgb, var(--mors-color-accent) 28%, transparent);
+  color: var(--mors-color-text);
+}
+
+.demo-code::selection,
+.demo-code ::selection {
+  background: color-mix(in srgb, var(--mors-blue-300) 40%, transparent);
+  color: #f5f5f7;
+}
+
 body {
   margin: 0;
   background: var(--mors-color-canvas);

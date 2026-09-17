@@ -7,6 +7,8 @@
    ========================================================================== */
 
 :root {
+  color-scheme: light;
+
   /* ---------- Typography ------------------------------------------------ */
   --mors-font-sans:
     -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto,
@@ -215,6 +217,10 @@
   --mors-breakpoint-md: 768px;
   --mors-breakpoint-lg: 1024px;
   --mors-breakpoint-xl: 1280px;
+}
+
+[data-mors-theme='light'] {
+  color-scheme: light;
 }
 
 /* ---------- Dark theme -----------------------------------------------------

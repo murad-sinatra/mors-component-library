@@ -34,7 +34,7 @@ const BADGE_API: readonly PropRow[] = [
 const SWATCH_API: readonly PropRow[] = [
   ['tone', "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'", "'neutral'", 'Fill colour.'],
   ['size', "'sm' | 'md' | 'lg'", "'md'", '8 / 16 / 22px.'],
-  ['selected', 'boolean', 'false', 'Draws a ring. Implied by SwatchGroup.'],
+  ['selected', 'boolean', 'false', 'Draws a glow. Implied by SwatchGroup.'],
   ['onClick', '() => void', '—', 'Turns the ball into a toggle; omit for a decorative dot.'],
 ];
 
