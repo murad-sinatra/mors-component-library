@@ -1,7 +1,7 @@
-import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { cx } from '../utils/cx';
 import { useControllableState } from '../hooks/useControllableState';
-import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
+import { describedBy, Field, useFieldControl, type FieldShellProps } from './Field';
 import { Icon } from './Icon';
 import { Popover } from './Popover';
 
@@ -11,18 +11,12 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+export interface SelectProps extends FieldShellProps {
   options: readonly SelectOption[];
-  /** Shown when nothing is selected. */
   placeholder?: string;
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
-  label?: ReactNode;
-  description?: ReactNode;
-  error?: ReactNode;
-  size?: 'sm' | 'md' | 'lg';
-  block?: boolean;
   name?: string;
   required?: boolean;
   disabled?: boolean;
@@ -34,10 +28,6 @@ function enabledIndexes(options: readonly SelectOption[]): number[] {
   return options.flatMap((option, index) => (option.disabled ? [] : [index]));
 }
 
-/**
- * Custom listbox select: the trigger matches other fields, the menu is the same
- * floating surface as Menu/Popover, and the native OS picker is never used.
- */
 export function Select({
   options,
   placeholder = 'Select',
@@ -55,7 +45,7 @@ export function Select({
   id,
   className,
 }: SelectProps) {
-  const ids = useFieldIds(id);
+  const { ids, validity } = useFieldControl(id, required, error);
   const listId = `mors${useId()}-list`;
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useControllableState(value, defaultValue, onChange);
@@ -64,7 +54,6 @@ export function Select({
   const searchRef = useRef('');
   const searchTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const enabled = useMemo(() => enabledIndexes(options), [options]);
-  const validity = useRequiredValidity(required, error);
 
   const selectedOption = selectedIndex >= 0 ? options[selectedIndex] : undefined;
 
@@ -83,7 +72,7 @@ export function Select({
   const move = (delta: number) => {
     if (enabled.length === 0) return;
     const current = enabled.indexOf(highlight);
-    const next = enabled[(current + delta + enabled.length * 4) % enabled.length]!;
+    const next = enabled[(current + delta + enabled.length) % enabled.length]!;
     setHighlight(next);
     document.getElementById(`${listId}-opt-${next}`)?.scrollIntoView({ block: 'nearest' });
   };
@@ -184,8 +173,8 @@ export function Select({
               !selectedOption && 'mors-select-trigger--empty',
             )}
             disabled={disabled}
-            aria-labelledby={label ? `${ids.id}-label` : undefined}
-            aria-describedby={describedBy(ids, Boolean(description), Boolean(error))}
+            aria-labelledby={label ? ids.labelId : undefined}
+            aria-describedby={describedBy(ids, Boolean(description), Boolean(validity.error))}
             onKeyDown={onTriggerKeyDown}
           >
             <span className="mors-select-value">{selectedOption?.label ?? placeholder}</span>
@@ -201,9 +190,9 @@ export function Select({
               key={option.value}
               id={`${listId}-opt-${index}`}
               role="option"
-                aria-selected={isSelected}
-                aria-disabled={option.disabled || undefined}
-                tabIndex={-1}
+              aria-selected={isSelected}
+              aria-disabled={option.disabled || undefined}
+              tabIndex={-1}
               className={cx(
                 'mors-select-option',
                 active && 'mors-select-option--active',

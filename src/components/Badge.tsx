@@ -6,7 +6,6 @@ export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: Tone;
   variant?: 'soft' | 'solid' | 'outline';
   size?: 'sm' | 'md';
-  /** Small leading dot, useful for status labels. */
   dot?: boolean;
   startIcon?: ReactNode;
 }
@@ -26,8 +25,8 @@ export function Badge({
       className={cx(
         'mors-badge',
         `mors-badge--${variant}`,
-        `mors-badge--${tone}`,
-        `mors-badge--${size}`,
+        tone !== 'neutral' && `mors-badge--${tone}`,
+        size !== 'md' && `mors-badge--${size}`,
         className,
       )}
       {...rest}

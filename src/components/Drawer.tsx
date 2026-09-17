@@ -7,7 +7,6 @@ export interface DrawerProps {
   open: boolean;
   onClose: () => void;
   side?: DrawerSide;
-  /** Any CSS length: width for left/right, height for top/bottom. */
   size?: string;
   title?: ReactNode;
   description?: ReactNode;
@@ -20,10 +19,6 @@ export interface DrawerProps {
   className?: string;
 }
 
-/**
- * Edge-anchored panel sharing Modal's focus, scroll-lock and dismissal
- * behaviour. Left/right drawers become full-width sheets on small screens.
- */
 export function Drawer({ side = 'right', size, className, open, ...rest }: DrawerProps) {
   const [exitSide, setExitSide] = useState(side);
   if (open && side !== exitSide) setExitSide(side);

@@ -14,18 +14,11 @@ export default defineConfig({
     minify: false,
     lib: {
       entry: 'src/index.ts',
-      name: 'MorsComponentLibrary',
       formats: ['es', 'cjs'],
       fileName: (format) => `mors-component-library.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime', 'react-dom/client'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-      },
     },
   },
 });

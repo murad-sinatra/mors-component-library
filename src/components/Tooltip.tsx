@@ -3,7 +3,6 @@ import {
   isValidElement,
   useCallback,
   useEffect,
-  useId,
   useRef,
   useState,
   type FocusEvent,
@@ -14,9 +13,9 @@ import {
 import { cx } from '../utils/cx';
 import { composeRefs } from '../utils/refs';
 import type { Align, Placement } from '../utils/types';
-import { useAnchoredPosition } from '../hooks/useAnchoredPosition';
-import { usePresence } from '../hooks/usePresence';
+import { useDismiss } from '../hooks/useDismiss';
 import { Anchor } from './internal/Anchor';
+import { useFloatingSurface } from './internal/useFloatingSurface';
 import { Portal } from './Portal';
 
 interface TooltipTriggerProps {
@@ -29,21 +28,15 @@ interface TooltipTriggerProps {
 }
 
 export interface TooltipProps {
-  /** Short, plain-text description. Never put interactive content in a tooltip. */
   content: ReactNode;
   children: ReactElement;
   placement?: Placement;
   align?: Align;
   offset?: number;
-  /** Hover delay in ms; keyboard focus shows the tooltip immediately. */
   delay?: number;
   className?: string;
 }
 
-/**
- * Describes its trigger via `aria-describedby`, appears on hover and on keyboard
- * focus, and closes on Escape so a tooltip can never trap a keyboard user.
- */
 export function Tooltip({
   content,
   children,
@@ -53,21 +46,15 @@ export function Tooltip({
   delay = 200,
   className,
 }: TooltipProps) {
-  const anchorRef = useRef<HTMLElement>(null);
-  const triggerRef = useRef<HTMLElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [open, setOpen] = useState(false);
-  const tooltipId = `mors${useId()}-tooltip`;
-  const { mounted, state } = usePresence(open, 150);
-
-  const position = useAnchoredPosition({
-    open: open && mounted,
-    anchorRef,
-    floatingRef: tooltipRef,
+  const { anchorRef, triggerRef, panelRef, panelId, mounted, state, position, refs } = useFloatingSurface({
+    open,
     placement,
     align,
     offset,
+    duration: 150,
+    idSuffix: 'tooltip',
   });
 
   const show = useCallback(
@@ -85,37 +72,32 @@ export function Tooltip({
   }, []);
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
+  useDismiss({
+    enabled: open,
+    onDismiss: hide,
+    refs,
+    closeOnOutsidePointer: false,
+  });
 
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') hide();
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [open, hide]);
-
+  const child = children as ReactElement<TooltipTriggerProps>;
   const trigger = isValidElement(children)
-    ? cloneElement(children as ReactElement<TooltipTriggerProps>, {
-        ref: composeRefs(
-          triggerRef,
-          (children as ReactElement<TooltipTriggerProps>).props.ref,
-        ),
-        'aria-describedby': mounted ? tooltipId : undefined,
+    ? cloneElement(child, {
+        ref: composeRefs(triggerRef, child.props.ref),
+        'aria-describedby': mounted ? panelId : undefined,
         onPointerEnter: (event: React.PointerEvent<HTMLElement>) => {
-          (children as ReactElement<TooltipTriggerProps>).props.onPointerEnter?.(event);
+          child.props.onPointerEnter?.(event);
           if (event.pointerType !== 'touch') show();
         },
         onPointerLeave: (event: React.PointerEvent<HTMLElement>) => {
-          (children as ReactElement<TooltipTriggerProps>).props.onPointerLeave?.(event);
+          child.props.onPointerLeave?.(event);
           hide();
         },
         onFocus: (event: FocusEvent<HTMLElement>) => {
-          (children as ReactElement<TooltipTriggerProps>).props.onFocus?.(event);
+          child.props.onFocus?.(event);
           show(true);
         },
         onBlur: (event: FocusEvent<HTMLElement>) => {
-          (children as ReactElement<TooltipTriggerProps>).props.onBlur?.(event);
+          child.props.onBlur?.(event);
           hide();
         },
       })
@@ -127,8 +109,8 @@ export function Tooltip({
       {mounted && (
         <Portal>
           <div
-            ref={tooltipRef}
-            id={tooltipId}
+            ref={panelRef}
+            id={panelId}
             role="tooltip"
             className={cx('mors-tooltip', className)}
             style={position.style}

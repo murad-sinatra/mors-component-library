@@ -3,11 +3,9 @@ import { cx } from '../utils/cx';
 import { Icon } from './Icon';
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {
-  /** Inset grouped style, matching iOS settings lists. */
   inset?: boolean;
 }
 
-/** Grouped list of rows — the pattern used throughout Apple settings and account pages. */
 export function List({ inset = false, className, children, ...rest }: ListProps) {
   return (
     <ul className={cx('mors-list', inset && 'mors-list--inset', className)} {...rest}>
@@ -22,7 +20,6 @@ export interface ListItemProps extends Omit<HTMLAttributes<HTMLElement>, 'title'
   leading?: ReactNode;
   trailing?: ReactNode;
   href?: string;
-  /** Shows a trailing chevron. Defaults to true for links and clickable rows. */
   chevron?: boolean;
 }
 

@@ -269,6 +269,7 @@ export function Switch({
             role="switch"
             className="mors-switch-input mors-visually-hidden"
             disabled={disabled}
+            aria-invalid={error ? true : undefined}
             aria-describedby={describedBy(
               ids,
               Boolean(description),

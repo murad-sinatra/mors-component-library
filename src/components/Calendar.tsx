@@ -30,18 +30,14 @@ export interface CalendarProps
   value?: Date | null;
   defaultValue?: Date | null;
   onChange?: (date: Date) => void;
-  /** Visible month; pair with `onMonthChange` to control paging. */
   month?: Date;
   defaultMonth?: Date;
   onMonthChange?: (month: Date) => void;
   min?: Date;
   max?: Date;
-  /** 1 = Monday (default), 0 = Sunday. */
   weekStartsOn?: 0 | 1;
-  /** BCP 47 tag; defaults to the browser locale. */
   locale?: string;
   isDateDisabled?: (date: Date) => boolean;
-  /** Rendered under the grid, e.g. a "Today" shortcut. */
   footer?: ReactNode;
 }
 

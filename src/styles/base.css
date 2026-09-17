@@ -39,13 +39,16 @@
 .mors-input:focus-visible,
 .mors-chip:focus-visible,
 .mors-tab:focus-visible,
+.mors-tab-panel:focus-visible,
 .mors-link:focus-visible,
 .mors-menu-item:focus-visible,
 .mors-page-button:focus-visible,
 .mors-calendar-day:focus-visible,
 .mors-accordion-trigger:focus-visible,
 .mors-swatch:focus-visible,
-.mors-close:focus-visible {
+.mors-close:focus-visible,
+.mors-navbar-link:focus-visible,
+.mors-table-sort:focus-visible {
   outline: var(--mors-focus-width) solid
     color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
   outline-offset: var(--mors-focus-offset);

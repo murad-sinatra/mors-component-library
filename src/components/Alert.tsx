@@ -17,9 +17,7 @@ export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'
   tone?: AlertTone;
   variant?: 'soft' | 'outline';
   title?: ReactNode;
-  /** Pass `null` to hide the leading icon, or a node to replace it. */
   icon?: ReactNode | null;
-  /** Trailing slot for actions such as "Undo". */
   actions?: ReactNode;
   onDismiss?: () => void;
   dismissLabel?: string;

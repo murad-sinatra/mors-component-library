@@ -2,30 +2,12 @@ import type { HTMLAttributes } from 'react';
 import { cx } from '../utils/cx';
 import type { Size, Tone } from '../utils/types';
 
-export interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'children'> {
-  size?: Size;
-  /** Announced by screen readers while busy; pass `null` for decorative use. */
-  label?: string | null;
-}
-
-export function Spinner({ size = 'md', label = 'Loading', className, ...rest }: SpinnerProps) {
-  return (
-    <span
-      className={cx('mors-spinner', `mors-spinner--${size}`, className)}
-      role={label ? 'status' : undefined}
-      {...rest}
-    >
-      <span className="mors-spinner-track" aria-hidden="true" />
-      {label && <span className="mors-visually-hidden">{label}</span>}
-    </span>
-  );
-}
+export { Spinner, type SpinnerProps } from './Spinner';
 
 export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
   variant?: 'text' | 'rect' | 'circle';
   width?: number | string;
   height?: number | string;
-  /** Number of stacked text lines; only meaningful for `variant="text"`. */
   lines?: number;
 }
 
@@ -54,7 +36,11 @@ export function Skeleton({
 
   return (
     <span
-      className={cx('mors-skeleton', `mors-skeleton--${variant}`, className)}
+      className={cx(
+        'mors-skeleton',
+        variant !== 'rect' && `mors-skeleton--${variant}`,
+        className,
+      )}
       style={{ width, height, ...style }}
       aria-hidden="true"
       {...rest}
@@ -69,7 +55,6 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
   size?: Exclude<Size, 'lg'>;
   tone?: Extract<Tone, 'accent' | 'success' | 'warning' | 'danger'>;
   label?: string;
-  /** Renders the numeric percentage beside the label. */
   showValue?: boolean;
 }
 
@@ -99,8 +84,8 @@ export function Progress({
       <div
         className={cx(
           'mors-progress-track',
-          `mors-progress-track--${size}`,
-          `mors-progress-track--${tone}`,
+          size !== 'md' && `mors-progress-track--${size}`,
+          tone !== 'accent' && `mors-progress-track--${tone}`,
           indeterminate && 'mors-progress-track--indeterminate',
         )}
         role="progressbar"

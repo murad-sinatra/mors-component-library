@@ -36,7 +36,6 @@ export interface ToastRecord extends ToastOptions {
 }
 
 export interface ToastApi {
-  /** Shows a toast and returns its id. */
   toast: (options: ToastOptions) => string;
   dismiss: (id: string) => void;
   dismissAll: () => void;
@@ -55,15 +54,10 @@ const TONE_ICON: Record<ToastTone, IconName> = {
 export interface ToastProviderProps {
   children: ReactNode;
   position?: ToastPosition;
-  /** Oldest toasts beyond this limit are dropped. */
   max?: number;
   defaultDuration?: number;
 }
 
-/**
- * Owns the toast queue and renders a single portalled, live-region viewport.
- * Wrap the app once, then call `useToast()` anywhere below it.
- */
 export function ToastProvider({
   children,
   position = 'bottom-right',

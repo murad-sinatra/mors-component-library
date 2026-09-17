@@ -3,11 +3,9 @@ import { cx } from '../utils/cx';
 import { Icon } from './Icon';
 
 export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'children' | 'onChange'> {
-  /** 1-based current page. */
   page: number;
   pageCount: number;
   onPageChange: (page: number) => void;
-  /** Pages shown either side of the current page. */
   siblingCount?: number;
   size?: 'sm' | 'md';
   label?: string;
@@ -31,7 +29,6 @@ function buildRange(page: number, pageCount: number, siblingCount: number): (num
   return range;
 }
 
-/** Page navigation with truncation; the current page is marked `aria-current`. */
 export function Pagination({
   page,
   pageCount,
@@ -46,7 +43,7 @@ export function Pagination({
   const go = (next: number) => onPageChange(Math.min(Math.max(1, next), pageCount));
 
   return (
-    <nav aria-label={label} className={cx('mors-pagination', `mors-pagination--${size}`, className)} {...rest}>
+    <nav aria-label={label} className={cx('mors-pagination', size !== 'md' && `mors-pagination--${size}`, className)} {...rest}>
       <button
         type="button"
         className="mors-page-button mors-page-button--edge"

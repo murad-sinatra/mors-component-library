@@ -1,27 +1,21 @@
-import { useRef, type InputHTMLAttributes, type ReactNode, type Ref } from 'react';
+import { useRef, type InputHTMLAttributes, type Ref } from 'react';
 import { cx } from '../utils/cx';
-import type { Size } from '../utils/types';
 import { useControllableState } from '../hooks/useControllableState';
-import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
-import { Icon } from './Icon';
+import { describedBy, Field, useFieldControl, type FieldShellProps } from './Field';
+import { Icon, type IconName } from './Icon';
 
 export interface NumberFieldProps
   extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'size' | 'type' | 'value' | 'defaultValue' | 'onChange'
-  > {
-  label?: ReactNode;
-  description?: ReactNode;
-  error?: ReactNode;
-  size?: Size;
-  block?: boolean;
+      InputHTMLAttributes<HTMLInputElement>,
+      'size' | 'type' | 'value' | 'defaultValue' | 'onChange'
+    >,
+    FieldShellProps {
   value?: number | null;
   defaultValue?: number | null;
   onValueChange?: (value: number | null) => void;
   min?: number;
   max?: number;
   step?: number;
-  /** Hide the plus/minus steppers and keep a plain numeric input. */
   hideSteppers?: boolean;
   ref?: Ref<HTMLInputElement>;
 }
@@ -39,10 +33,31 @@ function parse(raw: string): number | null {
   return Number.isFinite(next) ? next : null;
 }
 
-/**
- * Numeric entry with Apple-style steppers. The underlying control is a native
- * number input, so mobile keyboards and form serialization stay platform-native.
- */
+function StepperButton({
+  label,
+  icon,
+  disabled,
+  onClick,
+}: {
+  label: string;
+  icon: IconName;
+  disabled?: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="mors-number-step mors-focusable"
+      aria-label={label}
+      disabled={disabled}
+      onClick={onClick}
+      tabIndex={-1}
+    >
+      <Icon name={icon} />
+    </button>
+  );
+}
+
 export function NumberField({
   label,
   description,
@@ -63,23 +78,22 @@ export function NumberField({
   'aria-describedby': ariaDescribedBy,
   ...rest
 }: NumberFieldProps) {
-  const ids = useFieldIds(id);
+  const { ids, validity } = useFieldControl(id, required, error);
   const inputRef = useRef<HTMLInputElement>(null);
   const [current, setCurrent] = useControllableState(value, defaultValue, onValueChange);
-  const validity = useRequiredValidity(required, error);
 
   const commit = (next: number | null) => {
     if (next === null) {
       setCurrent(null);
       return;
     }
-    setCurrent(clamp(next, min, max));
-    validity.reportValue(String(clamp(next, min, max)));
+    const clamped = clamp(next, min, max);
+    setCurrent(clamped);
+    validity.reportValue(String(clamped));
   };
 
   const bump = (direction: 1 | -1) => {
-    const base = current ?? 0;
-    commit(base + direction * step);
+    commit((current ?? 0) + direction * step);
     inputRef.current?.focus();
   };
 
@@ -102,16 +116,12 @@ export function NumberField({
         )}
       >
         {!hideSteppers && (
-          <button
-            type="button"
-            className="mors-number-step mors-focusable"
-            aria-label="Decrease"
+          <StepperButton
+            label="Decrease"
+            icon="minus"
             disabled={disabled || (min !== undefined && current !== null && current <= min)}
             onClick={() => bump(-1)}
-            tabIndex={-1}
-          >
-            <Icon name="minus" />
-          </button>
+          />
         )}
         <input
           ref={inputRef}
@@ -131,16 +141,12 @@ export function NumberField({
           onChange={(event) => commit(parse(event.currentTarget.value))}
         />
         {!hideSteppers && (
-          <button
-            type="button"
-            className="mors-number-step mors-focusable"
-            aria-label="Increase"
+          <StepperButton
+            label="Increase"
+            icon="plus"
             disabled={disabled || (max !== undefined && current !== null && current >= max)}
             onClick={() => bump(1)}
-            tabIndex={-1}
-          >
-            <Icon name="plus" />
-          </button>
+          />
         )}
       </div>
     </Field>

@@ -1,13 +1,9 @@
 import type { Ref, RefCallback } from 'react';
 
-/** Writes a value into a callback ref or a ref object. */
-export function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
+function assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {
   if (!ref) return;
-  if (typeof ref === 'function') {
-    ref(value);
-    return;
-  }
-  ref.current = value;
+  if (typeof ref === 'function') ref(value);
+  else ref.current = value;
 }
 
 /** Runs every ref with the same node so cloneElement can keep a consumer's ref. */

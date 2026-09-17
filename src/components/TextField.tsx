@@ -7,25 +7,14 @@ import {
   type TextareaHTMLAttributes,
 } from 'react';
 import { cx } from '../utils/cx';
-import type { Size } from '../utils/types';
-import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
+import { describedBy, Field, useFieldControl, type FieldShellProps } from './Field';
 import { Icon } from './Icon';
 import { IconButton } from './Button';
-
-interface FieldShellProps {
-  label?: ReactNode;
-  description?: ReactNode;
-  error?: ReactNode;
-  size?: Size;
-  /** Fills the available width (default). Set `false` for inline layouts. */
-  block?: boolean;
-}
 
 export interface TextFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>,
     FieldShellProps {
   startIcon?: ReactNode;
-  /** Trailing adornment: an icon, unit label or small control. */
   endAdornment?: ReactNode;
   ref?: Ref<HTMLInputElement>;
 }
@@ -47,8 +36,7 @@ export function TextField({
   'aria-describedby': ariaDescribedBy,
   ...rest
 }: TextFieldProps) {
-  const ids = useFieldIds(id);
-  const validity = useRequiredValidity(required, error);
+  const { ids, validity } = useFieldControl(id, required, error);
   return (
     <Field
       ids={ids}
@@ -94,7 +82,6 @@ export function TextField({
 export interface TextareaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'>,
     FieldShellProps {
-  /** Vertical resize affordance. Defaults to `vertical`. */
   resize?: 'none' | 'vertical';
   ref?: Ref<HTMLTextAreaElement>;
 }
@@ -116,8 +103,7 @@ export function Textarea({
   'aria-describedby': ariaDescribedBy,
   ...rest
 }: TextareaProps) {
-  const ids = useFieldIds(id);
-  const validity = useRequiredValidity(required, error);
+  const { ids, validity } = useFieldControl(id, required, error);
   return (
     <Field
       ids={ids}
@@ -158,9 +144,7 @@ export function Textarea({
 }
 
 export interface SearchFieldProps extends Omit<TextFieldProps, 'startIcon' | 'endAdornment' | 'type'> {
-  /** Called when the clear button is pressed or Escape clears the input. */
   onClear?: () => void;
-  /** Fires on Enter, so the field works inside or outside a form. */
   onSearch?: (value: string) => void;
   clearLabel?: string;
 }

@@ -90,10 +90,10 @@ export function useAnchoredPosition({
   const update = useCallback(() => {
     const anchor = anchorRef.current;
     const floating = floatingRef.current;
-    if (!anchor || !floating) return false;
+    if (!anchor || !floating) return;
 
     const anchorRect = anchor.getBoundingClientRect();
-    if (anchorRect.width === 0 && anchorRect.height === 0) return false;
+    if (anchorRect.width === 0 && anchorRect.height === 0) return;
 
     const size = measureSize(floating);
     const viewport = { width: window.innerWidth, height: window.innerHeight };
@@ -141,7 +141,6 @@ export function useAnchoredPosition({
             placement: resolved,
           },
     );
-    return true;
   }, [anchorRef, floatingRef, placement, align, offset, padding, matchWidth]);
 
   useLayoutEffect(() => {

@@ -14,12 +14,9 @@ export interface TableColumn<Row> {
   id: string;
   header: ReactNode;
   cell: (row: Row) => ReactNode;
-  /** Providing this makes the column sortable. */
   sortValue?: (row: Row) => string | number;
   align?: 'start' | 'center' | 'end';
-  /** Any CSS length applied to the column. */
   width?: string;
-  /** Hides the column below 768px, for dense tables on phones. */
   hideOnMobile?: boolean;
 }
 
@@ -27,7 +24,6 @@ export interface TableProps<Row> extends Omit<TableHTMLAttributes<HTMLTableEleme
   columns: readonly TableColumn<Row>[];
   rows: readonly Row[];
   rowKey: (row: Row) => string;
-  /** Visually hidden by default; always provide one for screen readers. */
   caption?: ReactNode;
   showCaption?: boolean;
   size?: 'sm' | 'md';
@@ -36,7 +32,6 @@ export interface TableProps<Row> extends Omit<TableHTMLAttributes<HTMLTableEleme
   sort?: TableSort | null;
   defaultSort?: TableSort | null;
   onSortChange?: (sort: TableSort | null) => void;
-  /** Rendered in place of the body when there are no rows. */
   emptyState?: ReactNode;
 }
 

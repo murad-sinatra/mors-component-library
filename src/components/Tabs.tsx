@@ -70,7 +70,6 @@ export function Tabs({
 }
 
 export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
-  /** Names the tab set for assistive tech, e.g. "Account settings". */
   label?: string;
 }
 
@@ -106,7 +105,7 @@ export function TabList({ label, className, children, ...rest }: TabListProps) {
       role="tablist"
       aria-label={label}
       tabIndex={-1}
-      className={cx('mors-tab-list', `mors-tab-list--${variant}`, `mors-tab-list--${size}`, className)}
+      className={cx('mors-tab-list', `mors-tab-list--${variant}`, size !== 'md' && `mors-tab-list--${size}`, className)}
       onKeyDown={onKeyDown}
       {...rest}
     >
@@ -118,7 +117,6 @@ export function TabList({ label, className, children, ...rest }: TabListProps) {
 export interface TabProps extends Omit<HTMLAttributes<HTMLButtonElement>, 'value'> {
   value: string;
   disabled?: boolean;
-  /** Trailing count or status, e.g. a Badge. */
   badge?: ReactNode;
 }
 
@@ -139,7 +137,7 @@ export function Tab({ value, disabled, badge, className, children, ...rest }: Ta
       onClick={() => tabs.setValue(value)}
       {...rest}
     >
-      <span className="mors-tab-label">{children}</span>
+      {children}
       {badge && <span className="mors-tab-badge">{badge}</span>}
     </button>
   );

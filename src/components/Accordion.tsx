@@ -20,13 +20,17 @@ interface AccordionContextValue {
 
 const AccordionContext = createContext<AccordionContextValue | null>(null);
 
+function useAccordion(): AccordionContextValue {
+  const context = useContext(AccordionContext);
+  if (!context) throw new Error('<AccordionItem> must be rendered inside <Accordion>.');
+  return context;
+}
+
 export interface AccordionProps extends HTMLAttributes<HTMLDivElement> {
-  /** `single` closes the previous item, `multiple` allows several open at once. */
   type?: 'single' | 'multiple';
   value?: readonly string[];
   defaultValue?: readonly string[];
   onValueChange?: (value: readonly string[]) => void;
-  /** Removes the outer border/background for use inside a Card. */
   flush?: boolean;
   children: ReactNode;
 }
@@ -74,7 +78,6 @@ export function Accordion({
 export interface AccordionItemProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   value: string;
   title: ReactNode;
-  /** Secondary line under the title. */
   subtitle?: ReactNode;
   disabled?: boolean;
   children: ReactNode;
@@ -89,8 +92,7 @@ export function AccordionItem({
   children,
   ...rest
 }: AccordionItemProps) {
-  const context = useContext(AccordionContext);
-  if (!context) throw new Error('<AccordionItem> must be rendered inside <Accordion>.');
+  const context = useAccordion();
 
   const open = context.openValues.includes(value);
   const triggerId = `${context.baseId}-trigger-${value}`;

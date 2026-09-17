@@ -4,9 +4,7 @@ import { cx } from '../utils/cx';
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   elevation?: 'flat' | 'raised' | 'floating';
   padding?: 'none' | 'sm' | 'md' | 'lg';
-  /** Optional lift and stronger shadow on pointer hover. Implied by `interactive`. */
   hover?: boolean;
-  /** Adds hover lift plus press feedback for cards that behave like a link or button. */
   interactive?: boolean;
 }
 
@@ -24,7 +22,7 @@ export function Card({
       className={cx(
         'mors-card',
         `mors-card--${elevation}`,
-        `mors-card--padding-${padding}`,
+        padding !== 'md' && `mors-card--padding-${padding}`,
         (hover || interactive) && 'mors-card--hover',
         interactive && 'mors-card--interactive',
         className,
@@ -39,7 +37,6 @@ export function Card({
 export interface CardHeaderProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title?: ReactNode;
   subtitle?: ReactNode;
-  /** Trailing slot for a button, badge or menu. */
   actions?: ReactNode;
 }
 
@@ -80,7 +77,6 @@ export function CardFooter({ className, children, ...rest }: HTMLAttributes<HTML
 }
 
 export interface CardMediaProps extends HTMLAttributes<HTMLDivElement> {
-  /** Aspect ratio as a CSS ratio, e.g. `16 / 9`. */
   ratio?: string;
 }
 

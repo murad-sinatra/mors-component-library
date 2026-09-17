@@ -1,20 +1,14 @@
-import { useRef, useState, type ChangeEvent, type DragEvent, type InputHTMLAttributes, type ReactNode } from 'react';
+import { useState, type ChangeEvent, type DragEvent, type InputHTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../utils/cx';
-import type { Size } from '../utils/types';
-import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
+import { describedBy, Field, useFieldControl, type FieldShellProps } from './Field';
 import { Icon } from './Icon';
 
 export interface FileFieldProps
   extends Omit<
-    InputHTMLAttributes<HTMLInputElement>,
-    'size' | 'type' | 'value' | 'defaultValue' | 'onChange' | 'onDragOver' | 'onDragLeave' | 'onDrop'
-  > {
-  label?: ReactNode;
-  description?: ReactNode;
-  error?: ReactNode;
-  size?: Size;
-  block?: boolean;
-  /** Shown in the drop zone before a file is chosen. */
+      InputHTMLAttributes<HTMLInputElement>,
+      'size' | 'type' | 'value' | 'defaultValue' | 'onChange' | 'onDragOver' | 'onDragLeave' | 'onDrop'
+    >,
+    FieldShellProps {
   prompt?: ReactNode;
   onFilesChange?: (files: File[]) => void;
 }
@@ -23,10 +17,6 @@ function listFrom(list: FileList | null): File[] {
   return list ? Array.from(list) : [];
 }
 
-/**
- * File picker with a drop zone. The real input stays in the tree for forms and
- * keyboards; the surface is a label so the whole area is activatable.
- */
 export function FileField({
   label,
   description,
@@ -43,11 +33,9 @@ export function FileField({
   'aria-describedby': ariaDescribedBy,
   ...rest
 }: FileFieldProps) {
-  const ids = useFieldIds(id);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { ids, validity } = useFieldControl(id, required, error);
   const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
-  const validity = useRequiredValidity(required, error);
 
   const apply = (next: File[]) => {
     setFiles(next);
@@ -91,7 +79,6 @@ export function FileField({
       >
         <label className="mors-file-hit" htmlFor={ids.id}>
           <input
-            ref={inputRef}
             id={ids.id}
             type="file"
             className="mors-file-input mors-visually-hidden"
@@ -110,9 +97,7 @@ export function FileField({
           <span className="mors-file-copy">
             <span className="mors-file-prompt">{prompt}</span>
             {files.length > 0 && (
-              <span className="mors-file-names">
-                {files.map((file) => file.name).join(', ')}
-              </span>
+              <span className="mors-file-names">{files.map((file) => file.name).join(', ')}</span>
             )}
           </span>
         </label>

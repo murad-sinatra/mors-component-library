@@ -123,10 +123,7 @@
   align-items: center;
 }
 
-.mors-tab-panel:focus-visible {
-  outline: var(--mors-focus-width) solid
-    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
-  outline-offset: var(--mors-focus-offset);
+.mors-tab-panel {
   border-radius: var(--mors-radius-sm);
 }
 
@@ -223,6 +220,13 @@
   line-height: var(--mors-leading-relaxed);
 }
 
+@media (max-width: 640px) {
+  .mors-accordion-trigger,
+  .mors-accordion-content {
+    padding-inline: var(--mors-space-5);
+  }
+}
+
 /* ---------- Breadcrumbs --------------------------------------------------- */
 
 .mors-breadcrumbs {
@@ -283,6 +287,12 @@
 
 .mors-pagination--sm {
   --mors-page-size: 30px;
+}
+
+@media (max-width: 768px) {
+  .mors-pagination {
+    --mors-page-size: 40px;
+  }
 }
 
 .mors-pagination-list {
@@ -423,12 +433,6 @@
   font-weight: var(--mors-weight-medium);
 }
 
-.mors-navbar-link:focus-visible {
-  outline: var(--mors-focus-width) solid
-    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
-  outline-offset: var(--mors-focus-offset);
-}
-
 .mors-navbar-toggle {
   display: none;
 }
@@ -488,9 +492,5 @@
 
   .mors-navbar-panel .mors-navbar-link--active {
     background: var(--mors-color-surface-hover);
-  }
-
-  .mors-pagination {
-    --mors-page-size: 40px;
   }
 }

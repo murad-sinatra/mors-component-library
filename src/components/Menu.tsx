@@ -4,9 +4,7 @@ import {
   isValidElement,
   useCallback,
   useContext,
-  useId,
   useMemo,
-  useRef,
   type ButtonHTMLAttributes,
   type KeyboardEvent,
   type MouseEvent,
@@ -17,11 +15,10 @@ import { cx } from '../utils/cx';
 import { composeRefs } from '../utils/refs';
 import { getFocusable } from '../utils/focus';
 import type { Align, Placement } from '../utils/types';
-import { useAnchoredPosition } from '../hooks/useAnchoredPosition';
 import { useControllableState } from '../hooks/useControllableState';
 import { useDismiss } from '../hooks/useDismiss';
-import { usePresence } from '../hooks/usePresence';
 import { Anchor } from './internal/Anchor';
+import { useFloatingSurface } from './internal/useFloatingSurface';
 import { Portal } from './Portal';
 import type { TriggerInjectedProps } from './Popover';
 
@@ -30,7 +27,6 @@ const MenuContext = createContext<{ close: () => void } | null>(null);
 const ITEM_SELECTOR = '[role="menuitem"]:not([aria-disabled="true"]):not(:disabled)';
 
 export interface MenuProps {
-  /** Any focusable element; receives aria-haspopup="menu" and aria-expanded. */
   trigger: ReactElement;
   children: ReactNode;
   open?: boolean;
@@ -43,11 +39,6 @@ export interface MenuProps {
   className?: string;
 }
 
-/**
- * Dropdown menu with roving keyboard focus: Arrow keys move between items,
- * Home/End jump to the ends, Enter or Space activates, Escape closes and
- * returns focus to the trigger.
- */
 export function Menu({
   trigger,
   children,
@@ -60,22 +51,15 @@ export function Menu({
   ariaLabel,
   className,
 }: MenuProps) {
-  const anchorRef = useRef<HTMLElement>(null);
-  const triggerRef = useRef<HTMLElement>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const refs = useMemo(() => [anchorRef, panelRef], [anchorRef, panelRef]);
-  const menuId = `mors${useId()}-menu`;
-
   const [isOpen, setOpen] = useControllableState(open, defaultOpen, onOpenChange);
-  const { mounted, state } = usePresence(isOpen, 160);
-  const position = useAnchoredPosition({
-    open: isOpen && mounted,
-    anchorRef,
-    floatingRef: panelRef,
-    placement,
-    align,
-    offset,
-  });
+  const { anchorRef, triggerRef, panelRef, panelId, mounted, state, position, refs } =
+    useFloatingSurface({
+      open: isOpen,
+      placement,
+      align,
+      offset,
+      idSuffix: 'menu',
+    });
 
   const close = useCallback(
     (returnFocus = true) => {
@@ -84,7 +68,7 @@ export function Menu({
       const node = triggerRef.current ?? getFocusable(anchorRef.current)[0] ?? anchorRef.current;
       node?.focus();
     },
-    [setOpen],
+    [setOpen, triggerRef, anchorRef],
   );
 
   const dismiss = useCallback(() => setOpen(false), [setOpen]);
@@ -135,24 +119,21 @@ export function Menu({
     requestAnimationFrame(() => focusItem(index));
   };
 
-  const menuApi = useMemo(() => ({ close: () => close() }), [close]);
-
+  const menuApi = useMemo(() => ({ close }), [close]);
+  const triggerEl = trigger as ReactElement<TriggerInjectedProps>;
   const triggerElement = isValidElement(trigger)
-    ? cloneElement(trigger as ReactElement<TriggerInjectedProps>, {
-        ref: composeRefs(
-          triggerRef,
-          (trigger as ReactElement<TriggerInjectedProps>).props.ref,
-        ),
+    ? cloneElement(triggerEl, {
+        ref: composeRefs(triggerRef, triggerEl.props.ref),
         'aria-haspopup': 'menu',
         'aria-expanded': isOpen,
-        'aria-controls': mounted ? menuId : undefined,
+        'aria-controls': mounted ? panelId : undefined,
         onClick: (event: MouseEvent<HTMLElement>) => {
-          (trigger as ReactElement<TriggerInjectedProps>).props.onClick?.(event);
+          triggerEl.props.onClick?.(event);
           if (isOpen) close(false);
           else openWith(0);
         },
         onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
-          (trigger as ReactElement<TriggerInjectedProps>).props.onKeyDown?.(event);
+          triggerEl.props.onKeyDown?.(event);
           if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             event.preventDefault();
             openWith(event.key === 'ArrowDown' ? 0 : -1);
@@ -168,7 +149,7 @@ export function Menu({
         <Portal>
           <div
             ref={panelRef}
-            id={menuId}
+            id={panelId}
             role="menu"
             tabIndex={-1}
             aria-label={ariaLabel}
@@ -189,10 +170,8 @@ export function Menu({
 
 export interface MenuItemProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onSelect'> {
   icon?: ReactNode;
-  /** Right-aligned hint such as "⌘K". Purely decorative. */
   shortcut?: ReactNode;
   tone?: 'default' | 'danger';
-  /** Runs before the menu closes. */
   onSelect?: () => void;
 }
 

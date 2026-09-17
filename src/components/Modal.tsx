@@ -8,13 +8,10 @@ export interface ModalProps {
   onClose: () => void;
   title?: ReactNode;
   description?: ReactNode;
-  /** Action row pinned to the bottom of the surface. */
   footer?: ReactNode;
   children?: ReactNode;
   size?: ModalSize;
-  /** Use `alertdialog` for destructive confirmations. */
   role?: 'dialog' | 'alertdialog';
-  /** Required when there is no visible `title`. */
   ariaLabel?: string;
   closeOnScrimClick?: boolean;
   closeOnEscape?: boolean;
@@ -23,9 +20,7 @@ export interface ModalProps {
 }
 
 /**
- * Centred modal dialog. Focus is trapped while open, the page behind is locked,
- * and focus returns to the trigger on close. Add `data-mors-autofocus` to a
- * child to choose the initially focused element.
+ * Add `data-mors-autofocus` to a child to choose the initially focused element.
  */
 export function Modal({ size = 'md', className, ...rest }: ModalProps) {
   return (

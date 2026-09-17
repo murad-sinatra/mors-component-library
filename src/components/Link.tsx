@@ -8,7 +8,6 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   endIcon?: ReactNode;
 }
 
-/** Text link using the library accent. Use Button variant="link" for a button that looks like a link. */
 export function Link({
   external = false,
   endIcon,

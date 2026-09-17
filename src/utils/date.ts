@@ -1,5 +1,3 @@
-/** Small, dependency-free date helpers used by Calendar and DatePicker. */
-
 export function startOfDay(date: Date): Date {
   const copy = new Date(date);
   copy.setHours(0, 0, 0, 0);
@@ -34,12 +32,16 @@ export function isSameMonth(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth();
 }
 
+function dayTime(date: Date): number {
+  return startOfDay(date).getTime();
+}
+
 export function isBefore(a: Date, b: Date): boolean {
-  return startOfDay(a).getTime() < startOfDay(b).getTime();
+  return dayTime(a) < dayTime(b);
 }
 
 export function isAfter(a: Date, b: Date): boolean {
-  return startOfDay(a).getTime() > startOfDay(b).getTime();
+  return dayTime(a) > dayTime(b);
 }
 
 /** Six weeks of dates covering `month`, aligned to `weekStartsOn`. */
@@ -66,8 +68,9 @@ export function weekdayNames(
 }
 
 export function clampDate(date: Date, min?: Date, max?: Date): Date {
-  if (min && isBefore(date, min)) return startOfDay(min);
-  if (max && isAfter(date, max)) return startOfDay(max);
+  const time = dayTime(date);
+  if (min && time < dayTime(min)) return startOfDay(min);
+  if (max && time > dayTime(max)) return startOfDay(max);
   return date;
 }
 

@@ -16,17 +16,11 @@ export interface SliderProps
   value?: number;
   defaultValue?: number;
   onValueChange?: (value: number) => void;
-  /** Shows the current value beside the label. */
   showValue?: boolean;
-  /** Formats the displayed value, e.g. `(v) => `${v}%``. */
   formatValue?: (value: number) => string;
   ref?: Ref<HTMLInputElement>;
 }
 
-/**
- * Wraps a native range input, so pointer, keyboard, touch and assistive-tech
- * behaviour come from the platform; the track fill is a CSS custom property.
- */
 export function Slider({
   label,
   description,
@@ -57,9 +51,7 @@ export function Slider({
         label && (showValue || formatValue) ? (
           <span className="mors-slider-label-row">
             <span>{label}</span>
-            <span className="mors-slider-value">
-              {formatValue ? formatValue(current) : current}
-            </span>
+            <span className="mors-slider-value">{formatValue ? formatValue(current) : current}</span>
           </span>
         ) : (
           label
@@ -70,7 +62,7 @@ export function Slider({
       size={size === 'sm' ? 'sm' : 'md'}
     >
       <div
-        className={cx('mors-slider', `mors-slider--${size}`, disabled && 'mors-is-disabled', className)}
+        className={cx('mors-slider', size !== 'md' && `mors-slider--${size}`, disabled && 'mors-is-disabled', className)}
         style={{ ['--mors-slider-percent' as string]: `${percent}%` }}
       >
         <input

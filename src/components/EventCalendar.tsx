@@ -46,7 +46,6 @@ export interface EventCalendarProps
   onSelectedDateChange?: (date: Date) => void;
   locale?: string;
   weekStartsOn?: 0 | 1;
-  /** Hide the add-event form; useful when the host owns creation. */
   readOnly?: boolean;
 }
 
@@ -70,10 +69,6 @@ function byDay(events: readonly CalendarEvent[]): Map<string, CalendarEvent[]> {
   return map;
 }
 
-/**
- * Interactive month calendar for scheduling. Days show event chips; selecting a
- * day opens a detail pane where events can be added, edited or removed.
- */
 export function EventCalendar({
   events,
   defaultEvents = EMPTY_EVENTS,
@@ -126,8 +121,6 @@ export function EventCalendar({
   }).format(selected);
   const selectedEvents = grouped.get(dateKey(selected)) ?? [];
 
-  const commit = (next: CalendarEvent[]) => setItems(next);
-
   const addEvent = (event: FormEvent) => {
     event.preventDefault();
     const title = draftTitle.trim();
@@ -140,7 +133,7 @@ export function EventCalendar({
       description: draftDescription.trim() || undefined,
       tone: draftTone,
     };
-    commit([...items, next]);
+    setItems([...items, next]);
     onEventAdd?.(next);
     setDraftTitle('');
     setDraftDescription('');
@@ -157,7 +150,7 @@ export function EventCalendar({
     const title = editTitle.trim();
     if (!title) return;
     let updated: CalendarEvent | undefined;
-    commit(
+    setItems(
       items.map((entry) => {
         if (entry.id !== id) return entry;
         updated = {
@@ -173,7 +166,7 @@ export function EventCalendar({
   };
 
   const removeEvent = (id: string) => {
-    commit(items.filter((entry) => entry.id !== id));
+    setItems(items.filter((entry) => entry.id !== id));
     onEventRemove?.(id);
     if (editingId === id) setEditingId(null);
   };

@@ -4,17 +4,14 @@ import { Icon } from './Icon';
 
 export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   children: ReactNode;
-  /** Toggle state; exposed as `aria-pressed`. */
   selected?: boolean;
   size?: 'sm' | 'md';
   startIcon?: ReactNode;
-  /** Renders a remove affordance and makes the chip a dismissible token. */
   onRemove?: () => void;
   removeLabel?: string;
   count?: number;
 }
 
-/** Compact toggle used for filters, tags and facets. */
 export function Chip({
   children,
   selected = false,
@@ -59,21 +56,12 @@ export function Chip({
 }
 
 export interface FilterBarProps extends HTMLAttributes<HTMLDivElement> {
-  /** Names the filter group for assistive tech. */
   label: string;
-  /** Leading slot, typically a SearchField or Select. */
   leading?: ReactNode;
-  /** Trailing slot, typically "Clear all" or a sort control. */
   trailing?: ReactNode;
-  /** Live summary such as "12 results". */
   summary?: ReactNode;
 }
 
-/**
- * Responsive filter row: leading control, a wrapping set of chips and a
- * trailing action slot. The summary is a polite live region so screen-reader
- * users hear result counts update.
- */
 export function FilterBar({
   label,
   leading,

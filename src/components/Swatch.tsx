@@ -32,10 +32,6 @@ export interface SwatchProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   onClick?: () => void;
 }
 
-/**
- * A filled colour ball. Decorative by default; pass `onClick` (or put it in a
- * SwatchGroup) to make it a toggle.
- */
 export function Swatch({
   tone = 'neutral',
   size = 'md',
@@ -50,7 +46,7 @@ export function Swatch({
   const classNames = cx(
     'mors-swatch',
     `mors-swatch--${tone}`,
-    `mors-swatch--${size}`,
+    size !== 'md' && `mors-swatch--${size}`,
     selected && 'mors-swatch--selected',
     className,
   );
@@ -90,10 +86,6 @@ export interface SwatchGroupProps {
   className?: string;
 }
 
-/**
- * Labelled row of colour balls for picking a semantic tone — calendars, tags,
- * status, anything that needs a colour without a dropdown.
- */
 export function SwatchGroup({
   value,
   defaultValue = 'accent',
@@ -128,7 +120,7 @@ export function SwatchGroup({
       <div
         id={ids.id}
         role="group"
-        aria-labelledby={label ? `${ids.id}-label` : undefined}
+        aria-labelledby={label ? ids.labelId : undefined}
         aria-describedby={describedBy(ids, Boolean(description), Boolean(error))}
         className="mors-swatch-group"
       >

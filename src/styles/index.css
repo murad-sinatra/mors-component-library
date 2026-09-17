@@ -9,6 +9,6 @@
 @import './buttons.css';
 @import './forms.css';
 @import './display.css';
-@import './overlays.css'; /* panel focus-ring gutter */
+@import './overlays.css';
 @import './navigation.css';
 @import './data.css';

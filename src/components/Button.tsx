@@ -1,22 +1,17 @@
 import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode, Ref } from 'react';
 import { cx } from '../utils/cx';
 import type { Size } from '../utils/types';
-import { Spinner } from './Loaders';
+import { Spinner } from './Spinner';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'subtle' | 'ghost' | 'destructive' | 'link';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'ref'> {
   variant?: ButtonVariant;
   size?: Size;
-  /** Stretches the button to the width of its container. */
   block?: boolean;
-  /** Fully rounded, Apple-style capsule shape. */
   pill?: boolean;
-  /** Shows a spinner, keeps layout stable and blocks activation. */
   loading?: boolean;
-  /** Rendered before the label. */
   startIcon?: ReactNode;
-  /** Rendered after the label. */
   endIcon?: ReactNode;
   ref?: Ref<HTMLButtonElement>;
 }

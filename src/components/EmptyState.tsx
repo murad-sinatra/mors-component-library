@@ -5,9 +5,7 @@ import { Icon } from './Icon';
 export interface EmptyStateProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   description?: ReactNode;
-  /** Defaults to an inbox glyph; pass `null` for a text-only state. */
   icon?: ReactNode | null;
-  /** Primary and secondary calls to action. */
   actions?: ReactNode;
   size?: 'sm' | 'md';
 }
@@ -23,7 +21,7 @@ export function EmptyState({
   ...rest
 }: EmptyStateProps) {
   return (
-    <div className={cx('mors-empty-state', `mors-empty-state--${size}`, className)} {...rest}>
+    <div className={cx('mors-empty-state', size !== 'md' && `mors-empty-state--${size}`, className)} {...rest}>
       {icon !== null && (
         <span className="mors-empty-state-icon" aria-hidden="true">
           {icon ?? <Icon name="inbox" />}
