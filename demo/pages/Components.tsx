@@ -1,3 +1,5 @@
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { Select } from '../../src';
 import { PageHeader } from '../components/Doc';
 import { ActionsSection } from '../sections/ActionsSection';
 import { FormsSection } from '../sections/FormsSection';
@@ -6,6 +8,27 @@ import { FeedbackSection } from '../sections/FeedbackSection';
 import { OverlaysSection } from '../sections/OverlaysSection';
 import { NavigationSection } from '../sections/NavigationSection';
 import { DataSection } from '../sections/DataSection';
+
+function sectionFromHash(): string | undefined {
+  const parts = window.location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+  if (parts[0] === 'components') return parts[1];
+  if (parts.length === 1 && parts[0] !== 'overview' && parts[0] !== 'design-system') {
+    return parts[0];
+  }
+  return undefined;
+}
+
+function scrollToSection(id: string | undefined) {
+  if (!id) return;
+  const run = () => {
+    const node = document.getElementById(id);
+    if (!node) return;
+    const offset = 136;
+    const top = window.scrollY + node.getBoundingClientRect().top - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+  };
+  requestAnimationFrame(run);
+}
 
 const INDEX = [
   {
@@ -16,6 +39,7 @@ const INDEX = [
       ['icon-button', 'IconButton'],
       ['button-group', 'ButtonGroup'],
       ['badge', 'Badge'],
+      ['swatch', 'Swatch'],
       ['avatar', 'Avatar'],
     ],
   },
@@ -82,7 +106,27 @@ const INDEX = [
   },
 ] as const;
 
+const JUMP_OPTIONS = INDEX.flatMap(({ group, items }) =>
+  items.map(([id, label]) => ({ value: id, label: `${group} · ${label}` })),
+);
+
 export function Components() {
+  const [active, setActive] = useState(sectionFromHash);
+
+  useLayoutEffect(() => {
+    scrollToSection(sectionFromHash());
+  }, []);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const id = sectionFromHash();
+      setActive(id);
+      scrollToSection(id);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
   return (
     <>
       <PageHeader
@@ -90,6 +134,19 @@ export function Components() {
         title="Every component, every state"
         description="Each entry documents what the component is for, how to use it, and the props that matter. Everything on this page is live — open the overlays, sort the table, pick a date."
       />
+
+      <div className="demo-toc">
+        <Select
+          label="Jump to component"
+          size="sm"
+          placeholder="Choose a component"
+          value={active ?? ''}
+          onChange={(id) => {
+            window.location.hash = `#/components/${id}`;
+          }}
+          options={JUMP_OPTIONS}
+        />
+      </div>
 
       <div className="demo-with-sidebar">
         <nav className="demo-sidebar" aria-label="Component index">
@@ -100,7 +157,16 @@ export function Components() {
                 <ul className="demo-sidebar-list">
                   {items.map(([id, label]) => (
                     <li key={id}>
-                      <a className="demo-sidebar-link" href={`#${id}`}>
+                      <a
+                        className={`demo-sidebar-link${active === id ? ' demo-sidebar-link--active' : ''}`}
+                        href={`#/components/${id}`}
+                        aria-current={active === id ? 'location' : undefined}
+                        onClick={(event) => {
+                          if (sectionFromHash() !== id) return;
+                          event.preventDefault();
+                          scrollToSection(id);
+                        }}
+                      >
                         {label}
                       </a>
                     </li>

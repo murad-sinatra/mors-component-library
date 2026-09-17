@@ -14,11 +14,14 @@ import {
   type ReactNode,
 } from 'react';
 import { cx } from '../utils/cx';
+import { composeRefs } from '../utils/refs';
+import { getFocusable } from '../utils/focus';
 import type { Align, Placement } from '../utils/types';
 import { useAnchoredPosition } from '../hooks/useAnchoredPosition';
 import { useControllableState } from '../hooks/useControllableState';
 import { useDismiss } from '../hooks/useDismiss';
 import { usePresence } from '../hooks/usePresence';
+import { Anchor } from './internal/Anchor';
 import { Portal } from './Portal';
 import type { TriggerInjectedProps } from './Popover';
 
@@ -57,16 +60,17 @@ export function Menu({
   ariaLabel,
   className,
 }: MenuProps) {
+  const anchorRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const refs = useMemo(() => [triggerRef, panelRef], [triggerRef, panelRef]);
+  const refs = useMemo(() => [anchorRef, panelRef], [anchorRef, panelRef]);
   const menuId = `mors${useId()}-menu`;
 
   const [isOpen, setOpen] = useControllableState(open, defaultOpen, onOpenChange);
   const { mounted, state } = usePresence(isOpen, 160);
   const position = useAnchoredPosition({
     open: isOpen && mounted,
-    anchorRef: triggerRef,
+    anchorRef,
     floatingRef: panelRef,
     placement,
     align,
@@ -76,9 +80,11 @@ export function Menu({
   const close = useCallback(
     (returnFocus = true) => {
       setOpen(false);
-      if (returnFocus) triggerRef.current?.focus();
+      if (!returnFocus) return;
+      const node = triggerRef.current ?? getFocusable(anchorRef.current)[0] ?? anchorRef.current;
+      node?.focus();
     },
-    [setOpen, triggerRef],
+    [setOpen],
   );
 
   const dismiss = useCallback(() => setOpen(false), [setOpen]);
@@ -133,7 +139,10 @@ export function Menu({
 
   const triggerElement = isValidElement(trigger)
     ? cloneElement(trigger as ReactElement<TriggerInjectedProps>, {
-        ref: triggerRef,
+        ref: composeRefs(
+          triggerRef,
+          (trigger as ReactElement<TriggerInjectedProps>).props.ref,
+        ),
         'aria-haspopup': 'menu',
         'aria-expanded': isOpen,
         'aria-controls': mounted ? menuId : undefined,
@@ -154,7 +163,7 @@ export function Menu({
 
   return (
     <>
-      {triggerElement}
+      <Anchor ref={anchorRef}>{triggerElement}</Anchor>
       {mounted && (
         <Portal>
           <div

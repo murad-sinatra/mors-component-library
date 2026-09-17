@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { DialogFrame } from './internal/DialogFrame';
 
-export type ModalSize = 'sm' | 'md' | 'lg';
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export interface ModalProps {
   open: boolean;

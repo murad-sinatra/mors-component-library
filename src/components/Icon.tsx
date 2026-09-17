@@ -20,6 +20,7 @@ export type IconName =
   | 'chevron-up'
   | 'close'
   | 'copy'
+  | 'edit'
   | 'external'
   | 'filter'
   | 'info'
@@ -66,6 +67,12 @@ const PATHS: Record<IconName, ReactNode> = {
     <>
       <rect x="9" y="9" width="11" height="11" rx="2.5" />
       <path d="M15 6.5A2.5 2.5 0 0 0 12.5 4H6.5A2.5 2.5 0 0 0 4 6.5v6A2.5 2.5 0 0 0 6.5 15" />
+    </>
+  ),
+  edit: (
+    <>
+      <path d="M12 20h8.5" />
+      <path d="M16.4 3.9a1.9 1.9 0 0 1 2.7 2.7L8.2 17.5 4 18.5l1-4.2z" />
     </>
   ),
   external: <path d="M14 4.5h5.5V10M19 5l-8 8M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" />,

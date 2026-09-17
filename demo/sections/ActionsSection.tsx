@@ -8,6 +8,9 @@ import {
   Icon,
   IconButton,
   Link,
+  Swatch,
+  SwatchGroup,
+  type Tone,
 } from '../../src';
 import { ComponentDoc, Example, Labelled, Section, type PropRow } from '../components/Doc';
 
@@ -28,6 +31,20 @@ const BADGE_API: readonly PropRow[] = [
   ['dot', 'boolean', 'false', 'Leading status dot.'],
 ];
 
+const SWATCH_API: readonly PropRow[] = [
+  ['tone', "'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'", "'neutral'", 'Fill colour.'],
+  ['size', "'sm' | 'md' | 'lg'", "'md'", '8 / 16 / 22px.'],
+  ['selected', 'boolean', 'false', 'Draws a ring. Implied by SwatchGroup.'],
+  ['onClick', '() => void', '—', 'Turns the ball into a toggle; omit for a decorative dot.'],
+];
+
+const SWATCH_GROUP_API: readonly PropRow[] = [
+  ['value / defaultValue / onChange', 'Tone', "'accent'", 'Controlled or uncontrolled selection.'],
+  ['tones', 'readonly Tone[]', 'all six', 'Subset the palette if you do not need every tone.'],
+  ['label / description / error', 'ReactNode', '—', 'Same Field chrome as TextField and Select.'],
+  ['size', "'sm' | 'md' | 'lg'", "'md'", 'Field density; the balls stay 16px except at lg.'],
+];
+
 const AVATAR_API: readonly PropRow[] = [
   ['name', 'string', '—', 'Required. Used as alt text and to derive initials.'],
   ['src', 'string', '—', 'Image URL; falls back to initials if it fails to load.'],
@@ -39,6 +56,7 @@ const AVATAR_API: readonly PropRow[] = [
 export function ActionsSection() {
   const [alignment, setAlignment] = useState('left');
   const [loading, setLoading] = useState(false);
+  const [swatchTone, setSwatchTone] = useState<Tone>('accent');
 
   const runLoading = () => {
     setLoading(true);
@@ -249,6 +267,39 @@ export function ActionsSection() {
               Featured
             </Badge>
             <Badge size="sm">sm</Badge>
+          </Labelled>
+        </Example>
+      </ComponentDoc>
+
+      <ComponentDoc
+        id="swatch"
+        name="Swatch · SwatchGroup"
+        purpose="A filled colour ball for status, tags and pickers. On its own it is decorative — the small dots on EventCalendar rows. Wrap a set in SwatchGroup and it becomes a labelled tone picker, the same control the calendar composer uses."
+        usage={`<Swatch tone="success" />
+
+<SwatchGroup
+  label="Colour"
+  value={tone}
+  onChange={setTone}
+/>`}
+        api={[...SWATCH_API, ...SWATCH_GROUP_API]}
+      >
+        <Example title="Sizes and tones" layout="stack">
+          <Labelled label="Decorative">
+            <Swatch tone="accent" size="sm" />
+            <Swatch tone="success" />
+            <Swatch tone="warning" />
+            <Swatch tone="danger" />
+            <Swatch tone="info" />
+            <Swatch tone="neutral" size="lg" />
+          </Labelled>
+          <Labelled label="Picker">
+            <SwatchGroup
+              label="Event colour"
+              value={swatchTone}
+              onChange={setSwatchTone}
+              size="sm"
+            />
           </Labelled>
         </Example>
       </ComponentDoc>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { DialogFrame } from './internal/DialogFrame';
 
 export type DrawerSide = 'left' | 'right' | 'top' | 'bottom';
@@ -24,11 +24,15 @@ export interface DrawerProps {
  * Edge-anchored panel sharing Modal's focus, scroll-lock and dismissal
  * behaviour. Left/right drawers become full-width sheets on small screens.
  */
-export function Drawer({ side = 'right', size, className, ...rest }: DrawerProps) {
+export function Drawer({ side = 'right', size, className, open, ...rest }: DrawerProps) {
+  const [exitSide, setExitSide] = useState(side);
+  if (open && side !== exitSide) setExitSide(side);
+
   return (
     <DialogFrame
+      open={open}
       block="mors-drawer"
-      surfaceClassName={`mors-drawer--${side}`}
+      surfaceClassName={`mors-drawer--${exitSide}`}
       className={className}
       style={size ? { ['--mors-drawer-size' as string]: size } : undefined}
       transitionDuration={320}

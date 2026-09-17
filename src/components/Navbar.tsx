@@ -1,8 +1,14 @@
 import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useEffect,
   useId,
   useState,
   type AnchorHTMLAttributes,
   type HTMLAttributes,
+  type MouseEvent,
+  type ReactElement,
   type ReactNode,
 } from 'react';
 import { cx } from '../utils/cx';
@@ -39,6 +45,25 @@ export function Navbar({
   const [open, setOpen] = useState(false);
   const panelId = `mors${useId()}-navbar-panel`;
 
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    window.addEventListener('hashchange', close);
+    return () => window.removeEventListener('hashchange', close);
+  }, [open]);
+
+  const panelLinks = Children.map(children, (child) => {
+    if (!isValidElement(child)) return child;
+    const element = child as ReactElement<{ onClick?: (event: MouseEvent<HTMLAnchorElement>) => void }>;
+    const previous = element.props.onClick;
+    return cloneElement(element, {
+      onClick: (event: MouseEvent<HTMLAnchorElement>) => {
+        previous?.(event);
+        setOpen(false);
+      },
+    });
+  });
+
   return (
     <header
       className={cx(
@@ -67,7 +92,7 @@ export function Navbar({
               label={open ? 'Close menu' : 'Open menu'}
               icon={<Icon name={open ? 'close' : 'menu'} />}
               variant="ghost"
-              size="sm"
+              size="md"
               aria-expanded={open}
               aria-controls={panelId}
               onClick={() => setOpen((value) => !value)}
@@ -78,7 +103,7 @@ export function Navbar({
 
       {children && (
         <nav id={panelId} className="mors-navbar-panel" aria-label={menuLabel} hidden={!open}>
-          {children}
+          {panelLinks}
         </nav>
       )}
     </header>

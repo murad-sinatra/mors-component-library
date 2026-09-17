@@ -1,6 +1,7 @@
-import { useId, type HTMLAttributes, type ReactNode } from 'react';
+import { useId, useState, type FormEvent, type HTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../utils/cx';
 import type { Size } from '../utils/types';
+import { Icon } from './Icon';
 
 export interface FieldIds {
   id: string;
@@ -28,6 +29,43 @@ export function describedBy(
     extra ?? null,
   ].filter(Boolean);
   return parts.length > 0 ? parts.join(' ') : undefined;
+}
+
+export const REQUIRED_ERROR = 'This field is required.';
+
+/**
+ * Turns the browser's native required tooltip into the library FieldError.
+ * Call `onInvalid` from the control; `reportValue` clears the message once
+ * the field has content again.
+ */
+export function useRequiredValidity(required: boolean | undefined, error: ReactNode | undefined) {
+  const [missing, setMissing] = useState(false);
+  const shown = error ?? (required && missing ? REQUIRED_ERROR : undefined);
+
+  const onInvalid = (event: FormEvent<HTMLElement>) => {
+    event.preventDefault();
+    if (required) setMissing(true);
+  };
+
+  const reportValue = (value: string) => {
+    if (missing && value.trim().length > 0) setMissing(false);
+  };
+
+  return { error: shown, onInvalid, reportValue };
+}
+
+export interface FieldErrorProps extends HTMLAttributes<HTMLParagraphElement> {
+  children: ReactNode;
+}
+
+/** Inline warning shown under an invalid field — replaces the browser tooltip. */
+export function FieldError({ children, className, ...rest }: FieldErrorProps) {
+  return (
+    <p className={cx('mors-field-error', className)} role="alert" {...rest}>
+      <Icon name="warning" className="mors-field-error-icon" />
+      <span>{children}</span>
+    </p>
+  );
 }
 
 export interface FieldProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
@@ -93,11 +131,7 @@ export function Field({
           {description}
         </p>
       )}
-      {error && (
-        <p className="mors-field-error" id={ids.errorId}>
-          {error}
-        </p>
-      )}
+      {error && <FieldError id={ids.errorId}>{error}</FieldError>}
     </div>
   );
 }

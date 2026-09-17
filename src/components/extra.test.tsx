@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NumberField } from './NumberField';
 import { FileField } from './FileField';
 import { List, ListItem } from './List';
 import { Link } from './Link';
+import { Navbar, NavbarLink } from './Navbar';
+import { SwatchGroup } from './Swatch';
 
 describe('NumberField', () => {
   it('steps within min and max', async () => {
@@ -52,5 +54,34 @@ describe('Link', () => {
     const link = screen.getByRole('link', { name: /Learn more/ });
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+});
+
+describe('Navbar', () => {
+  it('closes the disclosure panel after a link is activated', async () => {
+    render(
+      <Navbar brand="mors">
+        <NavbarLink href="#/components">Components</NavbarLink>
+      </Navbar>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Open menu' }));
+    expect(screen.getByRole('button', { name: 'Close menu' })).toHaveAttribute('aria-expanded', 'true');
+
+    const links = screen.getAllByRole('link', { name: 'Components' });
+    await userEvent.click(links[links.length - 1]!);
+
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveAttribute('aria-expanded', 'false');
+  });
+});
+
+describe('SwatchGroup', () => {
+  it('reports the chosen tone', async () => {
+    const onChange = vi.fn();
+    render(<SwatchGroup label="Colour" value="accent" onChange={onChange} />);
+
+    expect(screen.getByRole('button', { name: 'Accent' })).toHaveAttribute('aria-pressed', 'true');
+    await userEvent.click(screen.getByRole('button', { name: 'Success' }));
+    expect(onChange).toHaveBeenCalledWith('success');
   });
 });

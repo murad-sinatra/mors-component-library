@@ -1,7 +1,7 @@
 import { useRef, useState, type ChangeEvent, type DragEvent, type InputHTMLAttributes, type ReactNode } from 'react';
 import { cx } from '../utils/cx';
 import type { Size } from '../utils/types';
-import { describedBy, Field, useFieldIds } from './Field';
+import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
 import { Icon } from './Icon';
 
 export interface FileFieldProps
@@ -47,9 +47,11 @@ export function FileField({
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
+  const validity = useRequiredValidity(required, error);
 
   const apply = (next: File[]) => {
     setFiles(next);
+    validity.reportValue(next.length > 0 ? next[0]!.name : '');
     onFilesChange?.(next);
   };
 
@@ -62,7 +64,7 @@ export function FileField({
       ids={ids}
       label={label}
       description={description}
-      error={error}
+      error={validity.error}
       required={required}
       size={size}
       block={block}
@@ -96,10 +98,11 @@ export function FileField({
             disabled={disabled}
             required={required}
             multiple={multiple}
-            aria-invalid={error ? true : undefined}
-            aria-describedby={describedBy(ids, Boolean(description), Boolean(error), ariaDescribedBy)}
-            onChange={onChange}
+            aria-invalid={validity.error ? true : undefined}
+            aria-describedby={describedBy(ids, Boolean(description), Boolean(validity.error), ariaDescribedBy)}
             {...rest}
+            onInvalid={validity.onInvalid}
+            onChange={onChange}
           />
           <span className="mors-file-icon" aria-hidden="true">
             <Icon name="upload" />

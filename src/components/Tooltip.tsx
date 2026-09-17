@@ -12,9 +12,11 @@ import {
   type Ref,
 } from 'react';
 import { cx } from '../utils/cx';
+import { composeRefs } from '../utils/refs';
 import type { Align, Placement } from '../utils/types';
 import { useAnchoredPosition } from '../hooks/useAnchoredPosition';
 import { usePresence } from '../hooks/usePresence';
+import { Anchor } from './internal/Anchor';
 import { Portal } from './Portal';
 
 interface TooltipTriggerProps {
@@ -51,6 +53,7 @@ export function Tooltip({
   delay = 200,
   className,
 }: TooltipProps) {
+  const anchorRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -60,7 +63,7 @@ export function Tooltip({
 
   const position = useAnchoredPosition({
     open: open && mounted,
-    anchorRef: triggerRef,
+    anchorRef,
     floatingRef: tooltipRef,
     placement,
     align,
@@ -94,7 +97,10 @@ export function Tooltip({
 
   const trigger = isValidElement(children)
     ? cloneElement(children as ReactElement<TooltipTriggerProps>, {
-        ref: triggerRef,
+        ref: composeRefs(
+          triggerRef,
+          (children as ReactElement<TooltipTriggerProps>).props.ref,
+        ),
         'aria-describedby': mounted ? tooltipId : undefined,
         onPointerEnter: (event: React.PointerEvent<HTMLElement>) => {
           (children as ReactElement<TooltipTriggerProps>).props.onPointerEnter?.(event);
@@ -117,7 +123,7 @@ export function Tooltip({
 
   return (
     <>
-      {trigger}
+      <Anchor ref={anchorRef}>{trigger}</Anchor>
       {mounted && (
         <Portal>
           <div

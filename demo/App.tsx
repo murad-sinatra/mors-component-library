@@ -21,17 +21,17 @@ const ROUTES = [
 
 type RouteId = (typeof ROUTES)[number]['id'];
 
-function currentRoute(): RouteId {
+function parseRoute(fallback: RouteId): RouteId {
   const hash = window.location.hash.replace(/^#\/?/, '').split('/')[0] ?? '';
-  return ROUTES.some((route) => route.id === hash) ? (hash as RouteId) : 'overview';
+  return ROUTES.some((route) => route.id === hash) ? (hash as RouteId) : fallback;
 }
 
 /** Hash routing keeps the demo dependency-free and deep-linkable. */
 function useHashRoute(): [RouteId, (route: RouteId) => void] {
-  const [route, setRoute] = useState<RouteId>(currentRoute);
+  const [route, setRoute] = useState<RouteId>(() => parseRoute('overview'));
 
   useEffect(() => {
-    const onHashChange = () => setRoute(currentRoute());
+    const onHashChange = () => setRoute((prev) => parseRoute(prev));
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
@@ -50,6 +50,15 @@ export function App() {
       'design-system': 'Design system',
     };
     document.title = `${titles[route]} · mors-component-library`;
+  }, [route]);
+
+  useEffect(() => {
+    history.scrollRestoration = 'manual';
+  }, []);
+
+  useEffect(() => {
+    const nested = window.location.hash.startsWith(`#/${route}/`);
+    if (!nested) window.scrollTo(0, 0);
   }, [route]);
 
   return (

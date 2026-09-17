@@ -44,6 +44,7 @@
 .mors-page-button:focus-visible,
 .mors-calendar-day:focus-visible,
 .mors-accordion-trigger:focus-visible,
+.mors-swatch:focus-visible,
 .mors-close:focus-visible {
   outline: var(--mors-focus-width) solid
     color-mix(in srgb, var(--mors-focus-color) 45%, transparent);

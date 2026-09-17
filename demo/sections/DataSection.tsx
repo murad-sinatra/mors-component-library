@@ -52,6 +52,133 @@ const TABLE_API: readonly PropRow[] = [
   ['emptyState', 'ReactNode', "'No results'", 'Rendered in place of the body when rows is empty.'],
 ];
 
+const REGIONS = [
+  'US-East', 'US-West', 'EU-West', 'EU-Central', 'EU-North', 'APAC-1', 'APAC-2',
+  'APAC-3', 'LATAM', 'MEA', 'Canada', 'UK', 'India', 'Japan', 'Brazil', 'Australia',
+  'Singapore', 'Korea', 'Africa', 'Nordics', 'Benelux', 'Iberia', 'DACH', 'ANZ',
+] as const;
+
+const PACKED_ACCOUNTS: Account[] = Array.from({ length: 40 }, (_, index) => {
+  const plans: Account['plan'][] = ['Solo', 'Team', 'Enterprise'];
+  const statuses: Account['status'][] = ['active', 'trialing', 'paused'];
+  const owners = ['Ada Lovelace', 'Grace Hopper', 'Alan Turing', 'Katherine Johnson', 'Radia Perlman'];
+  return {
+    id: String(index + 1),
+    name: `Workspace ${String(index + 1).padStart(2, '0')}`,
+    owner: owners[index % owners.length]!,
+    plan: plans[index % plans.length]!,
+    seats: (index + 1) * 7,
+    status: statuses[index % statuses.length]!,
+  };
+});
+
+function PackedFilters() {
+  const [active, setActive] = useState<string[]>(() => Array.from(REGIONS.slice(0, 4)));
+  const toggle = (region: string) =>
+    setActive((current) =>
+      current.includes(region) ? current.filter((entry) => entry !== region) : [...current, region],
+    );
+
+  return (
+    <FilterBar
+      label="Region filters"
+      summary={`${active.length} selected`}
+      trailing={
+        <Button size="sm" variant="ghost" disabled={active.length === 0} onClick={() => setActive([])}>
+          Clear all
+        </Button>
+      }
+    >
+      {REGIONS.map((region) => (
+        <Chip
+          key={region}
+          size="sm"
+          selected={active.includes(region)}
+          onClick={() => toggle(region)}
+        >
+          {region}
+        </Chip>
+      ))}
+    </FilterBar>
+  );
+}
+
+function PackedTable() {
+  const [active, setActive] = useState<string[]>([]);
+  const rows = active.length === 0
+    ? PACKED_ACCOUNTS
+    : PACKED_ACCOUNTS.filter((_, index) => active.includes(REGIONS[index % REGIONS.length]!));
+
+  return (
+    <>
+      <FilterBar
+        label="Packed account filters"
+        summary={`${rows.length} of ${PACKED_ACCOUNTS.length}`}
+        trailing={
+          <Button size="sm" variant="ghost" disabled={active.length === 0} onClick={() => setActive([])}>
+            Clear all
+          </Button>
+        }
+      >
+        {REGIONS.map((region) => (
+          <Chip
+            key={region}
+            size="sm"
+            selected={active.includes(region)}
+            count={PACKED_ACCOUNTS.filter((_, index) => REGIONS[index % REGIONS.length] === region).length}
+            onClick={() =>
+              setActive((current) =>
+                current.includes(region)
+                  ? current.filter((entry) => entry !== region)
+                  : [...current, region],
+              )
+            }
+          >
+            {region}
+          </Chip>
+        ))}
+      </FilterBar>
+      <Table
+        size="sm"
+        zebra
+        columns={[
+          { id: 'name', header: 'Account', cell: (row) => row.name, sortValue: (row) => row.name },
+                      { id: 'owner', header: 'Owner', cell: (row) => row.owner, sortValue: (row) => row.owner, hideOnMobile: true },
+                      { id: 'plan', header: 'Plan', cell: (row) => row.plan, sortValue: (row) => row.plan, hideOnMobile: true },
+          {
+            id: 'seats',
+            header: 'Seats',
+            align: 'end',
+            cell: (row) => row.seats.toLocaleString(),
+            sortValue: (row) => row.seats,
+          },
+          {
+            id: 'status',
+            header: 'Status',
+            cell: (row) => (
+              <Badge tone={STATUS_TONE[row.status]} dot>
+                {row.status}
+              </Badge>
+            ),
+            sortValue: (row) => row.status,
+          },
+        ]}
+        rows={rows}
+        rowKey={(row) => row.id}
+        caption="Forty workspaces with twenty-four region filters"
+        emptyState={
+          <EmptyState
+            size="sm"
+            icon={<Icon name="search" />}
+            title="No workspaces match"
+            description="Clear a region chip. The table keeps its height."
+          />
+        }
+      />
+    </>
+  );
+}
+
 export function DataSection() {
   const { toast } = useToast();
   const [query, setQuery] = useState('');
@@ -64,8 +191,8 @@ export function DataSection() {
       return date;
     };
     return [
-      { id: 'ev-1', title: 'Design review', date: day(0), time: '09:30', tone: 'accent' },
-      { id: 'ev-2', title: 'Ship 0.1', date: day(0), time: '16:00', tone: 'success' },
+      { id: 'ev-1', title: 'Design review', date: day(0), time: '09:30', tone: 'accent', description: 'Homepage comps' },
+      { id: 'ev-2', title: 'Ship 0.1', date: day(0), time: '16:00', tone: 'success', description: 'Tag the release' },
       { id: 'ev-3', title: 'Offsite', date: day(2), tone: 'info', description: 'Studio all day' },
       { id: 'ev-4', title: 'Payroll', date: day(5), time: '11:00', tone: 'warning' },
     ];
@@ -193,18 +320,17 @@ export function DataSection() {
               />
             }
             trailing={
-              (plans.length > 0 || query.length > 0) && (
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  onClick={() => {
-                    setPlans([]);
-                    setQuery('');
-                  }}
-                >
-                  Clear all
-                </Button>
-              )
+              <Button
+                size="sm"
+                variant="ghost"
+                disabled={plans.length === 0 && query.length === 0}
+                onClick={() => {
+                  setPlans([]);
+                  setQuery('');
+                }}
+              >
+                Clear all
+              </Button>
             }
           >
             {(['Solo', 'Team', 'Enterprise'] as const).map((plan) => (
@@ -238,8 +364,13 @@ export function DataSection() {
           />
           <span className="demo-example-note">
             Click a column header to cycle ascending → descending → unsorted. The Plan column is
-            hidden below 768px via <code>hideOnMobile</code>.
+            hidden below 768px via <code>hideOnMobile</code>. Filters keep their slots: the search
+            clear control and Clear all never appear or disappear.
           </span>
+        </Example>
+
+        <Example title="Overuse — 24 filters, 40 rows" layout="stack">
+          <PackedTable />
         </Example>
 
         <Example title="Compact, sticky header" layout="stack">
@@ -288,6 +419,9 @@ export function DataSection() {
             <Chip size="sm">Small</Chip>
             <Chip onRemove={() => toast({ title: 'Filter removed' })}>Removable</Chip>
           </div>
+        </Example>
+        <Example title="Overuse — crowded filter row" layout="stack">
+          <PackedFilters />
         </Example>
       </ComponentDoc>
 
@@ -352,7 +486,7 @@ export function DataSection() {
       <ComponentDoc
         id="event-calendar"
         name="EventCalendar"
-        purpose="A month planner, not a date input. Click a day to inspect it, add events from the side panel, click an event to rename it, or remove it. Events are data — pass events and onEventsChange to control it from your app."
+        purpose="A month planner, not a date input. Click a day to inspect it, add events from the side panel, then edit a card to change its title and description or delete it. Events are data — pass events and onEventsChange to control it from your app."
         usage={`<EventCalendar
   events={events}
   onEventsChange={setEvents}

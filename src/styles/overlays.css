@@ -68,6 +68,10 @@
   max-inline-size: 46rem;
 }
 
+.mors-modal--xl {
+  max-inline-size: 56rem;
+}
+
 .mors-modal-header,
 .mors-drawer-header {
   display: flex;
@@ -109,9 +113,14 @@
 
 .mors-modal-body,
 .mors-drawer-body {
+  --mors-panel-gutter: calc(var(--mors-focus-width) + var(--mors-focus-offset));
   flex: 1;
   min-block-size: 0;
-  margin-block-start: var(--mors-space-5);
+  /* Gutter lives inside the scrollport so focus rings on edge fields are not clipped.
+     Negative inline margin keeps the control box aligned with the header/footer. */
+  margin-block-start: calc(var(--mors-space-5) - var(--mors-panel-gutter));
+  margin-inline: calc(var(--mors-panel-gutter) * -1);
+  padding: var(--mors-panel-gutter);
   overflow-y: auto;
   color: var(--mors-color-text-secondary);
   font-size: var(--mors-text-base);
@@ -131,14 +140,22 @@
   align-items: center;
   justify-content: flex-end;
   gap: var(--mors-space-3);
-  margin-block-start: var(--mors-space-7);
+  margin-block-start: calc(var(--mors-space-7) - var(--mors-focus-width) - var(--mors-focus-offset));
 }
 
 @media (max-width: 480px) {
+  .mors-overlay.mors-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
   .mors-modal {
-    max-block-size: 92vh;
-    padding: var(--mors-space-6);
-    border-radius: var(--mors-radius-xl);
+    max-inline-size: 100%;
+    max-block-size: min(92dvh, 52rem);
+    padding: var(--mors-space-6) var(--mors-space-5)
+      max(var(--mors-space-6), env(safe-area-inset-bottom));
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
   }
 
   .mors-modal-footer {
@@ -218,17 +235,99 @@
 }
 
 @media (max-width: 640px) {
+  .mors-overlay.mors-modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .mors-modal {
+    max-inline-size: 100%;
+    max-block-size: min(92dvh, 52rem);
+    padding: var(--mors-space-6) var(--mors-space-5)
+      max(var(--mors-space-6), env(safe-area-inset-bottom));
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  .mors-modal-footer {
+    justify-content: stretch;
+  }
+
+  .mors-modal-footer > .mors-button {
+    flex: 1 1 auto;
+  }
+
   .mors-drawer--right,
   .mors-drawer--left {
     --mors-drawer-size: 88vw;
     padding: var(--mors-space-6);
   }
+
+  .mors-toast-viewport {
+    inset-inline: 0;
+    inline-size: auto;
+    max-inline-size: none;
+    translate: none;
+    padding-inline: max(var(--mors-space-4), env(safe-area-inset-left))
+      max(var(--mors-space-4), env(safe-area-inset-right));
+  }
+
+  .mors-toast-viewport--top-left,
+  .mors-toast-viewport--top-center,
+  .mors-toast-viewport--top-right {
+    padding-block-start: max(var(--mors-space-4), env(safe-area-inset-top));
+  }
+
+  .mors-toast-viewport--bottom-left,
+  .mors-toast-viewport--bottom-center,
+  .mors-toast-viewport--bottom-right {
+    padding-block-end: max(var(--mors-space-4), env(safe-area-inset-bottom));
+  }
+
+  .mors-popover,
+  .mors-menu {
+    max-inline-size: calc(100vw - 1.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .mors-drawer--right,
+  .mors-drawer--left {
+    --mors-drawer-size: 100%;
+    border-radius: 0;
+    padding: var(--mors-space-6) var(--mors-space-5)
+      max(var(--mors-space-6), env(safe-area-inset-bottom));
+  }
+
+  .mors-drawer--top {
+    padding-block-start: max(var(--mors-space-6), env(safe-area-inset-top));
+  }
+
+  .mors-drawer--bottom {
+    padding-block-end: max(var(--mors-space-6), env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- Floating trigger wrapper -------------------------------------- */
+
+.mors-floating-anchor {
+  display: inline-flex;
+  vertical-align: middle;
+  max-inline-size: 100%;
+}
+
+.mors-floating-anchor:has(.mors-button--block),
+.mors-field .mors-floating-anchor {
+  display: flex;
+  inline-size: 100%;
 }
 
 /* ---------- Popover ------------------------------------------------------- */
 
 .mors-popover {
+  position: fixed;
   z-index: var(--mors-z-popover);
+  inline-size: max-content;
   max-inline-size: min(22rem, calc(100vw - 2rem));
   padding: var(--mors-space-5);
   border: 1px solid var(--mors-color-border-subtle);
@@ -262,9 +361,11 @@
 /* ---------- Menu ---------------------------------------------------------- */
 
 .mors-menu {
+  position: fixed;
   z-index: var(--mors-z-dropdown);
   display: flex;
   flex-direction: column;
+  inline-size: max-content;
   gap: 2px;
   min-inline-size: 12rem;
   max-inline-size: min(20rem, calc(100vw - 2rem));
@@ -363,7 +464,9 @@
 /* ---------- Tooltip ------------------------------------------------------- */
 
 .mors-tooltip {
+  position: fixed;
   z-index: var(--mors-z-tooltip);
+  inline-size: max-content;
   max-inline-size: 18rem;
   padding: var(--mors-space-2) var(--mors-space-4);
   border-radius: var(--mors-radius-sm);

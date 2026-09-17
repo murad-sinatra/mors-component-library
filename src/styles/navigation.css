@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--mors-space-6);
+  max-inline-size: 100%;
+  min-inline-size: 0;
   font-family: var(--mors-font-sans);
 }
 
@@ -13,8 +15,11 @@
   display: flex;
   align-items: center;
   gap: var(--mors-space-2);
+  max-inline-size: 100%;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mors-tab-list::-webkit-scrollbar {
@@ -268,8 +273,11 @@
 .mors-pagination {
   --mors-page-size: 36px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: var(--mors-space-2);
+  max-inline-size: 100%;
   font-family: var(--mors-font-sans);
 }
 
@@ -279,7 +287,9 @@
 
 .mors-pagination-list {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: var(--mors-space-2);
   margin: 0;
   padding: 0;
@@ -335,7 +345,9 @@
 /* ---------- Navbar ------------------------------------------------------- */
 
 .mors-navbar {
+  position: relative;
   inline-size: 100%;
+  padding-block-start: env(safe-area-inset-top);
   border-block-end: 1px solid var(--mors-color-border-subtle);
   background: var(--mors-color-surface);
   font-family: var(--mors-font-sans);
@@ -355,18 +367,21 @@
 .mors-navbar-bar {
   display: flex;
   align-items: center;
-  gap: var(--mors-space-6);
+  gap: var(--mors-space-4);
   inline-size: 100%;
   max-inline-size: var(--mors-container-xl);
   min-block-size: 48px;
+  min-inline-size: 0;
   margin-inline: auto;
-  padding-inline: var(--mors-space-6);
+  padding-inline: max(var(--mors-space-4), env(safe-area-inset-left))
+    max(var(--mors-space-4), env(safe-area-inset-right));
 }
 
 .mors-navbar-brand {
   display: flex;
   align-items: center;
   gap: var(--mors-space-3);
+  min-inline-size: 0;
   font-size: var(--mors-text-md);
   font-weight: var(--mors-weight-semibold);
   letter-spacing: var(--mors-tracking-tight);
@@ -418,11 +433,25 @@
   display: none;
 }
 
+.mors-navbar--open {
+  z-index: var(--mors-z-sticky);
+  background: var(--mors-color-surface);
+}
+
+.mors-navbar--open.mors-navbar--translucent {
+  background: var(--mors-color-surface);
+  backdrop-filter: none;
+}
+
 .mors-navbar-panel {
   display: none;
 }
 
 @media (max-width: 768px) {
+  .mors-navbar-bar {
+    gap: var(--mors-space-3);
+  }
+
   .mors-navbar-links {
     display: none;
   }
@@ -432,11 +461,18 @@
   }
 
   .mors-navbar-panel {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 100%;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--mors-space-2);
-    padding: var(--mors-space-3) var(--mors-space-6) var(--mors-space-6);
+    gap: var(--mors-space-1);
+    padding: var(--mors-space-3) max(var(--mors-space-4), env(safe-area-inset-right))
+      max(var(--mors-space-5), env(safe-area-inset-bottom)) max(var(--mors-space-4), env(safe-area-inset-left));
     border-block-start: 1px solid var(--mors-color-border-subtle);
+    background: var(--mors-color-surface);
+    box-shadow: var(--mors-shadow-lg);
     animation: mors-rise-in var(--mors-duration-base) var(--mors-ease-out);
   }
 
@@ -445,7 +481,16 @@
   }
 
   .mors-navbar-panel .mors-navbar-link {
-    padding: var(--mors-space-3) 0;
+    padding: var(--mors-space-4);
+    border-radius: var(--mors-radius-sm);
     font-size: var(--mors-text-base);
+  }
+
+  .mors-navbar-panel .mors-navbar-link--active {
+    background: var(--mors-color-surface-hover);
+  }
+
+  .mors-pagination {
+    --mors-page-size: 40px;
   }
 }

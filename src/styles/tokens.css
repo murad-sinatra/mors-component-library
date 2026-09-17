@@ -170,6 +170,8 @@
   --mors-focus-offset: 2px;
   --mors-focus-ring: 0 0 0 var(--mors-focus-width)
     color-mix(in srgb, var(--mors-focus-color) 40%, transparent);
+  /* Room for the ring inside overflow:auto panels (modal/drawer bodies). */
+  --mors-focus-gutter: calc(var(--mors-focus-width) + var(--mors-focus-offset));
 
   /* ---------- Motion ----------------------------------------------------- */
   --mors-duration-instant: 80ms;

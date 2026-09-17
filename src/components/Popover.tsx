@@ -3,6 +3,7 @@ import {
   isValidElement,
   useCallback,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   type MouseEvent,
@@ -11,11 +12,13 @@ import {
   type Ref,
 } from 'react';
 import { cx } from '../utils/cx';
+import { composeRefs } from '../utils/refs';
 import type { Align, Placement } from '../utils/types';
 import { useAnchoredPosition } from '../hooks/useAnchoredPosition';
 import { useControllableState } from '../hooks/useControllableState';
 import { useDismiss } from '../hooks/useDismiss';
 import { usePresence } from '../hooks/usePresence';
+import { Anchor } from './internal/Anchor';
 import { Portal } from './Portal';
 
 /** Props the library injects into a floating-element trigger. */
@@ -29,7 +32,7 @@ export interface TriggerInjectedProps {
 }
 
 export interface PopoverProps {
-  /** Any focusable element; it receives ref and aria-expanded/-controls. */
+  /** Any focusable element; it receives aria-expanded and aria-controls. */
   trigger: ReactElement;
   children: ReactNode;
   open?: boolean;
@@ -42,6 +45,10 @@ export interface PopoverProps {
   ariaLabel?: string;
   padding?: 'none' | 'md';
   className?: string;
+  /** Stretch the panel to the trigger's width — used by Select. */
+  matchWidth?: boolean;
+  role?: 'dialog' | 'listbox';
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 }
 
 /**
@@ -60,32 +67,43 @@ export function Popover({
   ariaLabel,
   padding = 'md',
   className,
+  matchWidth = false,
+  role = 'dialog',
+  onKeyDown,
 }: PopoverProps) {
+  const anchorRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const refs = useMemo(() => [triggerRef, panelRef], [triggerRef, panelRef]);
+  const refs = useMemo(() => [anchorRef, panelRef], [anchorRef, panelRef]);
   const panelId = `mors${useId()}-popover`;
 
   const [isOpen, setOpen] = useControllableState(open, defaultOpen, onOpenChange);
   const { mounted, state } = usePresence(isOpen, 160);
   const position = useAnchoredPosition({
     open: isOpen && mounted,
-    anchorRef: triggerRef,
+    anchorRef,
     floatingRef: panelRef,
     placement,
     align,
     offset,
+    matchWidth,
   });
 
   const dismiss = useCallback(() => setOpen(false), [setOpen]);
   useDismiss({ enabled: isOpen, onDismiss: dismiss, refs });
 
-  // The trigger is user-supplied, so its props are widened once, here.
+  useLayoutEffect(() => {
+    if (role === 'listbox' && isOpen && mounted) panelRef.current?.focus();
+  }, [role, isOpen, mounted]);
+
   const triggerElement = isValidElement(trigger)
     ? cloneElement(trigger as ReactElement<TriggerInjectedProps>, {
-        ref: triggerRef,
+        ref: composeRefs(
+          triggerRef,
+          (trigger as ReactElement<TriggerInjectedProps>).props.ref,
+        ),
         'aria-expanded': isOpen,
-        'aria-haspopup': 'dialog',
+        'aria-haspopup': role === 'listbox' ? 'listbox' : 'dialog',
         'aria-controls': mounted ? panelId : undefined,
         onClick: (event: MouseEvent<HTMLElement>) => {
           (trigger as ReactElement<TriggerInjectedProps>).props.onClick?.(event);
@@ -96,18 +114,20 @@ export function Popover({
 
   return (
     <>
-      {triggerElement}
+      <Anchor ref={anchorRef}>{triggerElement}</Anchor>
       {mounted && (
         <Portal>
           <div
             ref={panelRef}
             id={panelId}
-            role="dialog"
+            role={role}
             aria-label={ariaLabel}
             className={cx('mors-popover', padding === 'none' && 'mors-popover--flush', className)}
             style={position.style}
             data-state={state}
             data-placement={position.placement}
+            tabIndex={role === 'listbox' ? 0 : undefined}
+            onKeyDown={onKeyDown}
           >
             {children}
           </div>

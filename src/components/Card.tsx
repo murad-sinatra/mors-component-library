@@ -4,13 +4,16 @@ import { cx } from '../utils/cx';
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   elevation?: 'flat' | 'raised' | 'floating';
   padding?: 'none' | 'sm' | 'md' | 'lg';
-  /** Adds hover/press motion for cards that behave like a link or button. */
+  /** Optional lift and stronger shadow on pointer hover. Implied by `interactive`. */
+  hover?: boolean;
+  /** Adds hover lift plus press feedback for cards that behave like a link or button. */
   interactive?: boolean;
 }
 
 export function Card({
   elevation = 'raised',
   padding = 'md',
+  hover = false,
   interactive = false,
   className,
   children,
@@ -22,6 +25,7 @@ export function Card({
         'mors-card',
         `mors-card--${elevation}`,
         `mors-card--padding-${padding}`,
+        (hover || interactive) && 'mors-card--hover',
         interactive && 'mors-card--interactive',
         className,
       )}

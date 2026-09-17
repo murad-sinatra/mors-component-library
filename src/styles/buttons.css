@@ -15,6 +15,7 @@
   justify-content: center;
   gap: var(--mors-space-3);
   min-block-size: var(--mors-button-height);
+  max-inline-size: 100%;
   padding-inline: var(--mors-button-padding);
   border: 1px solid var(--mors-button-border);
   border-radius: var(--mors-radius-pill);
@@ -30,6 +31,7 @@
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition:
     background-color var(--mors-duration-fast) var(--mors-ease-standard),
@@ -208,6 +210,7 @@
 
 .mors-button-group {
   display: inline-flex;
+  max-inline-size: 100%;
 }
 
 .mors-button-group--vertical {
@@ -217,6 +220,11 @@
 .mors-button-group--spaced {
   gap: var(--mors-space-3);
   flex-wrap: wrap;
+}
+
+.mors-button-group--attached.mors-button-group--horizontal {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mors-button-group--attached.mors-button-group--horizontal > .mors-button:not(:first-child) {

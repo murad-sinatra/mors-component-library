@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Card · Badge · Avatar · Divider · Alert · EmptyState
+   Card · Swatch · Badge · Avatar · Divider · Alert · EmptyState
    ========================================================================== */
 
 .mors-card {
@@ -15,6 +15,8 @@
   color: var(--mors-color-text);
   font-family: var(--mors-font-sans);
   overflow: hidden;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   transition:
     box-shadow var(--mors-duration-base) var(--mors-ease-standard),
     transform var(--mors-duration-base) var(--mors-ease-standard),
@@ -50,14 +52,19 @@
   gap: var(--mors-space-6);
 }
 
+.mors-card--hover,
 .mors-card--interactive {
-  cursor: pointer;
+  overflow: visible;
 }
 
-.mors-card--interactive:hover {
+.mors-card--hover:hover {
   transform: translate3d(0, -2px, 0);
   box-shadow: var(--mors-shadow-md);
   border-color: var(--mors-color-border);
+}
+
+.mors-card--interactive {
+  cursor: pointer;
 }
 
 .mors-card--interactive:active {
@@ -66,6 +73,7 @@
 
 .mors-card-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--mors-space-5);
@@ -140,6 +148,90 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
+}
+
+/* ---------- Swatch -------------------------------------------------------- */
+
+.mors-swatch {
+  --mors-swatch-fill: var(--mors-color-text-tertiary);
+  --mors-swatch-size: 16px;
+
+  display: inline-flex;
+  flex: none;
+  inline-size: var(--mors-swatch-size);
+  block-size: var(--mors-swatch-size);
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--mors-radius-circle);
+  background: var(--mors-swatch-fill);
+  color: inherit;
+  font: inherit;
+  vertical-align: middle;
+  transition:
+    box-shadow var(--mors-duration-fast) var(--mors-ease-standard),
+    transform var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+span.mors-swatch {
+  cursor: default;
+}
+
+button.mors-swatch {
+  cursor: pointer;
+}
+
+button.mors-swatch:hover:not(:disabled) {
+  transform: scale(1.08);
+}
+
+button.mors-swatch:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.mors-swatch--sm {
+  --mors-swatch-size: 8px;
+  border-width: 0;
+}
+
+.mors-swatch--lg {
+  --mors-swatch-size: 22px;
+}
+
+.mors-swatch--accent {
+  --mors-swatch-fill: var(--mors-color-accent);
+}
+
+.mors-swatch--success {
+  --mors-swatch-fill: var(--mors-color-success);
+}
+
+.mors-swatch--warning {
+  --mors-swatch-fill: var(--mors-color-warning);
+}
+
+.mors-swatch--danger {
+  --mors-swatch-fill: var(--mors-color-danger);
+}
+
+.mors-swatch--info {
+  --mors-swatch-fill: var(--mors-color-info);
+}
+
+.mors-swatch--neutral {
+  --mors-swatch-fill: var(--mors-color-text-tertiary);
+}
+
+.mors-swatch--selected {
+  box-shadow: 0 0 0 2px var(--mors-color-text);
+}
+
+.mors-swatch-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mors-space-2);
+  min-block-size: var(--mors-field-height);
 }
 
 /* ---------- Badge --------------------------------------------------------- */
@@ -508,6 +600,7 @@
 
 .mors-alert-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--mors-space-3);
   margin-block-start: var(--mors-space-2);
@@ -531,6 +624,7 @@
   color: var(--mors-color-text);
   font-family: var(--mors-font-sans);
   text-align: center;
+  max-inline-size: 100%;
 }
 
 .mors-empty-state--sm {
@@ -577,6 +671,7 @@
   justify-content: center;
   gap: var(--mors-space-3);
   margin-block-start: var(--mors-space-2);
+  max-inline-size: 100%;
 }
 
 /* ---------- List ---------------------------------------------------------- */
@@ -644,6 +739,7 @@
   color: var(--mors-color-text);
   font-weight: var(--mors-weight-medium);
   letter-spacing: var(--mors-tracking-tight);
+  overflow-wrap: anywhere;
 }
 
 .mors-list-subtitle {
@@ -654,4 +750,19 @@
 .mors-list-chevron {
   flex: none;
   color: var(--mors-color-text-tertiary);
+}
+
+@media (max-width: 640px) {
+  .mors-empty-state {
+    padding: var(--mors-space-8) var(--mors-space-4);
+  }
+
+  .mors-card:not(.mors-card--padding-none):not(.mors-card--padding-lg) {
+    --mors-card-padding: var(--mors-space-5);
+  }
+
+  .mors-accordion-trigger,
+  .mors-accordion-content {
+    padding-inline: var(--mors-space-5);
+  }
 }

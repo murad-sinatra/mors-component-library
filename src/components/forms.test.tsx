@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SearchField, Select, TextField } from './TextField';
+import { SearchField, TextField } from './TextField';
+import { Select } from './Select';
 import { Checkbox, RadioGroup, Radio, Switch } from './Toggles';
 import { Slider } from './Slider';
 import { Menu, MenuItem } from './Menu';
@@ -17,6 +18,14 @@ describe('TextField', () => {
     const input = screen.getByLabelText('Work email');
     expect(input).toHaveAttribute('aria-invalid', 'true');
     expect(input).toHaveAccessibleDescription(/We only use this for receipts\.\s*Required/);
+  });
+
+  it('shows FieldError instead of the native required tooltip', () => {
+    render(<TextField label="Title" required />);
+    const input = screen.getByRole('textbox', { name: /title/i });
+    fireEvent.invalid(input);
+    expect(screen.getByRole('alert')).toHaveTextContent('This field is required.');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
   });
 });
 
@@ -61,9 +70,10 @@ describe('Select', () => {
       />,
     );
 
-    await userEvent.selectOptions(screen.getByLabelText('Plan'), 'solo');
-    expect(screen.getByLabelText('Plan')).toHaveValue('solo');
-    expect(onChange).toHaveBeenCalled();
+    await userEvent.click(screen.getByRole('button', { name: 'Plan' }));
+    await userEvent.click(await screen.findByRole('option', { name: 'Solo' }));
+    expect(onChange).toHaveBeenCalledWith('solo');
+    expect(screen.getByRole('button', { name: 'Plan' })).toHaveTextContent('Solo');
   });
 });
 

@@ -74,10 +74,12 @@ export function IconButton({
   size = 'md',
   pill = true,
   className,
+  ref,
   ...rest
 }: IconButtonProps) {
   return (
     <Button
+      ref={ref}
       variant={variant}
       size={size}
       pill={pill}

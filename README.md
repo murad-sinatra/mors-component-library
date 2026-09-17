@@ -19,7 +19,7 @@ Not affiliated with or endorsed by Apple Inc.
 | --- | --- |
 | Actions | `Button`, `IconButton`, `ButtonGroup`, `Link`, `Icon` |
 | Forms | `TextField`, `Textarea`, `Select`, `SearchField`, `NumberField`, `FileField`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Slider`, `DatePicker` |
-| Content | `Card`, `List`, `Divider`, `EmptyState`, `Badge`, `Avatar`, `AvatarGroup` |
+| Content | `Card`, `List`, `Divider`, `EmptyState`, `Badge`, `Swatch`, `SwatchGroup`, `Avatar`, `AvatarGroup` |
 | Feedback | `Alert`, `Spinner`, `Skeleton`, `Progress`, `Toast` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Menu`, `Tooltip` |
 | Navigation | `Navbar`, `Tabs`, `Accordion`, `Breadcrumbs`, `Pagination` |

@@ -20,10 +20,11 @@ import { ComponentDoc, Example, Section, type PropRow } from '../components/Doc'
 const FIELD_API: readonly PropRow[] = [
   ['label', 'ReactNode', '—', 'Rendered as a real <label> tied to the control by id.'],
   ['description', 'ReactNode', '—', 'Help text, linked with aria-describedby.'],
-  ['error', 'ReactNode', '—', 'Presence switches the field to its invalid state and sets aria-invalid.'],
+  ['error', 'ReactNode', '—', 'Renders FieldError under the control and sets aria-invalid.'],
+  ['required', 'boolean', 'false', 'Asterisk on the label. An empty submit shows FieldError instead of the browser tooltip.'],
   ['size', "'sm' | 'md' | 'lg'", "'md'", 'Control height and type size.'],
   ['block', 'boolean', 'true', 'Full width; set false for inline layouts.'],
-  ['…rest', 'native input attributes', '—', 'value, onChange, required, disabled, placeholder, …'],
+  ['…rest', 'native input attributes', '—', 'value, onChange, disabled, placeholder, …'],
 ];
 
 const PLANS = [
@@ -32,6 +33,16 @@ const PLANS = [
   { label: 'Enterprise — unlimited', value: 'enterprise' },
   { label: 'Legacy (unavailable)', value: 'legacy', disabled: true },
 ];
+
+const COUNTRIES = [
+  'Argentina', 'Australia', 'Austria', 'Belgium', 'Brazil', 'Canada', 'Chile',
+  'China', 'Colombia', 'Czechia', 'Denmark', 'Egypt', 'Estonia', 'Finland',
+  'France', 'Germany', 'Ghana', 'Greece', 'Hungary', 'Iceland', 'India',
+  'Indonesia', 'Ireland', 'Israel', 'Italy', 'Japan', 'Kenya', 'Latvia',
+  'Lithuania', 'Mexico', 'Netherlands', 'New Zealand', 'Nigeria', 'Norway',
+  'Poland', 'Portugal', 'Singapore', 'South Korea', 'Spain', 'Sweden',
+  'Switzerland', 'United Kingdom', 'United States', 'Vietnam',
+].map((label) => ({ label, value: label.toLowerCase().replace(/\s+/g, '-') }));
 
 export function FormsSection() {
   const [email, setEmail] = useState('');
@@ -51,7 +62,7 @@ export function FormsSection() {
         id="text-field"
         name="TextField"
         tags={['native input']}
-        purpose="Single-line text entry with optional leading icon and trailing adornment. Label, description and error are wired to the input automatically, so screen readers announce the full picture."
+        purpose="Single-line text entry with optional leading icon and trailing adornment. Label, description and error are wired to the input automatically, so screen readers announce the full picture. Required fields show FieldError on submit — never the browser’s native tooltip."
         usage={`<TextField
   label="Work email"
   type="email"
@@ -117,8 +128,8 @@ export function FormsSection() {
       <ComponentDoc
         id="select"
         name="Select"
-        tags={['native select']}
-        purpose="A native select styled to match the rest of the library. Using the platform control means correct behaviour on touch devices, with no listbox to re-implement."
+        tags={['custom listbox']}
+        purpose="A field-styled combobox. The trigger matches TextField; the menu is a custom listbox with the same surface as Menu, so option hover, selection and disabled states follow the design system instead of the operating system picker."
         usage={`<Select
   label="Plan"
   placeholder="Choose a plan"
@@ -127,25 +138,39 @@ export function FormsSection() {
     { label: 'Team', value: 'team' },
     { label: 'Legacy', value: 'legacy', disabled: true },
   ]}
+  value={plan}
+  onChange={setPlan}
 />`}
         api={[
           ['options', 'readonly SelectOption[]', '—', '{ label, value, disabled? } entries.'],
-          ['placeholder', 'string', '—', 'Disabled first option shown when nothing is selected.'],
-          ['…', 'see TextField', '—', 'Same field props.'],
+          ['placeholder', 'string', "'Select'", 'Shown on the trigger when nothing is selected.'],
+          ['value / defaultValue / onChange', 'string / (value) => void', "''", 'Controlled or uncontrolled.'],
+          ['name', 'string', '—', 'Posted via a hidden input, so it still works in native forms.'],
+          ['…', 'see TextField', '—', 'Same field props: label, description, error, size, block.'],
         ]}
       >
         <Example title="Options and states" layout="grid">
           <Select label="Plan" options={PLANS} defaultValue="team" />
-          <Select label="Region" options={PLANS} placeholder="Choose a region" defaultValue="" />
+          <Select label="Region" options={PLANS} placeholder="Choose a region" />
           <Select label="Disabled" options={PLANS} defaultValue="solo" disabled />
           <Select label="Small" size="sm" options={PLANS} defaultValue="solo" />
+        </Example>
+        <Example title="Overuse — 40 options" layout="stack">
+          <Select
+            label="Country"
+            placeholder="Search by typing a letter"
+            options={COUNTRIES}
+          />
+          <span className="demo-example-note">
+            The list scrolls inside the panel. Type a letter to jump; arrows move, Enter selects.
+          </span>
         </Example>
       </ComponentDoc>
 
       <ComponentDoc
         id="search-field"
         name="SearchField"
-        purpose="A TextField preset for search: leading magnifier, a clear button that appears once there is text, Enter to submit and Escape to clear."
+        purpose="A TextField preset for search: leading magnifier, a reserved clear control that reveals once there is text (so the field never changes width), Enter to submit and Escape to clear."
         usage={`<SearchField
   label="Search invoices"
   value={query}
@@ -168,7 +193,7 @@ export function FormsSection() {
             onClear={() => setSearch('')}
           />
           <span className="demo-example-note">
-            {search ? `Filtering by “${search}” — press Escape to clear.` : 'Type to reveal the clear button.'}
+            {search ? `Filtering by “${search}” — press Escape to clear.` : 'Type to enable the clear button. Layout stays put.'}
           </span>
         </Example>
       </ComponentDoc>

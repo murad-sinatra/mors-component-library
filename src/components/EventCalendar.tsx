@@ -13,7 +13,9 @@ import {
 } from '../utils/date';
 import { useControllableState } from '../hooks/useControllableState';
 import { Button, IconButton } from './Button';
+import { Card } from './Card';
 import { Icon } from './Icon';
+import { Swatch, SwatchGroup } from './Swatch';
 import { TextField } from './TextField';
 
 export type EventTone = Extract<Tone, 'accent' | 'success' | 'warning' | 'danger' | 'info' | 'neutral'>;
@@ -49,7 +51,6 @@ export interface EventCalendarProps
 }
 
 const EMPTY_EVENTS: CalendarEvent[] = [];
-const TONES: EventTone[] = ['accent', 'success', 'warning', 'danger', 'info', 'neutral'];
 
 function createId(): string {
   return `mors-evt-${Math.random().toString(36).slice(2, 9)}`;
@@ -71,7 +72,7 @@ function byDay(events: readonly CalendarEvent[]): Map<string, CalendarEvent[]> {
 
 /**
  * Interactive month calendar for scheduling. Days show event chips; selecting a
- * day opens a detail pane where events can be added, renamed or removed.
+ * day opens a detail pane where events can be added, edited or removed.
  */
 export function EventCalendar({
   events,
@@ -104,10 +105,12 @@ export function EventCalendar({
     onSelectedDateChange,
   );
   const [draftTitle, setDraftTitle] = useState('');
+  const [draftDescription, setDraftDescription] = useState('');
   const [draftTime, setDraftTime] = useState('');
   const [draftTone, setDraftTone] = useState<EventTone>('accent');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   const today = startOfDay(new Date());
   const days = monthGrid(visibleMonth, weekStartsOn);
@@ -134,12 +137,20 @@ export function EventCalendar({
       title,
       date: startOfDay(selected),
       time: draftTime.trim() || undefined,
+      description: draftDescription.trim() || undefined,
       tone: draftTone,
     };
     commit([...items, next]);
     onEventAdd?.(next);
     setDraftTitle('');
+    setDraftDescription('');
     setDraftTime('');
+  };
+
+  const beginEdit = (entry: CalendarEvent) => {
+    setEditingId(entry.id);
+    setEditTitle(entry.title);
+    setEditDescription(entry.description ?? '');
   };
 
   const saveEdit = (id: string) => {
@@ -149,7 +160,11 @@ export function EventCalendar({
     commit(
       items.map((entry) => {
         if (entry.id !== id) return entry;
-        updated = { ...entry, title };
+        updated = {
+          ...entry,
+          title,
+          description: editDescription.trim() || undefined,
+        };
         return updated;
       }),
     );
@@ -267,58 +282,72 @@ export function EventCalendar({
 
           <ul className="mors-event-calendar-list">
             {selectedEvents.map((entry) => (
-              <li key={entry.id} className="mors-event-calendar-item">
-                <span
-                  className={cx(
-                    'mors-event-calendar-dot',
-                    `mors-event-calendar-dot--${entry.tone ?? 'accent'}`,
+              <li key={entry.id}>
+                <Card elevation="raised" padding="sm" className="mors-event-calendar-item">
+                  {editingId === entry.id ? (
+                    <form
+                      className="mors-event-calendar-edit"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        saveEdit(entry.id);
+                      }}
+                    >
+                      <div className="mors-event-calendar-item-row">
+                        <Swatch tone={entry.tone ?? 'accent'} size="sm" />
+                        {entry.time && <span className="mors-event-calendar-time">{entry.time}</span>}
+                      </div>
+                      <TextField
+                        label="Title"
+                        value={editTitle}
+                        onChange={(event) => setEditTitle(event.currentTarget.value)}
+                        size="sm"
+                        required
+                      />
+                      <TextField
+                        label="Description"
+                        placeholder="Optional note"
+                        value={editDescription}
+                        onChange={(event) => setEditDescription(event.currentTarget.value)}
+                        size="sm"
+                      />
+                      <div className="mors-event-calendar-edit-actions">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          startIcon={<Icon name="trash" />}
+                          aria-label={`Delete ${entry.title}`}
+                          onClick={() => removeEvent(entry.id)}
+                        >
+                          Delete
+                        </Button>
+                        <Button type="submit" size="sm">
+                          Save
+                        </Button>
+                      </div>
+                    </form>
+                  ) : (
+                    <div className="mors-event-calendar-item-row">
+                      <Swatch tone={entry.tone ?? 'accent'} size="sm" />
+                      <div className="mors-event-calendar-item-body">
+                        {entry.time && <span className="mors-event-calendar-time">{entry.time}</span>}
+                        <span className="mors-event-calendar-item-title">{entry.title}</span>
+                        {entry.description && (
+                          <span className="mors-event-calendar-item-note">{entry.description}</span>
+                        )}
+                      </div>
+                      {!readOnly && (
+                        <IconButton
+                          label={`Edit ${entry.title}`}
+                          icon={<Icon name="edit" />}
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => beginEdit(entry)}
+                        />
+                      )}
+                    </div>
                   )}
-                  aria-hidden="true"
-                />
-                {editingId === entry.id ? (
-                  <form
-                    className="mors-event-calendar-edit"
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      saveEdit(entry.id);
-                    }}
-                  >
-                    <TextField
-                      aria-label="Event title"
-                      value={editTitle}
-                      onChange={(event) => setEditTitle(event.currentTarget.value)}
-                      size="sm"
-                    />
-                    <Button type="submit" size="sm">
-                      Save
-                    </Button>
-                  </form>
-                ) : (
-                  <button
-                    type="button"
-                    className="mors-event-calendar-item-body"
-                    onClick={() => {
-                      if (readOnly) return;
-                      setEditingId(entry.id);
-                      setEditTitle(entry.title);
-                    }}
-                  >
-                    {entry.time && <span className="mors-event-calendar-time">{entry.time}</span>}
-                    <span className="mors-event-calendar-item-title">{entry.title}</span>
-                    {entry.description && (
-                      <span className="mors-event-calendar-item-note">{entry.description}</span>
-                    )}
-                  </button>
-                )}
-                {!readOnly && (
-                  <IconButton
-                    label={`Remove ${entry.title}`}
-                    icon={<Icon name="trash" />}
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => removeEvent(entry.id)}
-                  />
-                )}
+                </Card>
               </li>
             ))}
           </ul>
@@ -326,7 +355,7 @@ export function EventCalendar({
           {!readOnly && (
             <form className="mors-event-calendar-composer" onSubmit={addEvent}>
               <TextField
-                label="New event"
+                label="Title"
                 placeholder="Event title"
                 value={draftTitle}
                 onChange={(event) => setDraftTitle(event.currentTarget.value)}
@@ -334,31 +363,29 @@ export function EventCalendar({
                 required
               />
               <TextField
-                label="Time"
-                placeholder="09:30"
-                value={draftTime}
-                onChange={(event) => setDraftTime(event.currentTarget.value)}
+                label="Description"
+                placeholder="Optional note"
+                value={draftDescription}
+                onChange={(event) => setDraftDescription(event.currentTarget.value)}
                 size="sm"
-                block={false}
               />
-              <fieldset className="mors-event-calendar-tones">
-                <legend className="mors-visually-hidden">Colour</legend>
-                {TONES.map((tone) => (
-                  <button
-                    key={tone}
-                    type="button"
-                    className={cx(
-                      'mors-event-calendar-tone',
-                      `mors-event-calendar-dot--${tone}`,
-                      draftTone === tone && 'mors-event-calendar-tone--selected',
-                    )}
-                    aria-label={tone}
-                    aria-pressed={draftTone === tone}
-                    onClick={() => setDraftTone(tone)}
-                  />
-                ))}
-              </fieldset>
-              <Button type="submit" size="sm" startIcon={<Icon name="plus" />}>
+              <div className="mors-event-calendar-composer-row">
+                <TextField
+                  label="Time"
+                  type="time"
+                  value={draftTime}
+                  onChange={(event) => setDraftTime(event.currentTarget.value)}
+                  size="sm"
+                />
+                <SwatchGroup
+                  label="Colour"
+                  size="sm"
+                  block={false}
+                  value={draftTone}
+                  onChange={(tone) => setDraftTone(tone)}
+                />
+              </div>
+              <Button type="submit" size="sm" block startIcon={<Icon name="plus" />}>
                 Add
               </Button>
             </form>

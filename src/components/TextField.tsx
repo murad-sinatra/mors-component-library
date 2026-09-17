@@ -4,12 +4,11 @@ import {
   type InputHTMLAttributes,
   type ReactNode,
   type Ref,
-  type SelectHTMLAttributes,
   type TextareaHTMLAttributes,
 } from 'react';
 import { cx } from '../utils/cx';
 import type { Size } from '../utils/types';
-import { describedBy, Field, useFieldIds } from './Field';
+import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
 import { Icon } from './Icon';
 import { IconButton } from './Button';
 
@@ -43,16 +42,19 @@ export function TextField({
   id,
   required,
   disabled,
+  onChange,
+  onInvalid,
   'aria-describedby': ariaDescribedBy,
   ...rest
 }: TextFieldProps) {
   const ids = useFieldIds(id);
+  const validity = useRequiredValidity(required, error);
   return (
     <Field
       ids={ids}
       label={label}
       description={description}
-      error={error}
+      error={validity.error}
       required={required}
       size={size}
       block={block}
@@ -64,9 +66,22 @@ export function TextField({
           className="mors-input"
           disabled={disabled}
           required={required}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={describedBy(ids, Boolean(description), Boolean(error), ariaDescribedBy)}
+          aria-invalid={validity.error ? true : undefined}
+          aria-describedby={describedBy(
+            ids,
+            Boolean(description),
+            Boolean(validity.error),
+            ariaDescribedBy,
+          )}
           {...rest}
+          onInvalid={(event) => {
+            validity.onInvalid(event);
+            onInvalid?.(event);
+          }}
+          onChange={(event) => {
+            validity.reportValue(event.currentTarget.value);
+            onChange?.(event);
+          }}
         />
         {endAdornment && (
           <span className="mors-input-affix mors-input-affix--end">{endAdornment}</span>
@@ -96,16 +111,19 @@ export function Textarea({
   id,
   required,
   disabled,
+  onChange,
+  onInvalid,
   'aria-describedby': ariaDescribedBy,
   ...rest
 }: TextareaProps) {
   const ids = useFieldIds(id);
+  const validity = useRequiredValidity(required, error);
   return (
     <Field
       ids={ids}
       label={label}
       description={description}
-      error={error}
+      error={validity.error}
       required={required}
       size={size}
       block={block}
@@ -117,78 +135,23 @@ export function Textarea({
           rows={rows}
           disabled={disabled}
           required={required}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={describedBy(ids, Boolean(description), Boolean(error), ariaDescribedBy)}
-          {...rest}
-        />
-      </div>
-    </Field>
-  );
-}
-
-export interface SelectOption {
-  label: string;
-  value: string;
-  disabled?: boolean;
-}
-
-export interface SelectProps
-  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size' | 'children'>,
-    FieldShellProps {
-  options: readonly SelectOption[];
-  /** Shown as a disabled first option when no value is selected. */
-  placeholder?: string;
-  ref?: Ref<HTMLSelectElement>;
-}
-
-export function Select({
-  label,
-  description,
-  error,
-  size = 'md',
-  block = true,
-  options,
-  placeholder,
-  className,
-  id,
-  required,
-  disabled,
-  'aria-describedby': ariaDescribedBy,
-  ...rest
-}: SelectProps) {
-  const ids = useFieldIds(id);
-  return (
-    <Field
-      ids={ids}
-      label={label}
-      description={description}
-      error={error}
-      required={required}
-      size={size}
-      block={block}
-    >
-      <div className={cx('mors-input-shell mors-input-shell--select', disabled && 'mors-is-disabled', className)}>
-        <select
-          id={ids.id}
-          className="mors-input mors-select"
-          disabled={disabled}
-          required={required}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={describedBy(ids, Boolean(description), Boolean(error), ariaDescribedBy)}
-          {...rest}
-        >
-          {placeholder && (
-            <option value="" disabled>
-              {placeholder}
-            </option>
+          aria-invalid={validity.error ? true : undefined}
+          aria-describedby={describedBy(
+            ids,
+            Boolean(description),
+            Boolean(validity.error),
+            ariaDescribedBy,
           )}
-          {options.map((option) => (
-            <option key={option.value} value={option.value} disabled={option.disabled}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <Icon name="chevron-down" className="mors-select-arrow" />
+          {...rest}
+          onInvalid={(event) => {
+            validity.onInvalid(event);
+            onInvalid?.(event);
+          }}
+          onChange={(event) => {
+            validity.reportValue(event.currentTarget.value);
+            onChange?.(event);
+          }}
+        />
       </div>
     </Field>
   );
@@ -237,16 +200,16 @@ export function SearchField({
       }}
       startIcon={<Icon name="search" />}
       endAdornment={
-        hasValue ? (
-          <IconButton
-            label={clearLabel}
-            icon={<Icon name="close" />}
-            size="sm"
-            variant="ghost"
-            onClick={clear}
-            tabIndex={-1}
-          />
-        ) : undefined
+        <IconButton
+          label={clearLabel}
+          icon={<Icon name="close" />}
+          size="sm"
+          variant="ghost"
+          onClick={clear}
+          tabIndex={-1}
+          aria-hidden={!hasValue}
+          className={hasValue ? undefined : 'mors-input-affix--reserved'}
+        />
       }
       onKeyDown={(event) => {
         onKeyDown?.(event);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useState, type RefObject } from 'react';
+import { useCallback, useLayoutEffect, useState, type RefObject } from 'react';
 import type { Align, Placement } from '../utils/types';
 
 export interface UseAnchoredPositionOptions {
@@ -11,10 +11,12 @@ export interface UseAnchoredPositionOptions {
   offset?: number;
   /** Minimum distance kept from the viewport edge, in px. */
   padding?: number;
+  /** Stretch the floating element to at least the anchor's width. */
+  matchWidth?: boolean;
 }
 
 export interface AnchoredPosition {
-  style: { position: 'fixed'; top: number; left: number };
+  style: { position: 'fixed'; top: number; left: number; minWidth?: number };
   placement: Placement;
 }
 
@@ -24,6 +26,14 @@ const OPPOSITE: Record<Placement, Placement> = {
   left: 'right',
   right: 'left',
 };
+
+function measureSize(element: HTMLElement): { width: number; height: number } {
+  const rect = element.getBoundingClientRect();
+  return {
+    width: element.offsetWidth || rect.width || 1,
+    height: element.offsetHeight || rect.height || 1,
+  };
+}
 
 function computeCoords(
   anchor: DOMRect,
@@ -70,6 +80,7 @@ export function useAnchoredPosition({
   align = 'center',
   offset = 8,
   padding = 8,
+  matchWidth = false,
 }: UseAnchoredPositionOptions): AnchoredPosition {
   const [position, setPosition] = useState<AnchoredPosition>({
     style: { position: 'fixed', top: 0, left: 0 },
@@ -79,13 +90,12 @@ export function useAnchoredPosition({
   const update = useCallback(() => {
     const anchor = anchorRef.current;
     const floating = floatingRef.current;
-    if (!anchor || !floating) return;
+    if (!anchor || !floating) return false;
 
     const anchorRect = anchor.getBoundingClientRect();
-    const size = {
-      width: floating.offsetWidth || 1,
-      height: floating.offsetHeight || 1,
-    };
+    if (anchorRect.width === 0 && anchorRect.height === 0) return false;
+
+    const size = measureSize(floating);
     const viewport = { width: window.innerWidth, height: window.innerHeight };
 
     let resolved = placement;
@@ -119,34 +129,43 @@ export function useAnchoredPosition({
       Math.max(padding, viewport.height - size.height - padding),
     );
 
+    const minWidth = matchWidth ? Math.round(anchorRect.width) : undefined;
     setPosition((prev) =>
-      prev.style.top === coords.top && prev.style.left === coords.left && prev.placement === resolved
+      prev.style.top === coords.top &&
+      prev.style.left === coords.left &&
+      prev.placement === resolved &&
+      prev.style.minWidth === minWidth
         ? prev
-        : { style: { position: 'fixed', top: coords.top, left: coords.left }, placement: resolved },
+        : {
+            style: { position: 'fixed', top: coords.top, left: coords.left, minWidth },
+            placement: resolved,
+          },
     );
-  }, [anchorRef, floatingRef, placement, align, offset, padding]);
+    return true;
+  }, [anchorRef, floatingRef, placement, align, offset, padding, matchWidth]);
 
   useLayoutEffect(() => {
-    if (open) update();
-  }, [open, update]);
-
-  useEffect(() => {
     if (!open) return;
+
+    update();
+
     const onChange = () => update();
     window.addEventListener('scroll', onChange, true);
     window.addEventListener('resize', onChange);
 
     const floating = floatingRef.current;
+    const anchor = anchorRef.current;
     const observer =
       typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(() => update());
-    if (floating && observer) observer.observe(floating);
+    if (observer && floating) observer.observe(floating);
+    if (observer && anchor) observer.observe(anchor);
 
     return () => {
       window.removeEventListener('scroll', onChange, true);
       window.removeEventListener('resize', onChange);
       observer?.disconnect();
     };
-  }, [open, update, floatingRef]);
+  }, [open, update, floatingRef, anchorRef]);
 
   return position;
 }

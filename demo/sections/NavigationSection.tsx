@@ -83,6 +83,22 @@ export function NavigationSection() {
             <TabPanel value="month">Thirty days of data.</TabPanel>
           </Tabs>
         </Example>
+
+        <Example title="Overuse — twelve tabs" layout="stack">
+          <Tabs defaultValue="01">
+            <TabList label="Many sections">
+              {Array.from({ length: 12 }, (_, index) => {
+                const id = String(index + 1).padStart(2, '0');
+                return (
+                  <Tab key={id} value={id}>
+                    Section {id}
+                  </Tab>
+                );
+              })}
+            </TabList>
+            <TabPanel value="01">The list scrolls horizontally instead of wrapping or crushing labels.</TabPanel>
+          </Tabs>
+        </Example>
       </ComponentDoc>
 
       <ComponentDoc
@@ -125,6 +141,21 @@ export function NavigationSection() {
             <AccordionItem value="b" title="And they toggle independently">
               Each trigger owns its own aria-expanded state.
             </AccordionItem>
+          </Accordion>
+        </Example>
+
+        <Example title="Overuse — twelve sections" layout="stack">
+          <Accordion type="single" defaultValue={['item-1']}>
+            {Array.from({ length: 12 }, (_, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index + 1}`}
+                title={`Policy ${index + 1}`}
+                subtitle={index % 3 === 0 ? 'Required reading' : undefined}
+              >
+                Placeholder copy so we can see a long accordion scroll inside the page, not explode it.
+              </AccordionItem>
+            ))}
           </Accordion>
         </Example>
       </ComponentDoc>
@@ -213,7 +244,7 @@ export function NavigationSection() {
         ]}
       >
         <Example title="Static example" layout="stack">
-          <div style={{ border: '1px solid var(--mors-color-border)', borderRadius: 'var(--mors-radius-lg)', overflow: 'hidden' }}>
+          <div style={{ border: '1px solid var(--mors-color-border)', borderRadius: 'var(--mors-radius-lg)' }}>
             <Navbar
               sticky={false}
               brand={

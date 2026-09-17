@@ -80,7 +80,7 @@ export function Overview({ onNavigate }: { onNavigate: (route: 'components' | 'd
           React 19 · TypeScript · zero runtime dependencies
         </Badge>
         <h1 className="demo-hero-title" id="hero-title">
-          A calm, Apple-inspired component library for React.
+          A calm, Apple‑inspired component library for React.
         </h1>
         <p className="demo-hero-lede">
           Forty-plus typed components, one token stylesheet, and a design language built on

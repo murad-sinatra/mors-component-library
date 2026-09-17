@@ -94,8 +94,8 @@ interface BreakpointRow {
 }
 
 const BREAKPOINTS: BreakpointRow[] = [
-  { token: '--mors-breakpoint-sm', value: '480px', behaviour: 'Modals go edge-to-edge; footer buttons stretch.' },
-  { token: '--mors-breakpoint-md', value: '768px', behaviour: 'Navbar links collapse; hideOnMobile table columns drop.' },
+  { token: '--mors-breakpoint-sm', value: '480px', behaviour: 'Side drawers go full-width; modals dock to the bottom; form text is 16px to avoid iOS zoom.' },
+  { token: '--mors-breakpoint-md', value: '768px', behaviour: 'Navbar links collapse; hideOnMobile table columns drop; filter bars stack.' },
   { token: '--mors-breakpoint-lg', value: '1024px', behaviour: 'Documentation sidebar appears; wide grids form.' },
   { token: '--mors-breakpoint-xl', value: '1280px', behaviour: 'Container max width (--mors-container-xl).' },
 ];
@@ -309,12 +309,8 @@ export function DesignSystem() {
               </span>
               <span className="demo-motion-track">
                 <span
-                  className="demo-motion-dot"
-                  style={{
-                    transitionDuration: `var(${token})`,
-                    translate: animate ? 'calc(100cqw - 28px) 0' : '0 0',
-                    containerType: 'inline-size',
-                  }}
+                  className={animate ? 'demo-motion-dot is-playing' : 'demo-motion-dot'}
+                  style={{ transitionDuration: `var(${token})` }}
                 />
               </span>
               <span className="demo-example-note">{use}</span>
@@ -323,29 +319,33 @@ export function DesignSystem() {
 
           <div>
             <span className="demo-figure-label">Easings</span>
-            <table className="demo-props">
-              <caption className="mors-visually-hidden">Easing tokens</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Token</th>
-                  <th scope="col">Curve</th>
-                  <th scope="col">Used for</th>
-                </tr>
-              </thead>
-              <tbody>
-                {EASINGS.map(([token, curve, use]) => (
-                  <tr key={token}>
-                    <td className="demo-props-name">
-                      <code>{token}</code>
-                    </td>
-                    <td className="demo-props-type">
-                      <code>{curve}</code>
-                    </td>
-                    <td className="demo-props-description">{use}</td>
+            <div className="demo-table-scroll">
+              <table className="demo-props">
+                <caption className="mors-visually-hidden">Easing tokens</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Token</th>
+                    <th scope="col">Curve</th>
+                    <th scope="col">Used for</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {EASINGS.map(([token, curve, use]) => (
+                    <tr key={token}>
+                      <td className="demo-props-name" data-label="Token">
+                        <code>{token}</code>
+                      </td>
+                      <td className="demo-props-type" data-label="Curve">
+                        <code>{curve}</code>
+                      </td>
+                      <td className="demo-props-description" data-label="Used for">
+                        {use}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </Section>

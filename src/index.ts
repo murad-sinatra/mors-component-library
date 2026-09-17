@@ -13,6 +13,7 @@ export * from './components/Link';
 /* Forms */
 export * from './components/Field';
 export * from './components/TextField';
+export * from './components/Select';
 export * from './components/NumberField';
 export * from './components/FileField';
 export * from './components/Toggles';
@@ -23,6 +24,7 @@ export * from './components/DatePicker';
 export * from './components/Alert';
 export * from './components/Avatar';
 export * from './components/Badge';
+export * from './components/Swatch';
 export * from './components/Card';
 export * from './components/Divider';
 export * from './components/EmptyState';

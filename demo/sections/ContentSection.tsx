@@ -18,7 +18,8 @@ import { ComponentDoc, Example, Section, type PropRow } from '../components/Doc'
 const CARD_API: readonly PropRow[] = [
   ['elevation', "'flat' | 'raised' | 'floating'", "'raised'", 'Sunken tint, hairline + soft shadow, or a lifted panel.'],
   ['padding', "'none' | 'sm' | 'md' | 'lg'", "'md'", 'Inner spacing; use none with CardMedia.'],
-  ['interactive', 'boolean', 'false', 'Adds hover lift and press feedback for clickable cards.'],
+  ['hover', 'boolean', 'false', 'Optional lift and stronger shadow on pointer hover. Implied by interactive.'],
+  ['interactive', 'boolean', 'false', 'Clickable treatment: hover lift, press feedback, and a pointer cursor.'],
 ];
 
 export function ContentSection() {
@@ -69,6 +70,10 @@ export function ContentSection() {
               <CardHeader title="With media" subtitle="padding=none + CardMedia" />
               <CardBody>CardMedia bleeds to the edges of the card.</CardBody>
             </div>
+          </Card>
+          <Card hover>
+            <CardHeader title="Hover" subtitle="Optional lift, not a click target" />
+            <CardBody>Use when a card should respond to the pointer without implying it is a button.</CardBody>
           </Card>
           <Card interactive onClick={() => undefined}>
             <CardHeader

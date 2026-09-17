@@ -20,6 +20,23 @@ import {
 } from '../../src';
 import { ComponentDoc, Example, Section, type PropRow } from '../components/Doc';
 
+const PACKED_DRAWER_FILTERS = [
+  'Has comments', 'Assigned to me', 'Due this week', 'Overdue', 'High priority',
+  'Blocked', 'Needs review', 'Has attachments', 'Shared', 'Starred',
+  'From design', 'From engineering', 'From support', 'From sales',
+  'Created today', 'Updated today', 'Untriaged', 'Won’t fix',
+];
+
+const OVERUSE_FIELDS = [
+  'Workspace name', 'Legal name', 'Slug', 'Industry', 'Company size', 'Country',
+  'Region', 'Timezone', 'Language', 'Currency', 'Billing email', 'Finance contact',
+  'VAT number', 'Address line 1', 'Address line 2', 'City', 'State', 'Postal code',
+  'Website', 'Support URL', 'Docs URL', 'Status page', 'Primary colour', 'Logo URL',
+  'Owner', 'Technical contact', 'Security contact', 'Data residency', 'Retention',
+  'SSO provider', 'SCIM endpoint', 'Webhook URL', 'Allowed CIDRs', 'Max seats',
+  'Plan code', 'Coupon', 'Invoice notes', 'Internal ID', 'Salesforce ID', 'Notes',
+];
+
 const DIALOG_API: readonly PropRow[] = [
   ['open / onClose', 'boolean / () => void', '—', 'Fully controlled; you own the state.'],
   ['title / description', 'ReactNode', '—', 'Wired to aria-labelledby / aria-describedby.'],
@@ -32,8 +49,16 @@ const DIALOG_API: readonly PropRow[] = [
 
 export function OverlaysSection() {
   const { toast } = useToast();
-  const [modal, setModal] = useState<null | 'form' | 'confirm'>(null);
-  const [drawerSide, setDrawerSide] = useState<DrawerSide | null>(null);
+  const [modal, setModal] = useState<null | 'form' | 'confirm' | 'overuse'>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerSide, setDrawerSide] = useState<DrawerSide>('right');
+  const [drawerPacked, setDrawerPacked] = useState(false);
+
+  const openDrawer = (side: DrawerSide, packed = false) => {
+    setDrawerSide(side);
+    setDrawerPacked(packed);
+    setDrawerOpen(true);
+  };
 
   return (
     <Section
@@ -62,12 +87,15 @@ export function OverlaysSection() {
 >
   <TextField label="Email" data-mors-autofocus />
 </Modal>`}
-        api={[...DIALOG_API, ['size', "'sm' | 'md' | 'lg'", "'md'", '24 / 32 / 46rem maximum width.'], ['role', "'dialog' | 'alertdialog'", "'dialog'", 'Use alertdialog for destructive confirmations.']]}
+        api={[...DIALOG_API, ['size', "'sm' | 'md' | 'lg' | 'xl'", "'md'", '24 / 32 / 46 / 56rem maximum width.'], ['role', "'dialog' | 'alertdialog'", "'dialog'", 'Use alertdialog for destructive confirmations.']]}
       >
         <Example title="Interactive">
           <Button onClick={() => setModal('form')}>Open form dialog</Button>
           <Button variant="destructive" onClick={() => setModal('confirm')}>
             Delete project…
+          </Button>
+          <Button variant="secondary" onClick={() => setModal('overuse')}>
+            40-field form
           </Button>
         </Example>
 
@@ -142,6 +170,33 @@ export function OverlaysSection() {
             The scrim is inert here, so a stray click cannot destroy anything.
           </Alert>
         </Modal>
+
+        <Modal
+          open={modal === 'overuse'}
+          onClose={() => setModal(null)}
+          size="xl"
+          title="New workspace"
+          description="Forty fields is more than a dialog should hold — this is here to see how the body scrolls and the footer stays pinned."
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => setModal(null)}>
+                Cancel
+              </Button>
+              <Button onClick={() => setModal(null)}>Create workspace</Button>
+            </>
+          }
+        >
+          <div className="demo-form-grid">
+            {OVERUSE_FIELDS.map((label, index) => (
+              <TextField
+                key={label}
+                label={label}
+                placeholder=" "
+                data-mors-autofocus={index === 0 ? true : undefined}
+              />
+            ))}
+          </div>
+        </Modal>
       </ComponentDoc>
 
       <ComponentDoc
@@ -163,20 +218,23 @@ export function OverlaysSection() {
       >
         <Example title="Every side">
           {(['left', 'right', 'top', 'bottom'] as const).map((side) => (
-            <Button key={side} variant="secondary" onClick={() => setDrawerSide(side)}>
+            <Button key={side} variant="secondary" onClick={() => openDrawer(side)}>
               Open {side}
             </Button>
           ))}
+          <Button variant="secondary" onClick={() => openDrawer('right', true)}>
+            Packed filters
+          </Button>
         </Example>
 
         <Drawer
-          open={drawerSide !== null}
-          onClose={() => setDrawerSide(null)}
-          side={drawerSide ?? 'right'}
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          side={drawerSide}
           title="Filters"
           description="Narrow the result set."
           footer={
-            <Button block onClick={() => setDrawerSide(null)}>
+            <Button block onClick={() => setDrawerOpen(false)}>
               Show 42 results
             </Button>
           }
@@ -194,6 +252,8 @@ export function OverlaysSection() {
               ]}
             />
             <TextField label="Contains" placeholder="Search text" />
+            {drawerPacked &&
+              PACKED_DRAWER_FILTERS.map((label) => <Checkbox key={label} label={label} />)}
           </div>
         </Drawer>
       </ComponentDoc>
@@ -315,6 +375,23 @@ export function OverlaysSection() {
           >
             <MenuItem onSelect={() => toast({ title: 'Renaming…' })}>Rename</MenuItem>
             <MenuItem onSelect={() => toast({ title: 'Moved' })}>Move to…</MenuItem>
+          </Menu>
+        </Example>
+        <Example title="Overuse — long menu">
+          <Menu
+            ariaLabel="Every action"
+            trigger={<Button variant="secondary" endIcon={<Icon name="chevron-down" />}>All actions</Button>}
+          >
+            <MenuLabel>Bulk</MenuLabel>
+            {['Duplicate', 'Archive', 'Export CSV', 'Export PDF', 'Move to…', 'Assign owner', 'Change plan', 'Add tag', 'Remove tag', 'Watch', 'Mute', 'Pin'].map((label) => (
+              <MenuItem key={label} onSelect={() => toast({ title: label })}>
+                {label}
+              </MenuItem>
+            ))}
+            <MenuSeparator />
+            <MenuItem tone="danger" icon={<Icon name="trash" />} onSelect={() => toast({ title: 'Deleted', tone: 'danger' })}>
+              Delete all
+            </MenuItem>
           </Menu>
         </Example>
       </ComponentDoc>

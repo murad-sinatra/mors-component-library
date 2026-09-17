@@ -48,33 +48,37 @@ export type PropRow = readonly [string, string, string, string];
 
 export function PropsTable({ rows, caption }: { rows: readonly PropRow[]; caption: string }) {
   return (
-    <table className="demo-props">
-      <caption className="mors-visually-hidden">{caption}</caption>
-      <thead>
-        <tr>
-          <th scope="col">Prop</th>
-          <th scope="col">Type</th>
-          <th scope="col">Default</th>
-          <th scope="col">Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map(([name, type, fallback, description]) => (
-          <tr key={name}>
-            <td className="demo-props-name">
-              <code>{name}</code>
-            </td>
-            <td className="demo-props-type">
-              <code>{type}</code>
-            </td>
-            <td className="demo-props-default">
-              <code>{fallback || '—'}</code>
-            </td>
-            <td className="demo-props-description">{description}</td>
+    <div className="demo-table-scroll">
+      <table className="demo-props">
+        <caption className="mors-visually-hidden">{caption}</caption>
+        <thead>
+          <tr>
+            <th scope="col">Prop</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map(([name, type, fallback, description]) => (
+            <tr key={name}>
+              <td className="demo-props-name" data-label="Prop">
+                <code>{name}</code>
+              </td>
+              <td className="demo-props-type" data-label="Type">
+                <code>{type}</code>
+              </td>
+              <td className="demo-props-default" data-label="Default">
+                <code>{fallback || '—'}</code>
+              </td>
+              <td className="demo-props-description" data-label="Notes">
+                {description}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

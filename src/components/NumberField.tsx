@@ -2,7 +2,7 @@ import { useRef, type InputHTMLAttributes, type ReactNode, type Ref } from 'reac
 import { cx } from '../utils/cx';
 import type { Size } from '../utils/types';
 import { useControllableState } from '../hooks/useControllableState';
-import { describedBy, Field, useFieldIds } from './Field';
+import { describedBy, Field, useFieldIds, useRequiredValidity } from './Field';
 import { Icon } from './Icon';
 
 export interface NumberFieldProps
@@ -66,6 +66,7 @@ export function NumberField({
   const ids = useFieldIds(id);
   const inputRef = useRef<HTMLInputElement>(null);
   const [current, setCurrent] = useControllableState(value, defaultValue, onValueChange);
+  const validity = useRequiredValidity(required, error);
 
   const commit = (next: number | null) => {
     if (next === null) {
@@ -73,6 +74,7 @@ export function NumberField({
       return;
     }
     setCurrent(clamp(next, min, max));
+    validity.reportValue(String(clamp(next, min, max)));
   };
 
   const bump = (direction: 1 | -1) => {
@@ -86,7 +88,7 @@ export function NumberField({
       ids={ids}
       label={label}
       description={description}
-      error={error}
+      error={validity.error}
       required={required}
       size={size}
       block={block}
@@ -122,10 +124,11 @@ export function NumberField({
           max={max}
           step={step}
           value={current ?? ''}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={describedBy(ids, Boolean(description), Boolean(error), ariaDescribedBy)}
-          onChange={(event) => commit(parse(event.currentTarget.value))}
+          aria-invalid={validity.error ? true : undefined}
+          aria-describedby={describedBy(ids, Boolean(description), Boolean(validity.error), ariaDescribedBy)}
           {...rest}
+          onInvalid={validity.onInvalid}
+          onChange={(event) => commit(parse(event.currentTarget.value))}
         />
         {!hideSteppers && (
           <button
