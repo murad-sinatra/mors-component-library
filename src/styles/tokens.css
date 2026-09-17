@@ -1,0 +1,280 @@
+/* ==========================================================================
+   mors-component-library — design tokens
+   Every token is a CSS custom property under the `--mors-` namespace so it can
+   be overridden per-app, per-section or per-component without touching the
+   library. Nothing here styles an element, so importing this file alone is a
+   safe way to consume the design language on its own.
+   ========================================================================== */
+
+:root {
+  /* ---------- Typography ------------------------------------------------ */
+  --mors-font-sans:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto,
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mors-font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mors-font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --mors-text-2xs: 0.6875rem; /* 11px */
+  --mors-text-xs: 0.75rem; /* 12px */
+  --mors-text-sm: 0.8125rem; /* 13px */
+  --mors-text-base: 0.9375rem; /* 15px */
+  --mors-text-md: 1.0625rem; /* 17px */
+  --mors-text-lg: 1.25rem; /* 20px */
+  --mors-text-xl: 1.5rem; /* 24px */
+  --mors-text-2xl: 1.9375rem; /* 31px */
+  --mors-text-3xl: 2.5rem; /* 40px */
+  --mors-text-4xl: 3.25rem; /* 52px */
+  --mors-text-5xl: 4rem; /* 64px */
+
+  --mors-leading-tight: 1.08;
+  --mors-leading-snug: 1.25;
+  --mors-leading-normal: 1.45;
+  --mors-leading-relaxed: 1.6;
+
+  --mors-tracking-tighter: -0.022em;
+  --mors-tracking-tight: -0.014em;
+  --mors-tracking-normal: 0em;
+  --mors-tracking-wide: 0.012em;
+  --mors-tracking-caps: 0.06em;
+
+  --mors-weight-regular: 400;
+  --mors-weight-medium: 500;
+  --mors-weight-semibold: 600;
+  --mors-weight-bold: 700;
+
+  /* ---------- Neutral ramp ---------------------------------------------- */
+  --mors-neutral-0: #ffffff;
+  --mors-neutral-25: #fbfbfd;
+  --mors-neutral-50: #f5f5f7;
+  --mors-neutral-100: #ececef;
+  --mors-neutral-200: #e0e0e4;
+  --mors-neutral-300: #cdcdd3;
+  --mors-neutral-400: #a8a8b0;
+  --mors-neutral-500: #86868b;
+  --mors-neutral-600: #6e6e73;
+  --mors-neutral-700: #4a4a4f;
+  --mors-neutral-800: #2f2f33;
+  --mors-neutral-900: #1d1d1f;
+  --mors-neutral-950: #131315;
+  --mors-neutral-1000: #000000;
+
+  /* ---------- Accent + status hues -------------------------------------- */
+  --mors-blue-100: #e8f1fc;
+  --mors-blue-300: #6fb3ff;
+  --mors-blue-500: #0071e3;
+  --mors-blue-600: #0077ed;
+  --mors-blue-700: #006edb;
+
+  --mors-green-100: #e2f6e9;
+  --mors-green-500: #1a9d4b;
+  --mors-green-600: #14803c;
+
+  --mors-amber-100: #fdf1dc;
+  --mors-amber-500: #b7791f;
+  --mors-amber-600: #96631a;
+
+  --mors-red-100: #fdeaea;
+  --mors-red-500: #d92b2b;
+  --mors-red-600: #b31f1f;
+
+  --mors-purple-100: #efeafe;
+  --mors-purple-500: #6b46e5;
+
+  /* ---------- Semantic surfaces ----------------------------------------- */
+  --mors-color-canvas: var(--mors-neutral-25);
+  --mors-color-surface: var(--mors-neutral-0);
+  --mors-color-surface-raised: var(--mors-neutral-0);
+  --mors-color-surface-sunken: var(--mors-neutral-50);
+  --mors-color-surface-hover: var(--mors-neutral-50);
+  --mors-color-surface-active: var(--mors-neutral-100);
+  --mors-color-surface-inverse: var(--mors-neutral-900);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-900) 12%, transparent);
+  --mors-color-border-strong: color-mix(in srgb, var(--mors-neutral-900) 24%, transparent);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-900) 7%, transparent);
+
+  --mors-color-text: var(--mors-neutral-900);
+  --mors-color-text-secondary: var(--mors-neutral-600);
+  --mors-color-text-tertiary: var(--mors-neutral-500);
+  --mors-color-text-inverse: var(--mors-neutral-0);
+  --mors-color-text-on-accent: #ffffff;
+
+  --mors-color-accent: var(--mors-blue-500);
+  --mors-color-accent-hover: var(--mors-blue-600);
+  --mors-color-accent-active: var(--mors-blue-700);
+  --mors-color-accent-soft: var(--mors-blue-100);
+  --mors-color-accent-text: var(--mors-blue-600);
+
+  --mors-color-success: var(--mors-green-500);
+  --mors-color-success-soft: var(--mors-green-100);
+  --mors-color-success-text: var(--mors-green-600);
+  --mors-color-warning: var(--mors-amber-500);
+  --mors-color-warning-soft: var(--mors-amber-100);
+  --mors-color-warning-text: var(--mors-amber-600);
+  --mors-color-danger: var(--mors-red-500);
+  --mors-color-danger-soft: var(--mors-red-100);
+  --mors-color-danger-text: var(--mors-red-600);
+  --mors-color-info: var(--mors-purple-500);
+  --mors-color-info-soft: var(--mors-purple-100);
+  --mors-color-info-text: var(--mors-purple-500);
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 42%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-900) 8%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-900) 4%, transparent);
+
+  /* ---------- Spacing (4px rhythm, 2px half-step) ----------------------- */
+  --mors-space-0: 0;
+  --mors-space-1: 0.125rem; /* 2px  */
+  --mors-space-2: 0.25rem; /* 4px  */
+  --mors-space-3: 0.5rem; /* 8px  */
+  --mors-space-4: 0.75rem; /* 12px */
+  --mors-space-5: 1rem; /* 16px */
+  --mors-space-6: 1.25rem; /* 20px */
+  --mors-space-7: 1.5rem; /* 24px */
+  --mors-space-8: 2rem; /* 32px */
+  --mors-space-9: 2.5rem; /* 40px */
+  --mors-space-10: 3rem; /* 48px */
+  --mors-space-11: 4rem; /* 64px */
+  --mors-space-12: 5rem; /* 80px */
+
+  /* ---------- Radii ------------------------------------------------------ */
+  --mors-radius-xs: 4px;
+  --mors-radius-sm: 8px;
+  --mors-radius-md: 12px;
+  --mors-radius-lg: 16px;
+  --mors-radius-xl: 20px;
+  --mors-radius-2xl: 28px;
+  --mors-radius-pill: 999px;
+  --mors-radius-circle: 50%;
+
+  /* ---------- Elevation -------------------------------------------------- */
+  --mors-shadow-xs: 0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 6%, transparent);
+  --mors-shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 5%, transparent),
+    0 2px 8px color-mix(in srgb, var(--mors-neutral-1000) 6%, transparent);
+  --mors-shadow-md:
+    0 2px 4px color-mix(in srgb, var(--mors-neutral-1000) 5%, transparent),
+    0 8px 24px color-mix(in srgb, var(--mors-neutral-1000) 8%, transparent);
+  --mors-shadow-lg:
+    0 4px 8px color-mix(in srgb, var(--mors-neutral-1000) 6%, transparent),
+    0 18px 48px color-mix(in srgb, var(--mors-neutral-1000) 12%, transparent);
+  --mors-shadow-xl:
+    0 8px 16px color-mix(in srgb, var(--mors-neutral-1000) 8%, transparent),
+    0 32px 72px color-mix(in srgb, var(--mors-neutral-1000) 18%, transparent);
+
+  /* ---------- Focus ------------------------------------------------------ */
+  --mors-focus-color: var(--mors-color-accent);
+  --mors-focus-width: 3px;
+  --mors-focus-offset: 2px;
+  --mors-focus-ring: 0 0 0 var(--mors-focus-width)
+    color-mix(in srgb, var(--mors-focus-color) 40%, transparent);
+
+  /* ---------- Motion ----------------------------------------------------- */
+  --mors-duration-instant: 80ms;
+  --mors-duration-fast: 140ms;
+  --mors-duration-base: 220ms;
+  --mors-duration-slow: 320ms;
+  --mors-duration-slower: 480ms;
+  --mors-ease-standard: cubic-bezier(0.32, 0.72, 0, 1);
+  --mors-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --mors-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --mors-ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
+
+  /* ---------- Control metrics -------------------------------------------- */
+  --mors-control-height-sm: 32px;
+  --mors-control-height-md: 44px;
+  --mors-control-height-lg: 48px;
+  --mors-control-padding-sm: var(--mors-space-4);
+  --mors-control-padding-md: var(--mors-space-5);
+  --mors-control-padding-lg: var(--mors-space-6);
+
+  /* ---------- Layering --------------------------------------------------- */
+  --mors-z-base: 0;
+  --mors-z-sticky: 100;
+  --mors-z-dropdown: 400;
+  --mors-z-scrim: 700;
+  --mors-z-modal: 800;
+  --mors-z-popover: 900;
+  --mors-z-toast: 1000;
+  --mors-z-tooltip: 1100;
+
+  /* ---------- Layout ----------------------------------------------------- */
+  --mors-container-sm: 40rem;
+  --mors-container-md: 56rem;
+  --mors-container-lg: 72rem;
+  --mors-container-xl: 84rem;
+
+  /* Breakpoints are documented tokens; media queries inline the same values
+     because custom properties are not valid inside `@media` conditions.
+     sm 480px · md 768px · lg 1024px · xl 1280px */
+  --mors-breakpoint-sm: 480px;
+  --mors-breakpoint-md: 768px;
+  --mors-breakpoint-lg: 1024px;
+  --mors-breakpoint-xl: 1280px;
+}
+
+/* ---------- Dark theme -----------------------------------------------------
+   Applied by setting [data-mors-theme="dark"] on <html>, <body> or any wrapper
+   element — themes can therefore be nested. To follow the operating system,
+   mirror `matchMedia('(prefers-color-scheme: dark)')` into that attribute
+   instead of duplicating the token block inside a media query.
+   -------------------------------------------------------------------------- */
+
+[data-mors-theme='dark'] {
+  color-scheme: dark;
+
+  --mors-color-canvas: var(--mors-neutral-1000);
+  --mors-color-surface: #16161a;
+  --mors-color-surface-raised: #1e1e23;
+  --mors-color-surface-sunken: #101013;
+  --mors-color-surface-hover: #24242a;
+  --mors-color-surface-active: #2d2d34;
+  --mors-color-surface-inverse: var(--mors-neutral-50);
+
+  --mors-color-border: color-mix(in srgb, var(--mors-neutral-0) 14%, transparent);
+  --mors-color-border-strong: color-mix(in srgb, var(--mors-neutral-0) 28%, transparent);
+  --mors-color-border-subtle: color-mix(in srgb, var(--mors-neutral-0) 8%, transparent);
+
+  --mors-color-text: #f5f5f7;
+  --mors-color-text-secondary: #a8a8b0;
+  --mors-color-text-tertiary: #86868b;
+  --mors-color-text-inverse: var(--mors-neutral-900);
+
+  --mors-color-accent: #2997ff;
+  --mors-color-accent-hover: #54a9ff;
+  --mors-color-accent-active: #6fb3ff;
+  --mors-color-accent-soft: color-mix(in srgb, #2997ff 18%, transparent);
+  --mors-color-accent-text: #6fb3ff;
+
+  --mors-color-success: #34c759;
+  --mors-color-success-soft: color-mix(in srgb, #34c759 18%, transparent);
+  --mors-color-success-text: #5ddb7c;
+  --mors-color-warning: #e0a020;
+  --mors-color-warning-soft: color-mix(in srgb, #e0a020 18%, transparent);
+  --mors-color-warning-text: #f0be5c;
+  --mors-color-danger: #ff453a;
+  --mors-color-danger-soft: color-mix(in srgb, #ff453a 18%, transparent);
+  --mors-color-danger-text: #ff7a72;
+  --mors-color-info: #a78bfa;
+  --mors-color-info-soft: color-mix(in srgb, #a78bfa 18%, transparent);
+  --mors-color-info-text: #c4b5fd;
+
+  --mors-color-scrim: color-mix(in srgb, var(--mors-neutral-1000) 62%, transparent);
+  --mors-color-skeleton: color-mix(in srgb, var(--mors-neutral-0) 10%, transparent);
+  --mors-color-skeleton-sheen: color-mix(in srgb, var(--mors-neutral-0) 5%, transparent);
+
+  --mors-shadow-sm:
+    0 1px 2px color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent),
+    0 2px 8px color-mix(in srgb, var(--mors-neutral-1000) 32%, transparent);
+  --mors-shadow-md:
+    0 2px 4px color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent),
+    0 8px 24px color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent);
+  --mors-shadow-lg:
+    0 4px 8px color-mix(in srgb, var(--mors-neutral-1000) 40%, transparent),
+    0 18px 48px color-mix(in srgb, var(--mors-neutral-1000) 48%, transparent);
+  --mors-shadow-xl:
+    0 8px 16px color-mix(in srgb, var(--mors-neutral-1000) 44%, transparent),
+    0 32px 72px color-mix(in srgb, var(--mors-neutral-1000) 56%, transparent);
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "react-perf", "typescript", "unicorn", "jsx-a11y", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "env": {
+    "browser": true,
+    "es2024": true
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react-perf/jsx-no-new-object-as-prop": "off",
+    "react-perf/jsx-no-new-array-as-prop": "off",
+    "react-perf/jsx-no-new-function-as-prop": "off",
+    "react-perf/jsx-no-jsx-as-prop": "off",
+    "react/no-array-index-key": "off",
+    "react/set-state-in-effect": "off",
+    "jsx-a11y/no-noninteractive-element-to-interactive-role": "off",
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "typescript/no-explicit-any": "error"
+  },
+  "ignorePatterns": ["dist", "dist-demo", "node_modules", "coverage"],
+  "overrides": [
+    {
+      "files": ["src/components/Popover.tsx", "src/components/Menu.tsx", "src/components/Tooltip.tsx"],
+      "rules": {
+        "react/refs": "off"
+      }
+    },
+    {
+      "files": ["src/components/Toggles.tsx"],
+      "rules": {
+        "jsx-a11y/role-has-required-aria-props": "off"
+      }
+    },
+    {
+      "files": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test/**"],
+      "rules": {
+        "jsx-a11y/label-has-associated-control": "off",
+        "jsx-a11y/anchor-is-valid": "off",
+        "unicorn/consistent-function-scoping": "off"
+      }
+    },
+    {
+      "files": ["demo/**"],
+      "rules": {
+        "react/no-unstable-nested-components": "off",
+        "jsx-a11y/no-noninteractive-tabindex": "off"
+      }
+    }
+  ]
+}

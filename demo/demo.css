@@ -1,0 +1,623 @@
+/* ==========================================================================
+   Demo-only styles. This is the single place a reset lives — the library
+   itself never touches global elements. Everything here is prefixed `demo-`.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--mors-color-canvas);
+  color: var(--mors-color-text);
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-base);
+  line-height: var(--mors-leading-normal);
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color var(--mors-duration-base) var(--mors-ease-standard),
+    color var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ---------- Layout ------------------------------------------------------- */
+
+.demo-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--mors-container-xl);
+  margin-inline: auto;
+  padding: var(--mors-space-9) var(--mors-space-6) var(--mors-space-12);
+}
+
+.demo-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mors-space-3);
+}
+
+.demo-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--mors-radius-sm);
+  background: var(--mors-color-text);
+  color: var(--mors-color-surface);
+  font-size: var(--mors-text-sm);
+  font-weight: var(--mors-weight-bold);
+  letter-spacing: -0.04em;
+}
+
+.demo-nav-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+}
+
+.demo-skip-link {
+  position: absolute;
+  inset-inline-start: var(--mors-space-5);
+  inset-block-start: -3rem;
+  z-index: calc(var(--mors-z-sticky) + 1);
+  padding: var(--mors-space-3) var(--mors-space-5);
+  border-radius: var(--mors-radius-sm);
+  background: var(--mors-color-surface-raised);
+  color: var(--mors-color-text);
+  box-shadow: var(--mors-shadow-md);
+  text-decoration: none;
+  transition: inset-block-start var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.demo-skip-link:focus-visible {
+  inset-block-start: var(--mors-space-4);
+}
+
+/* ---------- Page header --------------------------------------------------- */
+
+.demo-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-4);
+  max-width: 60ch;
+  margin-block-end: var(--mors-space-10);
+}
+
+.demo-eyebrow {
+  color: var(--mors-color-accent-text);
+  font-size: var(--mors-text-xs);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-caps);
+  text-transform: uppercase;
+}
+
+.demo-title {
+  font-size: clamp(2rem, 1.4rem + 3vw, var(--mors-text-3xl));
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tighter);
+  line-height: var(--mors-leading-tight);
+}
+
+.demo-lede {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-md);
+  line-height: var(--mors-leading-relaxed);
+}
+
+/* ---------- Sections ------------------------------------------------------ */
+
+.demo-section {
+  margin-block-end: var(--mors-space-11);
+  scroll-margin-top: 72px;
+}
+
+.demo-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-3);
+  margin-block-end: var(--mors-space-6);
+  padding-block-end: var(--mors-space-4);
+  border-block-end: 1px solid var(--mors-color-border-subtle);
+}
+
+.demo-section-title {
+  font-size: var(--mors-text-xl);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.demo-section-description {
+  max-width: 68ch;
+  color: var(--mors-color-text-secondary);
+}
+
+/* ---------- Component documentation -------------------------------------- */
+
+.demo-doc {
+  margin-block-end: var(--mors-space-10);
+  scroll-margin-top: 72px;
+}
+
+.demo-doc-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--mors-space-4);
+  margin-block-end: var(--mors-space-3);
+}
+
+.demo-doc-name {
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-lg);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.demo-doc-purpose {
+  max-width: 72ch;
+  margin-block-end: var(--mors-space-5);
+  color: var(--mors-color-text-secondary);
+  line-height: var(--mors-leading-relaxed);
+}
+
+.demo-examples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-6);
+}
+
+.demo-example {
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface);
+  overflow: hidden;
+}
+
+.demo-example-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mors-space-3);
+  padding: var(--mors-space-4) var(--mors-space-5);
+  border-block-end: 1px solid var(--mors-color-border-subtle);
+  background: color-mix(in srgb, var(--mors-color-surface-sunken) 55%, transparent);
+}
+
+.demo-example-title {
+  font-size: var(--mors-text-sm);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.demo-example-note {
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-sm);
+}
+
+.demo-example-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mors-space-5);
+  padding: var(--mors-space-7) var(--mors-space-6);
+}
+
+.demo-example-body--stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.demo-example-body--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  align-items: start;
+}
+
+.demo-example-body--center {
+  justify-content: center;
+}
+
+.demo-figure-label {
+  display: block;
+  margin-block-end: var(--mors-space-2);
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-xs);
+  letter-spacing: var(--mors-tracking-caps);
+  text-transform: uppercase;
+}
+
+/* ---------- Code ---------------------------------------------------------- */
+
+/* Code blocks stay dark in both appearances, like an editor pane. */
+.demo-code {
+  position: relative;
+  margin: 0;
+  padding: var(--mors-space-5) calc(var(--mors-space-5) + 5rem) var(--mors-space-5)
+    var(--mors-space-5);
+  border-radius: var(--mors-radius-md);
+  background: var(--mors-neutral-950);
+  color: #f0f0f2;
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-sm);
+  line-height: 1.65;
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.demo-code code {
+  font: inherit;
+}
+
+.demo-code-copy {
+  position: absolute;
+  inset-block-start: var(--mors-space-3);
+  inset-inline-end: var(--mors-space-3);
+}
+
+.demo-code--inline {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--mors-radius-xs);
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text);
+  font-size: 0.9em;
+}
+
+/* ---------- Props table -------------------------------------------------- */
+
+.demo-props {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--mors-text-sm);
+}
+
+.demo-props th,
+.demo-props td {
+  padding: var(--mors-space-3) var(--mors-space-4);
+  border-block-end: 1px solid var(--mors-color-border-subtle);
+  text-align: start;
+  vertical-align: top;
+}
+
+.demo-props th {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-xs);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-caps);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.demo-props code {
+  font-family: var(--mors-font-mono);
+  font-size: 0.92em;
+}
+
+.demo-props-name code {
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+}
+
+.demo-props-type code {
+  color: var(--mors-color-accent-text);
+}
+
+.demo-props-default code {
+  color: var(--mors-color-text-tertiary);
+}
+
+.demo-props-description {
+  color: var(--mors-color-text-secondary);
+  min-width: 16rem;
+}
+
+/* ---------- Components page shell ---------------------------------------- */
+
+.demo-with-sidebar {
+  display: grid;
+  gap: var(--mors-space-9);
+  grid-template-columns: 1fr;
+}
+
+.demo-sidebar {
+  display: none;
+}
+
+.demo-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+}
+
+.demo-sidebar-group {
+  margin-block-start: var(--mors-space-4);
+  padding-inline: var(--mors-space-3);
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-2xs);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-caps);
+  text-transform: uppercase;
+}
+
+.demo-sidebar-link {
+  display: block;
+  padding: var(--mors-space-2) var(--mors-space-3);
+  border-radius: var(--mors-radius-sm);
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+  text-decoration: none;
+}
+
+.demo-sidebar-link:hover {
+  background: var(--mors-color-surface-hover);
+  color: var(--mors-color-text);
+}
+
+@media (min-width: 1024px) {
+  .demo-with-sidebar {
+    grid-template-columns: 15rem minmax(0, 1fr);
+  }
+
+  .demo-sidebar {
+    display: block;
+    position: sticky;
+    top: 76px;
+    align-self: start;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-inline-end: var(--mors-space-3);
+  }
+}
+
+/* ---------- Overview page ------------------------------------------------- */
+
+.demo-hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-6);
+  align-items: flex-start;
+  padding: var(--mors-space-11) 0 var(--mors-space-10);
+  text-align: start;
+}
+
+.demo-hero-title {
+  max-width: 22ch;
+  font-size: clamp(2.5rem, 1.5rem + 6vw, var(--mors-text-5xl));
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tighter);
+  line-height: var(--mors-leading-tight);
+}
+
+.demo-hero-lede {
+  max-width: 52ch;
+  color: var(--mors-color-text-secondary);
+  font-size: clamp(var(--mors-text-md), 1rem + 0.4vw, var(--mors-text-lg));
+  line-height: var(--mors-leading-relaxed);
+}
+
+.demo-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mors-space-3);
+}
+
+.demo-grid {
+  display: grid;
+  gap: var(--mors-space-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+}
+
+.demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-5);
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mors-space-4);
+}
+
+.demo-metric {
+  font-size: var(--mors-text-2xl);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tighter);
+}
+
+/* ---------- Design system page ------------------------------------------- */
+
+.demo-swatches {
+  display: grid;
+  gap: var(--mors-space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr));
+}
+
+.demo-swatch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-2);
+}
+
+.demo-swatch-chip {
+  height: 60px;
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-md);
+}
+
+.demo-swatch-name {
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-xs);
+}
+
+.demo-swatch-value {
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-xs);
+}
+
+.demo-ramp {
+  display: flex;
+  border-radius: var(--mors-radius-md);
+  overflow: hidden;
+}
+
+.demo-ramp-step {
+  flex: 1;
+  height: 48px;
+}
+
+.demo-type-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--mors-space-5);
+  padding-block: var(--mors-space-4);
+  border-block-end: 1px solid var(--mors-color-border-subtle);
+}
+
+.demo-type-meta {
+  min-width: 12rem;
+  color: var(--mors-color-text-tertiary);
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-xs);
+}
+
+.demo-scale-row {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-4);
+  padding-block: var(--mors-space-2);
+}
+
+.demo-scale-bar {
+  height: 14px;
+  border-radius: var(--mors-radius-xs);
+  background: var(--mors-color-accent-soft);
+  border: 1px solid color-mix(in srgb, var(--mors-color-accent) 30%, transparent);
+}
+
+.demo-scale-label {
+  min-width: 9rem;
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-xs);
+  color: var(--mors-color-text-secondary);
+}
+
+.demo-radius-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 84px;
+  padding-block-end: var(--mors-space-2);
+  border: 1px solid var(--mors-color-border);
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-tertiary);
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-2xs);
+}
+
+.demo-shadow-box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 84px;
+  padding-block-end: var(--mors-space-2);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text-tertiary);
+  font-family: var(--mors-font-mono);
+  font-size: var(--mors-text-2xs);
+}
+
+.demo-motion-track {
+  flex: 1;
+  min-width: 10rem;
+  height: 36px;
+  padding: 4px;
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-color-surface-sunken);
+}
+
+.demo-motion-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--mors-radius-circle);
+  background: var(--mors-color-accent);
+  transition-property: translate;
+  transition-timing-function: var(--mors-ease-standard);
+}
+
+.demo-motion-dot--end {
+  translate: calc(100% * 0 + var(--demo-motion-distance, 0px)) 0;
+}
+
+/* ---------- Footer -------------------------------------------------------- */
+
+.demo-footer {
+  border-block-start: 1px solid var(--mors-color-border-subtle);
+  background: var(--mors-color-surface);
+}
+
+.demo-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mors-space-4);
+  max-width: var(--mors-container-xl);
+  margin-inline: auto;
+  padding: var(--mors-space-7) var(--mors-space-6);
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-sm);
+}
+
+@media (max-width: 640px) {
+  .demo-main {
+    padding: var(--mors-space-7) var(--mors-space-5) var(--mors-space-10);
+  }
+
+  .demo-example-body {
+    padding: var(--mors-space-5);
+  }
+}

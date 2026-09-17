@@ -1,0 +1,607 @@
+/* ==========================================================================
+   Field · TextField · Textarea · Select · SearchField
+   Checkbox · Radio · Switch · Slider
+   ========================================================================== */
+
+.mors-field {
+  --mors-field-height: var(--mors-control-height-md);
+  --mors-field-font: var(--mors-text-base);
+  --mors-field-radius: var(--mors-radius-md);
+  --mors-field-padding: var(--mors-space-4);
+
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--mors-space-3);
+  font-family: var(--mors-font-sans);
+  min-inline-size: 0;
+}
+
+.mors-field--block {
+  display: flex;
+  inline-size: 100%;
+}
+
+.mors-field--sm {
+  --mors-field-height: var(--mors-control-height-sm);
+  --mors-field-font: var(--mors-text-sm);
+  --mors-field-radius: var(--mors-radius-sm);
+  --mors-field-padding: var(--mors-space-3);
+  gap: var(--mors-space-2);
+}
+
+.mors-field--lg {
+  --mors-field-height: var(--mors-control-height-lg);
+  --mors-field-font: var(--mors-text-md);
+  --mors-field-radius: var(--mors-radius-lg);
+  --mors-field-padding: var(--mors-space-5);
+}
+
+.mors-field-label {
+  display: block;
+  color: var(--mors-color-text);
+  font-size: var(--mors-text-sm);
+  font-weight: var(--mors-weight-medium);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-field-required {
+  margin-inline-start: 2px;
+  color: var(--mors-color-danger-text);
+}
+
+.mors-field-description,
+.mors-field-error {
+  margin: 0;
+  font-size: var(--mors-text-sm);
+  line-height: var(--mors-leading-normal);
+}
+
+.mors-field-description {
+  color: var(--mors-color-text-secondary);
+}
+
+.mors-field-error {
+  color: var(--mors-color-danger-text);
+  font-weight: var(--mors-weight-medium);
+}
+
+/* ---------- Input shell --------------------------------------------------- */
+
+.mors-input-shell {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-3);
+  min-block-size: var(--mors-field-height);
+  padding-inline: var(--mors-field-padding);
+  border: 1px solid var(--mors-color-border);
+  border-radius: var(--mors-field-radius);
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text);
+  transition:
+    border-color var(--mors-duration-fast) var(--mors-ease-standard),
+    box-shadow var(--mors-duration-fast) var(--mors-ease-standard),
+    background-color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-input-shell:hover:not(.mors-is-disabled) {
+  border-color: var(--mors-color-border-strong);
+}
+
+.mors-input-shell:focus-within {
+  border-color: var(--mors-color-accent);
+  box-shadow: var(--mors-focus-ring);
+}
+
+.mors-input-shell.mors-is-disabled {
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-tertiary);
+  cursor: not-allowed;
+}
+
+.mors-field--invalid .mors-input-shell {
+  border-color: var(--mors-color-danger);
+}
+
+.mors-field--invalid .mors-input-shell:focus-within {
+  box-shadow: 0 0 0 var(--mors-focus-width)
+    color-mix(in srgb, var(--mors-color-danger) 32%, transparent);
+}
+
+.mors-input-shell--textarea {
+  align-items: stretch;
+  padding-block: var(--mors-space-3);
+}
+
+.mors-input-shell--select {
+  position: relative;
+  padding-inline-end: var(--mors-space-3);
+}
+
+.mors-input {
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--mors-field-font);
+  letter-spacing: var(--mors-tracking-tight);
+  line-height: var(--mors-leading-snug);
+  appearance: none;
+}
+
+.mors-input:focus,
+.mors-input:focus-visible {
+  outline: none;
+}
+
+.mors-input::placeholder {
+  color: var(--mors-color-text-tertiary);
+}
+
+.mors-input:disabled {
+  cursor: not-allowed;
+}
+
+/* Hide the WebKit search decorations; the library supplies its own clear button. */
+.mors-input[type='search']::-webkit-search-decoration,
+.mors-input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.mors-input-affix {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  color: var(--mors-color-text-tertiary);
+  font-size: 1.1em;
+}
+
+.mors-input-affix--end {
+  margin-inline-end: calc(var(--mors-space-2) * -1);
+}
+
+.mors-textarea {
+  display: block;
+  min-block-size: calc(var(--mors-field-height) * 1.6);
+  padding-block: var(--mors-space-1);
+  line-height: var(--mors-leading-normal);
+}
+
+.mors-textarea--resize-none {
+  resize: none;
+}
+
+.mors-textarea--resize-vertical {
+  resize: vertical;
+}
+
+.mors-select {
+  padding-inline-end: var(--mors-space-6);
+  cursor: pointer;
+}
+
+.mors-select-arrow {
+  position: absolute;
+  inset-inline-end: var(--mors-field-padding);
+  pointer-events: none;
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-base);
+}
+
+/* ---------- Checkbox · Radio · Switch ------------------------------------- */
+
+.mors-toggle {
+  --mors-toggle-size: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-2);
+  font-family: var(--mors-font-sans);
+}
+
+.mors-toggle--sm {
+  --mors-toggle-size: 17px;
+}
+
+.mors-toggle-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mors-space-4);
+  cursor: pointer;
+}
+
+.mors-toggle--label-start .mors-toggle-row {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.mors-toggle.mors-is-disabled .mors-toggle-row {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.mors-toggle-label {
+  color: var(--mors-color-text);
+  font-size: var(--mors-text-base);
+  letter-spacing: var(--mors-tracking-tight);
+  line-height: var(--mors-leading-snug);
+}
+
+.mors-toggle--sm .mors-toggle-label {
+  font-size: var(--mors-text-sm);
+}
+
+/* Indented to line up under the label, past the control. */
+.mors-toggle-description {
+  margin: 0;
+  padding-inline-start: calc(var(--mors-toggle-size) + var(--mors-space-4));
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+  line-height: var(--mors-leading-normal);
+}
+
+.mors-toggle--switch .mors-toggle-description {
+  padding-inline-start: calc(var(--mors-toggle-size) * 2.05 + var(--mors-space-4));
+}
+
+.mors-toggle--label-start .mors-toggle-description {
+  padding-inline-start: 0;
+}
+
+.mors-checkbox-box,
+.mors-radio-dot {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--mors-toggle-size);
+  block-size: var(--mors-toggle-size);
+  margin-block-start: 1px;
+  border: 1.5px solid var(--mors-color-border-strong);
+  background: var(--mors-color-surface);
+  transition:
+    background-color var(--mors-duration-fast) var(--mors-ease-standard),
+    border-color var(--mors-duration-fast) var(--mors-ease-standard),
+    transform var(--mors-duration-instant) var(--mors-ease-spring);
+}
+
+.mors-checkbox-box {
+  border-radius: 6px;
+}
+
+.mors-radio-dot {
+  border-radius: var(--mors-radius-circle);
+}
+
+.mors-checkbox-mark {
+  inline-size: 74%;
+  block-size: 74%;
+  color: var(--mors-color-text-on-accent);
+  stroke-width: 2.6;
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity var(--mors-duration-fast) var(--mors-ease-standard),
+    transform var(--mors-duration-fast) var(--mors-ease-spring);
+}
+
+.mors-checkbox-input:checked + .mors-checkbox-box,
+.mors-checkbox-input[aria-checked='mixed'] + .mors-checkbox-box {
+  border-color: var(--mors-color-accent);
+  background: var(--mors-color-accent);
+}
+
+.mors-checkbox-input:checked + .mors-checkbox-box .mors-checkbox-mark,
+.mors-checkbox-input[aria-checked='mixed'] + .mors-checkbox-box .mors-checkbox-mark {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mors-radio-dot::after {
+  content: '';
+  inline-size: 44%;
+  block-size: 44%;
+  border-radius: var(--mors-radius-circle);
+  background: var(--mors-color-text-on-accent);
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity var(--mors-duration-fast) var(--mors-ease-standard),
+    transform var(--mors-duration-fast) var(--mors-ease-spring);
+}
+
+.mors-radio-input:checked + .mors-radio-dot {
+  border-color: var(--mors-color-accent);
+  background: var(--mors-color-accent);
+}
+
+.mors-radio-input:checked + .mors-radio-dot::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mors-toggle-row:hover .mors-checkbox-input:not(:disabled) + .mors-checkbox-box,
+.mors-toggle-row:hover .mors-radio-input:not(:disabled) + .mors-radio-dot {
+  border-color: var(--mors-color-accent);
+}
+
+.mors-toggle--invalid .mors-checkbox-box,
+.mors-toggle--invalid .mors-radio-dot {
+  border-color: var(--mors-color-danger);
+}
+
+/* Switch */
+
+.mors-switch-track {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  inline-size: calc(var(--mors-toggle-size) * 2.05);
+  block-size: calc(var(--mors-toggle-size) * 1.28);
+  padding: 2px;
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-color-border-strong);
+  transition: background-color var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-switch-thumb {
+  inline-size: calc(var(--mors-toggle-size) * 1.28 - 4px);
+  block-size: calc(var(--mors-toggle-size) * 1.28 - 4px);
+  border-radius: var(--mors-radius-circle);
+  background: #fff;
+  box-shadow: var(--mors-shadow-sm);
+  transition: translate var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-switch-input:checked + .mors-switch-track {
+  background: var(--mors-color-accent);
+}
+
+.mors-switch-input:checked + .mors-switch-track .mors-switch-thumb {
+  translate: calc(var(--mors-toggle-size) * 2.05 - var(--mors-toggle-size) * 1.28) 0;
+}
+
+/* ---------- RadioGroup ---------------------------------------------------- */
+
+.mors-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-4);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--mors-font-sans);
+}
+
+.mors-radio-group-legend {
+  padding: 0;
+  margin-block-end: var(--mors-space-1);
+}
+
+.mors-radio-group-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-4);
+}
+
+.mors-radio-group--horizontal .mors-radio-group-options {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--mors-space-6);
+}
+
+/* ---------- Slider -------------------------------------------------------- */
+
+.mors-slider {
+  --mors-slider-percent: 0%;
+  --mors-slider-thumb: 22px;
+  --mors-slider-track: 5px;
+  display: flex;
+  align-items: center;
+  min-block-size: var(--mors-control-height-sm);
+  inline-size: 100%;
+}
+
+.mors-slider--sm {
+  --mors-slider-thumb: 18px;
+  --mors-slider-track: 4px;
+}
+
+.mors-slider.mors-is-disabled {
+  opacity: 0.5;
+}
+
+.mors-slider-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mors-space-4);
+}
+
+.mors-slider-value {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--mors-weight-regular);
+}
+
+.mors-slider-input {
+  inline-size: 100%;
+  block-size: var(--mors-slider-thumb);
+  margin: 0;
+  background: none;
+  appearance: none;
+  border-radius: var(--mors-radius-pill);
+  cursor: pointer;
+}
+
+.mors-slider-input:disabled {
+  cursor: not-allowed;
+}
+
+.mors-slider-input::-webkit-slider-runnable-track {
+  block-size: var(--mors-slider-track);
+  border-radius: var(--mors-radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--mors-color-accent) var(--mors-slider-percent),
+    var(--mors-color-skeleton) var(--mors-slider-percent)
+  );
+}
+
+.mors-slider-input::-webkit-slider-thumb {
+  appearance: none;
+  inline-size: var(--mors-slider-thumb);
+  block-size: var(--mors-slider-thumb);
+  margin-block-start: calc((var(--mors-slider-track) - var(--mors-slider-thumb)) / 2);
+  border: 0.5px solid var(--mors-color-border);
+  border-radius: var(--mors-radius-circle);
+  background: #fff;
+  box-shadow: var(--mors-shadow-sm);
+  transition: transform var(--mors-duration-fast) var(--mors-ease-spring);
+}
+
+.mors-slider-input:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.mors-slider-input::-moz-range-track {
+  block-size: var(--mors-slider-track);
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-color-skeleton);
+}
+
+.mors-slider-input::-moz-range-progress {
+  block-size: var(--mors-slider-track);
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-color-accent);
+}
+
+.mors-slider-input::-moz-range-thumb {
+  inline-size: var(--mors-slider-thumb);
+  block-size: var(--mors-slider-thumb);
+  border: 0.5px solid var(--mors-color-border);
+  border-radius: var(--mors-radius-circle);
+  background: #fff;
+  box-shadow: var(--mors-shadow-sm);
+}
+
+/* ---------- NumberField --------------------------------------------------- */
+
+.mors-number-shell {
+  gap: var(--mors-space-2);
+}
+
+.mors-number-input {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.mors-number-input::-webkit-outer-spin-button,
+.mors-number-input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.mors-number-input[type='number'] {
+  appearance: textfield;
+}
+
+.mors-number-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 28px;
+  block-size: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--mors-radius-circle);
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text);
+  cursor: pointer;
+}
+
+.mors-number-step:hover:not(:disabled) {
+  background: var(--mors-color-surface-active);
+}
+
+.mors-number-step:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- FileField ----------------------------------------------------- */
+
+.mors-file {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-4);
+  min-block-size: 5.5rem;
+  padding: var(--mors-space-5);
+  border: 1px dashed var(--mors-color-border-strong);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-secondary);
+  cursor: pointer;
+  transition:
+    border-color var(--mors-duration-fast) var(--mors-ease-standard),
+    background-color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-file:hover:not(.mors-is-disabled),
+.mors-file--dragging {
+  border-color: var(--mors-color-accent);
+  background: var(--mors-color-accent-soft);
+  color: var(--mors-color-text);
+}
+
+.mors-file.mors-is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.mors-file-hit {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-4);
+  flex: 1;
+  min-inline-size: 0;
+  cursor: inherit;
+}
+
+.mors-file-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: var(--mors-radius-circle);
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text);
+  font-size: var(--mors-text-lg);
+}
+
+.mors-file-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-1);
+  min-inline-size: 0;
+}
+
+.mors-file-prompt {
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-file-names {
+  overflow: hidden;
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

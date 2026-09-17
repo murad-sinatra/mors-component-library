@@ -1,0 +1,14 @@
+/* ==========================================================================
+   mors-component-library — complete stylesheet.
+   Import once in your app:  import 'mors-component-library/styles.css';
+   The build inlines these partials into a single dist/mors-component-library.css.
+   ========================================================================== */
+
+@import './tokens.css';
+@import './base.css';
+@import './buttons.css';
+@import './forms.css';
+@import './display.css';
+@import './overlays.css';
+@import './navigation.css';
+@import './data.css';

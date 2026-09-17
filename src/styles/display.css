@@ -1,0 +1,657 @@
+/* ==========================================================================
+   Card · Badge · Avatar · Divider · Alert · EmptyState
+   ========================================================================== */
+
+.mors-card {
+  --mors-card-padding: var(--mors-space-7);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-5);
+  padding: var(--mors-card-padding);
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-xl);
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text);
+  font-family: var(--mors-font-sans);
+  overflow: hidden;
+  transition:
+    box-shadow var(--mors-duration-base) var(--mors-ease-standard),
+    transform var(--mors-duration-base) var(--mors-ease-standard),
+    border-color var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-card--flat {
+  background: var(--mors-color-surface-sunken);
+  border-color: transparent;
+}
+
+.mors-card--raised {
+  box-shadow: var(--mors-shadow-sm);
+}
+
+.mors-card--floating {
+  border-color: transparent;
+  box-shadow: var(--mors-shadow-lg);
+}
+
+.mors-card--padding-none {
+  --mors-card-padding: 0;
+  gap: 0;
+}
+
+.mors-card--padding-sm {
+  --mors-card-padding: var(--mors-space-5);
+  gap: var(--mors-space-4);
+}
+
+.mors-card--padding-lg {
+  --mors-card-padding: var(--mors-space-9);
+  gap: var(--mors-space-6);
+}
+
+.mors-card--interactive {
+  cursor: pointer;
+}
+
+.mors-card--interactive:hover {
+  transform: translate3d(0, -2px, 0);
+  box-shadow: var(--mors-shadow-md);
+  border-color: var(--mors-color-border);
+}
+
+.mors-card--interactive:active {
+  transform: translate3d(0, 0, 0) scale(0.995);
+}
+
+.mors-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--mors-space-5);
+}
+
+.mors-card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-2);
+  min-inline-size: 0;
+}
+
+.mors-card-title {
+  margin: 0;
+  font-size: var(--mors-text-md);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+  line-height: var(--mors-leading-snug);
+}
+
+.mors-card-subtitle {
+  margin: 0;
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+  line-height: var(--mors-leading-normal);
+}
+
+.mors-card-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--mors-space-2);
+}
+
+.mors-card-body {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-base);
+  line-height: var(--mors-leading-relaxed);
+}
+
+.mors-card-body > :first-child {
+  margin-block-start: 0;
+}
+
+.mors-card-body > :last-child {
+  margin-block-end: 0;
+}
+
+.mors-card-footer {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-3);
+  flex-wrap: wrap;
+  margin-block-start: auto;
+  padding-block-start: var(--mors-space-2);
+}
+
+.mors-card-media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: calc(var(--mors-card-padding) * -1) calc(var(--mors-card-padding) * -1) 0;
+  background: linear-gradient(
+    150deg,
+    var(--mors-color-surface-sunken),
+    color-mix(in srgb, var(--mors-color-accent) 12%, var(--mors-color-surface-sunken))
+  );
+  overflow: hidden;
+}
+
+.mors-card-media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Badge --------------------------------------------------------- */
+
+.mors-badge {
+  --mors-badge-fg: var(--mors-color-text-secondary);
+  --mors-badge-bg: var(--mors-color-surface-sunken);
+  --mors-badge-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+  padding: 3px var(--mors-space-3);
+  border: 1px solid var(--mors-badge-border);
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-badge-bg);
+  color: var(--mors-badge-fg);
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-xs);
+  font-weight: var(--mors-weight-medium);
+  letter-spacing: var(--mors-tracking-wide);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.mors-badge--sm {
+  padding: 1px var(--mors-space-2);
+  font-size: var(--mors-text-2xs);
+}
+
+.mors-badge-dot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: var(--mors-radius-circle);
+  background: currentColor;
+}
+
+.mors-badge-icon {
+  display: inline-flex;
+  font-size: 1.05em;
+}
+
+.mors-badge--accent {
+  --mors-badge-fg: var(--mors-color-accent-text);
+  --mors-badge-bg: var(--mors-color-accent-soft);
+}
+
+.mors-badge--success {
+  --mors-badge-fg: var(--mors-color-success-text);
+  --mors-badge-bg: var(--mors-color-success-soft);
+}
+
+.mors-badge--warning {
+  --mors-badge-fg: var(--mors-color-warning-text);
+  --mors-badge-bg: var(--mors-color-warning-soft);
+}
+
+.mors-badge--danger {
+  --mors-badge-fg: var(--mors-color-danger-text);
+  --mors-badge-bg: var(--mors-color-danger-soft);
+}
+
+.mors-badge--info {
+  --mors-badge-fg: var(--mors-color-info-text);
+  --mors-badge-bg: var(--mors-color-info-soft);
+}
+
+.mors-badge--solid {
+  --mors-badge-fg: var(--mors-color-text-inverse);
+  --mors-badge-bg: var(--mors-color-surface-inverse);
+}
+
+.mors-badge--solid.mors-badge--accent {
+  --mors-badge-fg: var(--mors-color-text-on-accent);
+  --mors-badge-bg: var(--mors-color-accent);
+}
+
+.mors-badge--solid.mors-badge--success {
+  --mors-badge-fg: #fff;
+  --mors-badge-bg: var(--mors-color-success);
+}
+
+.mors-badge--solid.mors-badge--warning {
+  --mors-badge-fg: #fff;
+  --mors-badge-bg: var(--mors-color-warning);
+}
+
+.mors-badge--solid.mors-badge--danger {
+  --mors-badge-fg: #fff;
+  --mors-badge-bg: var(--mors-color-danger);
+}
+
+.mors-badge--solid.mors-badge--info {
+  --mors-badge-fg: #fff;
+  --mors-badge-bg: var(--mors-color-info);
+}
+
+.mors-badge--outline {
+  --mors-badge-bg: transparent;
+  --mors-badge-border: var(--mors-color-border-strong);
+}
+
+.mors-badge--outline.mors-badge--accent {
+  --mors-badge-fg: var(--mors-color-accent-text);
+  --mors-badge-border: color-mix(in srgb, var(--mors-color-accent) 40%, transparent);
+}
+
+.mors-badge--outline.mors-badge--success {
+  --mors-badge-fg: var(--mors-color-success-text);
+  --mors-badge-border: color-mix(in srgb, var(--mors-color-success) 40%, transparent);
+}
+
+.mors-badge--outline.mors-badge--warning {
+  --mors-badge-fg: var(--mors-color-warning-text);
+  --mors-badge-border: color-mix(in srgb, var(--mors-color-warning) 40%, transparent);
+}
+
+.mors-badge--outline.mors-badge--danger {
+  --mors-badge-fg: var(--mors-color-danger-text);
+  --mors-badge-border: color-mix(in srgb, var(--mors-color-danger) 40%, transparent);
+}
+
+.mors-badge--outline.mors-badge--info {
+  --mors-badge-fg: var(--mors-color-info-text);
+  --mors-badge-border: color-mix(in srgb, var(--mors-color-info) 40%, transparent);
+}
+
+/* ---------- Avatar -------------------------------------------------------- */
+
+.mors-avatar {
+  --mors-avatar-size: 40px;
+  --mors-avatar-font: var(--mors-text-sm);
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--mors-avatar-size);
+  block-size: var(--mors-avatar-size);
+  border-radius: var(--mors-radius-circle);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--mors-color-accent) 18%, var(--mors-color-surface-sunken)),
+    var(--mors-color-surface-sunken)
+  );
+  color: var(--mors-color-text-secondary);
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-avatar-font);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-wide);
+  overflow: hidden;
+  user-select: none;
+}
+
+.mors-avatar--xs {
+  --mors-avatar-size: 24px;
+  --mors-avatar-font: var(--mors-text-2xs);
+}
+
+.mors-avatar--sm {
+  --mors-avatar-size: 32px;
+  --mors-avatar-font: var(--mors-text-xs);
+}
+
+.mors-avatar--lg {
+  --mors-avatar-size: 56px;
+  --mors-avatar-font: var(--mors-text-md);
+}
+
+.mors-avatar--xl {
+  --mors-avatar-size: 80px;
+  --mors-avatar-font: var(--mors-text-lg);
+}
+
+.mors-avatar--rounded {
+  border-radius: var(--mors-radius-md);
+}
+
+.mors-avatar-image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+.mors-avatar--overflow {
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-secondary);
+}
+
+.mors-avatar-status {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  inline-size: 30%;
+  block-size: 30%;
+  min-inline-size: 8px;
+  min-block-size: 8px;
+  border: 2px solid var(--mors-color-surface);
+  border-radius: var(--mors-radius-circle);
+  overflow: visible;
+}
+
+.mors-avatar-status--online {
+  background: var(--mors-color-success);
+}
+
+.mors-avatar-status--busy {
+  background: var(--mors-color-danger);
+}
+
+.mors-avatar-status--offline {
+  background: var(--mors-neutral-400);
+}
+
+.mors-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.mors-avatar-group > .mors-avatar + .mors-avatar {
+  margin-inline-start: -10px;
+}
+
+.mors-avatar-group > .mors-avatar {
+  box-shadow: 0 0 0 2px var(--mors-color-surface);
+}
+
+/* ---------- Divider ------------------------------------------------------- */
+
+.mors-divider {
+  border: 0;
+  background: var(--mors-color-border);
+}
+
+.mors-divider--horizontal {
+  inline-size: 100%;
+  block-size: 1px;
+}
+
+.mors-divider--vertical {
+  inline-size: 1px;
+  align-self: stretch;
+  min-block-size: 1em;
+}
+
+.mors-divider--spacing-none {
+  margin: 0;
+}
+
+.mors-divider--spacing-sm {
+  margin-block: var(--mors-space-4);
+}
+
+.mors-divider--spacing-md {
+  margin-block: var(--mors-space-6);
+}
+
+.mors-divider--spacing-lg {
+  margin-block: var(--mors-space-9);
+}
+
+.mors-divider--vertical.mors-divider--spacing-sm {
+  margin: 0 var(--mors-space-4);
+}
+
+.mors-divider--vertical.mors-divider--spacing-md {
+  margin: 0 var(--mors-space-6);
+}
+
+.mors-divider--vertical.mors-divider--spacing-lg {
+  margin: 0 var(--mors-space-9);
+}
+
+.mors-divider--labelled {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-4);
+  background: none;
+}
+
+.mors-divider-line {
+  flex: 1;
+  block-size: 1px;
+  background: var(--mors-color-border);
+}
+
+.mors-divider-label {
+  color: var(--mors-color-text-tertiary);
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-xs);
+  letter-spacing: var(--mors-tracking-caps);
+  text-transform: uppercase;
+}
+
+/* ---------- Alert --------------------------------------------------------- */
+
+.mors-alert {
+  --mors-alert-fg: var(--mors-color-text);
+  --mors-alert-accent: var(--mors-color-text-secondary);
+  --mors-alert-bg: var(--mors-color-surface-sunken);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mors-space-4);
+  padding: var(--mors-space-5);
+  border: 1px solid transparent;
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-alert-bg);
+  color: var(--mors-alert-fg);
+  font-family: var(--mors-font-sans);
+}
+
+.mors-alert--outline {
+  background: var(--mors-color-surface);
+  border-color: color-mix(in srgb, var(--mors-alert-accent) 34%, transparent);
+}
+
+.mors-alert--info {
+  --mors-alert-accent: var(--mors-color-info);
+  --mors-alert-bg: var(--mors-color-info-soft);
+}
+
+.mors-alert--success {
+  --mors-alert-accent: var(--mors-color-success);
+  --mors-alert-bg: var(--mors-color-success-soft);
+}
+
+.mors-alert--warning {
+  --mors-alert-accent: var(--mors-color-warning);
+  --mors-alert-bg: var(--mors-color-warning-soft);
+}
+
+.mors-alert--danger {
+  --mors-alert-accent: var(--mors-color-danger);
+  --mors-alert-bg: var(--mors-color-danger-soft);
+}
+
+.mors-alert-icon {
+  display: inline-flex;
+  flex: none;
+  margin-block-start: 1px;
+  color: var(--mors-alert-accent);
+  font-size: var(--mors-text-md);
+}
+
+.mors-alert-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--mors-space-2);
+  min-inline-size: 0;
+}
+
+.mors-alert-title {
+  margin: 0;
+  font-size: var(--mors-text-base);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-alert-body {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+  line-height: var(--mors-leading-relaxed);
+}
+
+.mors-alert-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-3);
+  margin-block-start: var(--mors-space-2);
+}
+
+.mors-alert-dismiss {
+  flex: none;
+  margin: -4px -4px 0 0;
+}
+
+/* ---------- EmptyState ---------------------------------------------------- */
+
+.mors-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mors-space-4);
+  padding: var(--mors-space-10) var(--mors-space-6);
+  border: 1px dashed var(--mors-color-border);
+  border-radius: var(--mors-radius-xl);
+  color: var(--mors-color-text);
+  font-family: var(--mors-font-sans);
+  text-align: center;
+}
+
+.mors-empty-state--sm {
+  gap: var(--mors-space-3);
+  padding: var(--mors-space-7) var(--mors-space-5);
+}
+
+.mors-empty-state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 52px;
+  block-size: 52px;
+  border-radius: var(--mors-radius-circle);
+  background: var(--mors-color-surface-sunken);
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-xl);
+}
+
+.mors-empty-state--sm .mors-empty-state-icon {
+  inline-size: 40px;
+  block-size: 40px;
+  font-size: var(--mors-text-lg);
+}
+
+.mors-empty-state-title {
+  margin: 0;
+  font-size: var(--mors-text-md);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-empty-state-description {
+  margin: 0;
+  max-inline-size: 44ch;
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-base);
+  line-height: var(--mors-leading-relaxed);
+}
+
+.mors-empty-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--mors-space-3);
+  margin-block-start: var(--mors-space-2);
+}
+
+/* ---------- List ---------------------------------------------------------- */
+
+.mors-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface);
+  overflow: hidden;
+  font-family: var(--mors-font-sans);
+}
+
+.mors-list--inset {
+  border-color: transparent;
+  background: var(--mors-color-surface-sunken);
+}
+
+.mors-list-item + .mors-list-item {
+  border-block-start: 1px solid var(--mors-color-border-subtle);
+}
+
+.mors-list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-4);
+  width: 100%;
+  padding: var(--mors-space-4) var(--mors-space-5);
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+}
+
+.mors-list-row--interactive {
+  cursor: pointer;
+}
+
+.mors-list-row--interactive:hover {
+  background: var(--mors-color-surface-hover);
+}
+
+.mors-list-leading,
+.mors-list-trailing {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+}
+
+.mors-list-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.mors-list-title {
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-list-subtitle {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-list-chevron {
+  flex: none;
+  color: var(--mors-color-text-tertiary);
+}

@@ -1,0 +1,157 @@
+/* ==========================================================================
+   Base layer — deliberately scoped. There is no global reset: every rule below
+   matches only elements the library renders (all of which carry a `mors-`
+   class), so dropping this stylesheet into an existing app cannot restyle it.
+   ========================================================================== */
+
+[class*='mors-'],
+[class*='mors-']::before,
+[class*='mors-']::after {
+  box-sizing: border-box;
+}
+
+/* Optional wrapper that establishes library typography for a subtree. */
+.mors-scope {
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-base);
+  line-height: var(--mors-leading-normal);
+  letter-spacing: var(--mors-tracking-normal);
+  color: var(--mors-color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.mors-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Shared focus treatment: a soft ring plus a hairline for high-contrast modes. */
+.mors-focusable:focus-visible,
+.mors-button:focus-visible,
+.mors-input:focus-visible,
+.mors-chip:focus-visible,
+.mors-tab:focus-visible,
+.mors-link:focus-visible,
+.mors-menu-item:focus-visible,
+.mors-page-button:focus-visible,
+.mors-calendar-day:focus-visible,
+.mors-accordion-trigger:focus-visible,
+.mors-close:focus-visible {
+  outline: var(--mors-focus-width) solid
+    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
+  outline-offset: var(--mors-focus-offset);
+}
+
+/* Elements whose focus ring must not be clipped by an overflow container. */
+.mors-switch-input:focus-visible + .mors-switch-track,
+.mors-checkbox-input:focus-visible + .mors-checkbox-box,
+.mors-radio-input:focus-visible + .mors-radio-dot,
+.mors-slider-input:focus-visible {
+  outline: var(--mors-focus-width) solid
+    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
+  outline-offset: var(--mors-focus-offset);
+}
+
+.mors-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  color: var(--mors-color-accent-text);
+  border-radius: var(--mors-radius-xs);
+  text-decoration: none;
+  transition: color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-link-icon {
+  font-size: 0.9em;
+}
+
+.mors-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Inline SVG icon defaults. */
+.mors-icon {
+  display: inline-block;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mors-icon--filled {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Spinner-style rotation shared by Spinner and loading buttons. */
+@keyframes mors-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mors-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes mors-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mors-rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.98);
+  }
+}
+
+@keyframes mors-toast-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.96);
+  }
+}
+
+@keyframes mors-indeterminate {
+  0% {
+    transform: translateX(-100%) scaleX(0.4);
+  }
+  100% {
+    transform: translateX(250%) scaleX(0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*='mors-'],
+  [class*='mors-']::before,
+  [class*='mors-']::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .mors-spinner-track {
+    animation-duration: 900ms !important;
+    animation-iteration-count: infinite !important;
+  }
+}

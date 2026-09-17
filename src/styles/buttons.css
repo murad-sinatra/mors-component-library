@@ -1,0 +1,383 @@
+/* ==========================================================================
+   Button · IconButton · ButtonGroup
+   ========================================================================== */
+
+.mors-button {
+  --mors-button-height: var(--mors-control-height-md);
+  --mors-button-padding: var(--mors-control-padding-md);
+  --mors-button-bg: transparent;
+  --mors-button-fg: var(--mors-color-text);
+  --mors-button-border: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mors-space-3);
+  min-block-size: var(--mors-button-height);
+  padding-inline: var(--mors-button-padding);
+  border: 1px solid var(--mors-button-border);
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-button-bg);
+  color: var(--mors-button-fg);
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-base);
+  font-weight: var(--mors-weight-medium);
+  letter-spacing: var(--mors-tracking-tight);
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--mors-duration-fast) var(--mors-ease-standard),
+    border-color var(--mors-duration-fast) var(--mors-ease-standard),
+    color var(--mors-duration-fast) var(--mors-ease-standard),
+    box-shadow var(--mors-duration-fast) var(--mors-ease-standard),
+    transform var(--mors-duration-instant) var(--mors-ease-standard),
+    opacity var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-button:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+.mors-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.mors-button.mors-is-loading {
+  cursor: progress;
+  opacity: 1;
+}
+
+/* ---------- Sizes ---------------------------------------------------------- */
+
+.mors-button--sm {
+  --mors-button-height: var(--mors-control-height-sm);
+  --mors-button-padding: var(--mors-control-padding-sm);
+  gap: var(--mors-space-2);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-button--lg {
+  --mors-button-height: var(--mors-control-height-lg);
+  --mors-button-padding: var(--mors-control-padding-lg);
+  font-size: var(--mors-text-md);
+}
+
+.mors-button--block {
+  display: flex;
+  inline-size: 100%;
+}
+
+.mors-button--pill {
+  border-radius: var(--mors-radius-pill);
+}
+
+.mors-button:not(.mors-button--pill):not(.mors-icon-button) {
+  border-radius: var(--mors-radius-md);
+}
+
+.mors-button--sm:not(.mors-button--pill):not(.mors-icon-button) {
+  border-radius: var(--mors-radius-sm);
+}
+
+.mors-button--lg:not(.mors-button--pill):not(.mors-icon-button) {
+  border-radius: var(--mors-radius-lg);
+}
+
+/* ---------- Variants ------------------------------------------------------ */
+
+.mors-button--primary {
+  --mors-button-bg: var(--mors-color-accent);
+  --mors-button-fg: var(--mors-color-text-on-accent);
+  box-shadow: var(--mors-shadow-xs);
+}
+
+.mors-button--primary:hover:not(:disabled) {
+  --mors-button-bg: var(--mors-color-accent-hover);
+}
+
+.mors-button--primary:active:not(:disabled) {
+  --mors-button-bg: var(--mors-color-accent-active);
+}
+
+.mors-button--secondary {
+  --mors-button-bg: transparent;
+  --mors-button-fg: var(--mors-color-accent-text);
+  --mors-button-border: var(--mors-color-accent);
+}
+
+.mors-button--secondary:hover:not(:disabled) {
+  --mors-button-bg: var(--mors-color-accent-soft);
+}
+
+.mors-button--subtle {
+  --mors-button-bg: var(--mors-color-surface-sunken);
+  --mors-button-fg: var(--mors-color-text);
+}
+
+.mors-button--subtle:hover:not(:disabled) {
+  --mors-button-bg: var(--mors-color-surface-active);
+}
+
+.mors-button--ghost {
+  --mors-button-fg: var(--mors-color-text);
+}
+
+.mors-button--ghost:hover:not(:disabled) {
+  --mors-button-bg: var(--mors-color-surface-hover);
+}
+
+.mors-button--destructive {
+  --mors-button-bg: var(--mors-color-danger);
+  --mors-button-fg: #fff;
+}
+
+.mors-button--destructive:hover:not(:disabled) {
+  --mors-button-bg: color-mix(in srgb, var(--mors-color-danger) 86%, #000);
+}
+
+.mors-button--link {
+  --mors-button-fg: var(--mors-color-accent-text);
+  min-block-size: auto;
+  padding-inline: 0;
+  font-weight: var(--mors-weight-regular);
+}
+
+.mors-button--link:hover:not(:disabled) .mors-button-label {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.mors-button--link:active:not(:disabled) {
+  transform: none;
+}
+
+/* ---------- Content ------------------------------------------------------- */
+
+.mors-button-label {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+}
+
+.mors-button-affix {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.15em;
+}
+
+.mors-is-loading .mors-button-label,
+.mors-is-loading .mors-button-affix {
+  visibility: hidden;
+}
+
+.mors-button-spinner {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+}
+
+/* ---------- IconButton ---------------------------------------------------- */
+
+.mors-icon-button {
+  padding-inline: 0;
+  inline-size: var(--mors-button-height);
+  font-size: var(--mors-text-md);
+}
+
+.mors-icon-button.mors-button--sm {
+  font-size: var(--mors-text-base);
+}
+
+.mors-icon-button.mors-button--lg {
+  font-size: var(--mors-text-lg);
+}
+
+.mors-icon-button .mors-button-label {
+  line-height: 0;
+}
+
+/* ---------- ButtonGroup --------------------------------------------------- */
+
+.mors-button-group {
+  display: inline-flex;
+}
+
+.mors-button-group--vertical {
+  flex-direction: column;
+}
+
+.mors-button-group--spaced {
+  gap: var(--mors-space-3);
+  flex-wrap: wrap;
+}
+
+.mors-button-group--attached.mors-button-group--horizontal > .mors-button:not(:first-child) {
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  margin-inline-start: -1px;
+}
+
+.mors-button-group--attached.mors-button-group--horizontal > .mors-button:not(:last-child) {
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.mors-button-group--attached.mors-button-group--vertical > .mors-button:not(:first-child) {
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  margin-block-start: -1px;
+}
+
+.mors-button-group--attached.mors-button-group--vertical > .mors-button:not(:last-child) {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+}
+
+.mors-button-group--attached > .mors-button:hover,
+.mors-button-group--attached > .mors-button:focus-visible,
+.mors-button-group--attached > .mors-button[aria-pressed='true'] {
+  z-index: 1;
+}
+
+.mors-button-group--attached > .mors-button[aria-pressed='true'] {
+  --mors-button-bg: var(--mors-color-surface-active);
+  --mors-button-fg: var(--mors-color-text);
+}
+
+/* ---------- Spinner ------------------------------------------------------- */
+
+.mors-spinner {
+  --mors-spinner-size: 20px;
+  display: inline-flex;
+  inline-size: var(--mors-spinner-size);
+  block-size: var(--mors-spinner-size);
+}
+
+.mors-spinner--sm {
+  --mors-spinner-size: 16px;
+}
+
+.mors-spinner--lg {
+  --mors-spinner-size: 28px;
+}
+
+.mors-spinner-track {
+  inline-size: 100%;
+  block-size: 100%;
+  border: 2px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-block-start-color: currentColor;
+  border-radius: var(--mors-radius-circle);
+  animation: mors-spin 700ms linear infinite;
+}
+
+/* ---------- Skeleton ------------------------------------------------------ */
+
+.mors-skeleton {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--mors-color-skeleton);
+  border-radius: var(--mors-radius-sm);
+}
+
+.mors-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--mors-color-skeleton-sheen),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: mors-shimmer 1.5s infinite;
+}
+
+.mors-skeleton--text {
+  block-size: 0.85em;
+  border-radius: var(--mors-radius-xs);
+}
+
+.mors-skeleton--circle {
+  border-radius: var(--mors-radius-circle);
+}
+
+.mors-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-3);
+}
+
+/* ---------- Progress ------------------------------------------------------ */
+
+.mors-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-3);
+  inline-size: 100%;
+}
+
+.mors-progress-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mors-space-4);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-progress-label {
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-progress-value {
+  color: var(--mors-color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.mors-progress-track {
+  --mors-progress-color: var(--mors-color-accent);
+  position: relative;
+  overflow: hidden;
+  block-size: 8px;
+  background: var(--mors-color-skeleton);
+  border-radius: var(--mors-radius-pill);
+}
+
+.mors-progress-track--sm {
+  block-size: 5px;
+}
+
+.mors-progress-track--success {
+  --mors-progress-color: var(--mors-color-success);
+}
+
+.mors-progress-track--warning {
+  --mors-progress-color: var(--mors-color-warning);
+}
+
+.mors-progress-track--danger {
+  --mors-progress-color: var(--mors-color-danger);
+}
+
+.mors-progress-fill {
+  block-size: 100%;
+  background: var(--mors-progress-color);
+  border-radius: inherit;
+  transition: inline-size var(--mors-duration-slow) var(--mors-ease-out);
+}
+
+.mors-progress-track--indeterminate .mors-progress-fill {
+  inline-size: 100%;
+  transform-origin: left center;
+  animation: mors-indeterminate 1.4s var(--mors-ease-standard) infinite;
+}

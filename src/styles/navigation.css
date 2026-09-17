@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Tabs · Accordion · Breadcrumbs · Pagination · Navbar
+   ========================================================================== */
+
+.mors-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mors-space-6);
+  font-family: var(--mors-font-sans);
+}
+
+.mors-tab-list {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mors-tab-list::-webkit-scrollbar {
+  display: none;
+}
+
+.mors-tab-list--underline {
+  gap: var(--mors-space-6);
+  border-block-end: 1px solid var(--mors-color-border);
+}
+
+.mors-tab-list--segmented {
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-color-surface-sunken);
+}
+
+.mors-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+  padding: var(--mors-space-3) var(--mors-space-2);
+  border: 0;
+  background: none;
+  color: var(--mors-color-text-secondary);
+  font-family: inherit;
+  font-size: var(--mors-text-base);
+  font-weight: var(--mors-weight-medium);
+  letter-spacing: var(--mors-tracking-tight);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--mors-duration-fast) var(--mors-ease-standard),
+    background-color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-tab:hover:not(:disabled) {
+  color: var(--mors-color-text);
+}
+
+.mors-tab:disabled {
+  color: var(--mors-color-text-tertiary);
+  cursor: not-allowed;
+}
+
+.mors-tab-list--sm .mors-tab {
+  font-size: var(--mors-text-sm);
+  padding-block: var(--mors-space-2);
+}
+
+/* Underline variant */
+
+.mors-tab-list--underline .mors-tab {
+  padding-inline: var(--mors-space-1);
+}
+
+.mors-tab-list--underline .mors-tab::after {
+  content: '';
+  position: absolute;
+  inset-block-end: -1px;
+  inset-inline: 0;
+  block-size: 2px;
+  border-radius: var(--mors-radius-pill);
+  background: var(--mors-color-accent);
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition:
+    opacity var(--mors-duration-base) var(--mors-ease-standard),
+    transform var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-tab-list--underline .mors-tab--selected {
+  color: var(--mors-color-text);
+}
+
+.mors-tab-list--underline .mors-tab--selected::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Segmented variant */
+
+.mors-tab-list--segmented .mors-tab {
+  flex: 1;
+  justify-content: center;
+  padding: var(--mors-space-2) var(--mors-space-5);
+  border-radius: var(--mors-radius-pill);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-tab-list--segmented .mors-tab--selected {
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text);
+  box-shadow: var(--mors-shadow-xs);
+}
+
+.mors-tab-badge {
+  display: inline-flex;
+  align-items: center;
+}
+
+.mors-tab-panel:focus-visible {
+  outline: var(--mors-focus-width) solid
+    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
+  outline-offset: var(--mors-focus-offset);
+  border-radius: var(--mors-radius-sm);
+}
+
+/* ---------- Accordion ----------------------------------------------------- */
+
+.mors-accordion {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--mors-color-border-subtle);
+  border-radius: var(--mors-radius-lg);
+  background: var(--mors-color-surface);
+  font-family: var(--mors-font-sans);
+  overflow: hidden;
+}
+
+.mors-accordion--flush {
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.mors-accordion-item + .mors-accordion-item {
+  border-block-start: 1px solid var(--mors-color-border-subtle);
+}
+
+.mors-accordion-heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.mors-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mors-space-5);
+  inline-size: 100%;
+  padding: var(--mors-space-5) var(--mors-space-6);
+  border: 0;
+  background: none;
+  color: var(--mors-color-text);
+  font-family: inherit;
+  font-size: var(--mors-text-base);
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-accordion-trigger:hover:not(:disabled) {
+  background: var(--mors-color-surface-hover);
+}
+
+.mors-accordion-trigger:disabled {
+  color: var(--mors-color-text-tertiary);
+  cursor: not-allowed;
+}
+
+.mors-accordion-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.mors-accordion-title {
+  font-weight: var(--mors-weight-medium);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-accordion-subtitle {
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-accordion-chevron {
+  flex: none;
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-md);
+  transition: transform var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-accordion-item--open .mors-accordion-chevron {
+  transform: rotate(180deg);
+}
+
+.mors-accordion-panel {
+  animation: mors-fade-in var(--mors-duration-base) var(--mors-ease-standard);
+}
+
+.mors-accordion-content {
+  padding: 0 var(--mors-space-6) var(--mors-space-6);
+  color: var(--mors-color-text-secondary);
+  font-size: var(--mors-text-base);
+  line-height: var(--mors-leading-relaxed);
+}
+
+/* ---------- Breadcrumbs --------------------------------------------------- */
+
+.mors-breadcrumbs {
+  font-family: var(--mors-font-sans);
+  font-size: var(--mors-text-sm);
+}
+
+.mors-breadcrumbs-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mors-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mors-breadcrumbs-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+}
+
+.mors-breadcrumbs-link {
+  color: var(--mors-color-text-secondary);
+}
+
+.mors-breadcrumbs-link:hover {
+  color: var(--mors-color-text);
+}
+
+.mors-breadcrumbs-current {
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-breadcrumbs-ellipsis {
+  color: var(--mors-color-text-tertiary);
+}
+
+.mors-breadcrumbs-separator {
+  color: var(--mors-color-text-tertiary);
+  font-size: var(--mors-text-sm);
+}
+
+/* ---------- Pagination --------------------------------------------------- */
+
+.mors-pagination {
+  --mors-page-size: 36px;
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+  font-family: var(--mors-font-sans);
+}
+
+.mors-pagination--sm {
+  --mors-page-size: 30px;
+}
+
+.mors-pagination-list {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mors-page-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--mors-page-size);
+  block-size: var(--mors-page-size);
+  padding-inline: var(--mors-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--mors-radius-sm);
+  background: none;
+  color: var(--mors-color-text-secondary);
+  font-family: inherit;
+  font-size: var(--mors-text-sm);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background-color var(--mors-duration-fast) var(--mors-ease-standard),
+    color var(--mors-duration-fast) var(--mors-ease-standard),
+    border-color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-page-button:hover:not(:disabled) {
+  background: var(--mors-color-surface-hover);
+  color: var(--mors-color-text);
+}
+
+.mors-page-button:disabled {
+  color: var(--mors-color-text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.mors-page-button--current {
+  border-color: var(--mors-color-border);
+  background: var(--mors-color-surface);
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+  box-shadow: var(--mors-shadow-xs);
+}
+
+.mors-pagination-ellipsis {
+  min-inline-size: var(--mors-space-6);
+  color: var(--mors-color-text-tertiary);
+  text-align: center;
+}
+
+/* ---------- Navbar ------------------------------------------------------- */
+
+.mors-navbar {
+  inline-size: 100%;
+  border-block-end: 1px solid var(--mors-color-border-subtle);
+  background: var(--mors-color-surface);
+  font-family: var(--mors-font-sans);
+}
+
+.mors-navbar--sticky {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--mors-z-sticky);
+}
+
+.mors-navbar--translucent {
+  background: color-mix(in srgb, var(--mors-color-surface) 78%, transparent);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+.mors-navbar-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-6);
+  inline-size: 100%;
+  max-inline-size: var(--mors-container-xl);
+  min-block-size: 48px;
+  margin-inline: auto;
+  padding-inline: var(--mors-space-6);
+}
+
+.mors-navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-3);
+  font-size: var(--mors-text-md);
+  font-weight: var(--mors-weight-semibold);
+  letter-spacing: var(--mors-tracking-tight);
+}
+
+.mors-navbar-links {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--mors-space-6);
+}
+
+.mors-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--mors-space-3);
+  margin-inline-start: auto;
+}
+
+.mors-navbar-link {
+  padding: var(--mors-space-2) 0;
+  border: 0;
+  border-radius: var(--mors-radius-xs);
+  background: none;
+  color: var(--mors-color-text-secondary);
+  font-family: inherit;
+  font-size: var(--mors-text-sm);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--mors-duration-fast) var(--mors-ease-standard);
+}
+
+.mors-navbar-link:hover {
+  color: var(--mors-color-text);
+}
+
+.mors-navbar-link--active {
+  color: var(--mors-color-text);
+  font-weight: var(--mors-weight-medium);
+}
+
+.mors-navbar-link:focus-visible {
+  outline: var(--mors-focus-width) solid
+    color-mix(in srgb, var(--mors-focus-color) 45%, transparent);
+  outline-offset: var(--mors-focus-offset);
+}
+
+.mors-navbar-toggle {
+  display: none;
+}
+
+.mors-navbar-panel {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mors-navbar-links {
+    display: none;
+  }
+
+  .mors-navbar-toggle {
+    display: inline-flex;
+  }
+
+  .mors-navbar-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mors-space-2);
+    padding: var(--mors-space-3) var(--mors-space-6) var(--mors-space-6);
+    border-block-start: 1px solid var(--mors-color-border-subtle);
+    animation: mors-rise-in var(--mors-duration-base) var(--mors-ease-out);
+  }
+
+  .mors-navbar-panel[hidden] {
+    display: none;
+  }
+
+  .mors-navbar-panel .mors-navbar-link {
+    padding: var(--mors-space-3) 0;
+    font-size: var(--mors-text-base);
+  }
+}
